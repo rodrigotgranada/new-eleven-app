@@ -26,7 +26,7 @@ const Routers = () => {
                 <Route path="my-profile" element={<MyProfile />} />
             </Route>
             <Route path="/*" element={<PrivateRoute currentUser={currentUser} />}>                
-                <Route path="forgot" element={<ForgotPassword />} />
+                {/* <Route path="forgot" element={<ForgotPassword />} /> */}
                 <Route path="update-profile" element={<UpdateProfile />} />
             </Route>
             {/* Admin */}
