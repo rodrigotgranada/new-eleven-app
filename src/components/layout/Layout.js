@@ -6,7 +6,6 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const Layout = () => {
     const { currentUser } = useAuth();
-    console.log(`current`, currentUser)
   return (
     <>
     <AdminNav />

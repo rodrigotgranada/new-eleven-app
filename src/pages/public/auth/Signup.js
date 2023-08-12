@@ -14,6 +14,7 @@ export default function Signup() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [rule, setRule] = useState(false);
+  const [active, setActive] = useState(false);
   const [selectedImages, setSelectedImages] = useState(null);
   const navigate = useNavigate();
 
@@ -38,7 +39,8 @@ export default function Signup() {
         passwordRef.current.value,
         nameRef.current.value,
         selectedImages,
-        rule
+        rule,
+        active
       );
       navigate("/");
     } catch {

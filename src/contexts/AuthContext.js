@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, setDoc, doc, getDoc } from "firebase/firestore";
 import { auth, db, storage } from "../firebase";
@@ -19,6 +19,8 @@ export function AuthProvider({ children }) {
   // function signup(email, password) {
   //   return auth.createUserWithEmailAndPassword(email, password)
   // }
+
+  
 
   const signup = async (email, password, name, images, rule) => {
     console.log("image", images);
@@ -69,8 +71,19 @@ export function AuthProvider({ children }) {
                     auth,
                     email,
                     password
-                  );
+                  )
+                  // .then(
+                  //   async (usera) => {
+                  //     // send verification mail.
+                  //     console.log(usera)
+                  //     await sendEmailVerification(auth, usera);
+                  //     signOut(auth);
+                  //     alert("Email sent");
+                  //   }).catch(alert);
+                  
                   const user = userCredential.user;
+                  console.log(`userSignUp`, user)
+                  await sendEmailVerification(user)
                   await updateProfile(user, {
                     displayName: name,
                     photoURL: downloadURL,
@@ -96,33 +109,51 @@ export function AuthProvider({ children }) {
     // return userCredential
   };
 
-  function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password);
+  const login = async (email, password) => {
+    const validacao = await signInWithEmailAndPassword(auth, email, password);
+    return validacao;
+    if(validacao && validacao.user.emailVerified) {
+      console.log(`valida`, validacao)
+      return validacao;
+    } else {
+      throw new Error('Hulk smash!');
+    }    
   }
 
-  function logout() {
-    return auth.signOut();
+  const logout = async () => {
+    return signOut(auth);
   }
 
-  function resetPassword(email) {
-    return auth.sendPasswordResetEmail(email);
+  const resetPassword = async (email) => {
+    return sendPasswordResetEmail(auth, email);
   }
 
-  function updateEmail(email) {
-    return currentUser.updateEmail(email);
+  const updateEmail = async (usuario, email) => {
+    return updateEmail(usuario, email);
   }
 
-  function updatePassword(password) {
-    return currentUser.updatePassword(password);
+  const updatePassword = async (usuario, password) => {
+    return updatePassword(usuario, password);
+  }
+
+  const verifyUser = () => {
+    const verify = sendEmailVerification(auth.currentUser).then(result => {
+    }).catch(message => console.log(message))
+    return verify
   }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const colletionRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(colletionRef);
-      
-      console.log(`user2`, docSnap.data())
-      setCurrentUser(docSnap.data());
+      console.log('usuario', user)
+      if(user) {
+        const colletionRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(colletionRef);
+        const userFull = { ...user }
+        userFull.usuario = docSnap.data();
+        setCurrentUser(userFull);
+      } else {
+        setCurrentUser(user);
+      }
       setLoading(false);
     });
 
@@ -137,6 +168,7 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
+    verifyUser
   };
 
   return (
