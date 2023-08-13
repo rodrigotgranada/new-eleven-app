@@ -22,16 +22,22 @@ export default function Login() {
       const authLogin = await login(emailRef.current.value, passwordRef.current.value);
       console.log('authLogin', authLogin)
       if(authLogin.user.emailVerified) {
-        toast.success("Bem-vindo!");
+        toast.success("Bem-vindo!", {
+          position: toast.POSITION.TOP_CENTER
+        });
         navigate("/");
       } else {
-        toast.warning("E-mail não verificado!");
+        toast.warning("E-mail não verificado!", {
+          position: toast.POSITION.TOP_CENTER
+        });
         navigate("/my-profile");
       }
       
     } catch ( err ) {
       console.log(err)
-      toast.error("Usuário ou senha inválidos");
+      toast.error("Usuário ou senha inválidos", {
+        position: toast.POSITION.TOP_CENTER
+      });
       setError("Failed to log in");
     }
 

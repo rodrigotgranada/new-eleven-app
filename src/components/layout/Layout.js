@@ -5,12 +5,12 @@ import { Nav as AdminNav } from "../admin/nav/Nav";
 import { useAuth } from "../../contexts/AuthContext";
 import { useLocation } from "react-router-dom";
 
-const Layout = () => {
+const Layout = (props) => {
   const location = useLocation();
     const { currentUser } = useAuth();
   return (
     <>
-    {location.pathname.startsWith("/admin") ? <AdminNav /> : <PublicNav />}
+  {location.pathname.startsWith("/admin") ? <AdminNav toggleTheme={props.toggleTheme}/> : <PublicNav toggleTheme={props.toggleTheme}/>}
     <Routers />
     </>
   )

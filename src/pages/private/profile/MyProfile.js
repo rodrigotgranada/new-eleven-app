@@ -25,9 +25,13 @@ export default function MyProfile() {
   const handleVerify = async () => {
     try {
       await verifyUser()
-      toast.success("E-mail enviado!");
+      toast.success("E-mail enviado!", {
+        position: toast.POSITION.TOP_CENTER
+      });
     } catch {
-      toast.error("E-mail não enviado!");
+      toast.error("E-mail não enviado!", {
+        position: toast.POSITION.TOP_CENTER
+      });
       setError("Failed to send email");
     }
   }

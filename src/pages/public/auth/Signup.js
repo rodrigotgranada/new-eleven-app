@@ -8,9 +8,10 @@ import { Input, Label } from "reactstrap";
 export default function Signup() {
   const emailRef = useRef();
   const nameRef = useRef();
+  const cpfRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup } = useAuth();
+  const { currentUser, signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [rule, setRule] = useState(false);
@@ -38,6 +39,7 @@ export default function Signup() {
         emailRef.current.value,
         passwordRef.current.value,
         nameRef.current.value,
+        cpfRef.current.value,
         selectedImages,
         rule,
         active
@@ -67,6 +69,10 @@ export default function Signup() {
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" ref={emailRef} required />
                 </Form.Group>
+                <Form.Group id="cpf">
+                  <Form.Label>CPF</Form.Label>
+                  <Form.Control type="text" ref={cpfRef} required />
+                </Form.Group>
                 <Form.Group id="password">
                   <Form.Label>Senha</Form.Label>
                   <Form.Control type="password" ref={passwordRef} required />
@@ -84,9 +90,11 @@ export default function Signup() {
                     selectedImages={selectedImages}
                     setSelectedImages={setSelectedImages}
                     numImage={1}
+                    rotulo={`Foto Perfil`}
+                    tamanho={true}
                   />
                 </Form.Group>
-                <Form.Group>
+                  {currentUser?.usuario?.rule && <Form.Group>
                 <Label check>
                   <Input
                     type="checkbox"
@@ -97,7 +105,8 @@ export default function Signup() {
                   />{" "}
                   <strong>Admin?</strong>
                 </Label>
-                </Form.Group>
+                </Form.Group>}
+                
                 <Button disabled={loading} className="w-100" type="submit">
                   Cadastrar
                 </Button>

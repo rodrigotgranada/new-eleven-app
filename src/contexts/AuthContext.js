@@ -15,15 +15,9 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [urls, setUrls] = useState([]);
-
-  // function signup(email, password) {
-  //   return auth.createUserWithEmailAndPassword(email, password)
-  // }
-
   
 
-  const signup = async (email, password, name, images, rule) => {
-    console.log("image", images);
+  const signup = async (email, password, name, cpf, images, rule) => {
     const promises = [];
     try {
       const docRef = collection(db, "users");
@@ -71,16 +65,7 @@ export function AuthProvider({ children }) {
                     auth,
                     email,
                     password
-                  )
-                  // .then(
-                  //   async (usera) => {
-                  //     // send verification mail.
-                  //     console.log(usera)
-                  //     await sendEmailVerification(auth, usera);
-                  //     signOut(auth);
-                  //     alert("Email sent");
-                  //   }).catch(alert);
-                  
+                  )                  
                   const user = userCredential.user;
                   console.log(`userSignUp`, user)
                   await sendEmailVerification(user)
@@ -92,6 +77,7 @@ export function AuthProvider({ children }) {
                   await setDoc(doc(db, "users", user.uid), {
                     uid: user.uid,
                     displayName: name,
+                    cpf: cpf,
                     email,
                     photoURL: downloadURL,
                     rule: rule
@@ -112,12 +98,6 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const validacao = await signInWithEmailAndPassword(auth, email, password);
     return validacao;
-    if(validacao && validacao.user.emailVerified) {
-      console.log(`valida`, validacao)
-      return validacao;
-    } else {
-      throw new Error('Hulk smash!');
-    }    
   }
 
   const logout = async () => {
@@ -144,7 +124,6 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      console.log('usuario', user)
       if(user) {
         const colletionRef = doc(db, 'users', user.uid);
         const docSnap = await getDoc(colletionRef);
