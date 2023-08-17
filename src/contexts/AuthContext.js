@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
   const [urls, setUrls] = useState([]);
   
 
-  const signup = async (email, password, name, cpf, images, rule) => {
+  const signup = async (email, password, name, documento, images, rule) => {
     const promises = [];
     try {
       const docRef = collection(db, "users");
@@ -77,7 +77,7 @@ export function AuthProvider({ children }) {
                   await setDoc(doc(db, "users", user.uid), {
                     uid: user.uid,
                     displayName: name,
-                    cpf: cpf,
+                    documento: documento,
                     email,
                     photoURL: downloadURL,
                     rule: rule

@@ -1,19 +1,23 @@
 import React from "react";
-import Routers from "../../router/Routers";
-import { Nav as PublicNav } from "../public/nav/Nav"
-import { Nav as AdminNav } from "../admin/nav/Nav";
-import { useAuth } from "../../contexts/AuthContext";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import Routers from "../../router/Routers";
+import { Nav } from "../nav/Nav";
 
 const Layout = (props) => {
   const location = useLocation();
-    const { currentUser } = useAuth();
+  const { currentUser } = useAuth();
   return (
     <>
-  {location.pathname.startsWith("/admin") ? <AdminNav toggleTheme={props.toggleTheme}/> : <PublicNav toggleTheme={props.toggleTheme}/>}
-    <Routers />
+      <Nav toggleTheme={props.toggleTheme} />
+      {/* {location.pathname.startsWith("/admin") ? (
+        <Nav toggleTheme={props.toggleTheme} />
+      ) : (
+        <Nav toggleTheme={props.toggleTheme} />
+      )} */}
+      <Routers />
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

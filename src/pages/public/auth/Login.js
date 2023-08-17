@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Form, Button, Card, Alert, Container } from "react-bootstrap";
+import { Alert, Button, Card, Container, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -19,24 +19,26 @@ export default function Login() {
     try {
       setError("");
       setLoading(true);
-      const authLogin = await login(emailRef.current.value, passwordRef.current.value);
-      console.log('authLogin', authLogin)
-      if(authLogin.user.emailVerified) {
+      const authLogin = await login(
+        emailRef.current.value,
+        passwordRef.current.value
+      );
+      // console.log('authLogin', authLogin)
+      if (authLogin.user.emailVerified) {
         toast.success("Bem-vindo!", {
-          position: toast.POSITION.TOP_CENTER
+          position: toast.POSITION.TOP_CENTER,
         });
         navigate("/");
       } else {
-        toast.warning("E-mail não verificado!", {
-          position: toast.POSITION.TOP_CENTER
-        });
+        // toast.warning("E-mail não verificado!", {
+        //   position: toast.POSITION.TOP_CENTER,
+        // });
         navigate("/my-profile");
       }
-      
-    } catch ( err ) {
-      console.log(err)
+    } catch (err) {
+      console.log(err);
       toast.error("Usuário ou senha inválidos", {
-        position: toast.POSITION.TOP_CENTER
+        position: toast.POSITION.TOP_CENTER,
       });
       setError("Failed to log in");
     }

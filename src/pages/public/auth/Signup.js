@@ -1,14 +1,14 @@
 import React, { useRef, useState } from "react";
-import { Form, Button, Card, Alert, Container } from "react-bootstrap";
-import { useAuth } from "../../../contexts/AuthContext";
-import { Link, useHistory, useNavigate } from "react-router-dom";
-import FileInput from "../../../components/public/formComponents/FileInput";
+import { Alert, Button, Card, Container, Form } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import { Input, Label } from "reactstrap";
+import FileInput from "../../../components/public/formComponents/FileInput";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function Signup() {
   const emailRef = useRef();
   const nameRef = useRef();
-  const cpfRef = useRef();
+  const docRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const { currentUser, signup } = useAuth();
@@ -20,12 +20,11 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const handleRule = (e) => {
-    const { name, checked, value } = e.target;
-    setRule(checked)
-  }
+    const { checked } = e.target;
+    setRule(checked);
+  };
 
-
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
@@ -39,7 +38,7 @@ export default function Signup() {
         emailRef.current.value,
         passwordRef.current.value,
         nameRef.current.value,
-        cpfRef.current.value,
+        docRef.current.value,
         selectedImages,
         rule,
         active
@@ -50,7 +49,7 @@ export default function Signup() {
     }
 
     setLoading(false);
-  }
+  };
 
   return (
     <>
@@ -69,9 +68,9 @@ export default function Signup() {
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" ref={emailRef} required />
                 </Form.Group>
-                <Form.Group id="cpf">
-                  <Form.Label>CPF</Form.Label>
-                  <Form.Control type="text" ref={cpfRef} required />
+                <Form.Group id="doc">
+                  <Form.Label>Documento</Form.Label>
+                  <Form.Control type="text" ref={docRef} required />
                 </Form.Group>
                 <Form.Group id="password">
                   <Form.Label>Senha</Form.Label>
@@ -94,19 +93,21 @@ export default function Signup() {
                     tamanho={true}
                   />
                 </Form.Group>
-                  {currentUser?.usuario?.rule && <Form.Group>
-                <Label check>
-                  <Input
-                    type="checkbox"
-                    name= 'rule'
-                    value={rule || ''}
-                    // checked={true}
-                    onChange={(e) => handleRule(e)}
-                  />{" "}
-                  <strong>Admin?</strong>
-                </Label>
-                </Form.Group>}
-                
+                {currentUser?.usuario?.rule && (
+                  <Form.Group>
+                    <Label check>
+                      <Input
+                        type="checkbox"
+                        name="rule"
+                        value={rule || ""}
+                        // checked={true}
+                        onChange={(e) => handleRule(e)}
+                      />{" "}
+                      <strong>Admin?</strong>
+                    </Label>
+                  </Form.Group>
+                )}
+
                 <Button disabled={loading} className="w-100" type="submit">
                   Cadastrar
                 </Button>
