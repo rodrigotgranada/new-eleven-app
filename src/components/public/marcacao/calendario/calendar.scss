@@ -47,9 +47,30 @@
     background: none;
     margin: 0px 15%;
   }
+  .react-datepicker__header {
+    background: none;
+  }
+
+  .datePickerNav {
+    margin: 1rem;
+    display: flex;
+    justify-content: space-around;
+
+    button {
+      background: none;
+      box-shadow: none;
+    }
+
+    p {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+  }
+
   .react-datepicker__month-container {
     width: 100% !important;
     min-height: 50vh;
+    // text-transform: uppercase !important;
   }
   .react-datepicker__day-names {
     width: 100% !important;

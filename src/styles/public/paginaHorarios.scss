@@ -1,0 +1,13 @@
+.paginaHorario {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  button {
+    margin: 1rem 0.5rem;
+    justify-content: center;
+    text-align: center;
+    width: 13.3rem;
+    min-height: 3rem;
+  }
+}

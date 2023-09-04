@@ -1,0 +1,22 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.row-buttons-jogador {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0.5rem 1.1rem 1rem 0.1rem;
+  gap: 1rem;
+}
+
+.row-button-confirm-jogador {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.5rem 1.1rem 1rem 0.1rem;
+  gap: 1rem;
+}

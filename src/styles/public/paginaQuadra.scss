@@ -1,0 +1,19 @@
+.paginaQuadra {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  .paginaQuadraItem {
+    margin: 1rem 0.5rem;
+    min-width: 40%;
+    max-width: 40%;
+    min-height: 5rem;
+    cursor: pointer;
+    box-shadow: 0.3rem 0.3rem grey;
+
+    img {
+      max-width: 100%;
+      min-height: auto;
+    }
+  }
+}

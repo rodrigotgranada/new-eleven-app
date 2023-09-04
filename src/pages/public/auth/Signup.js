@@ -8,6 +8,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 export default function Signup() {
   const emailRef = useRef();
   const nameRef = useRef();
+  const telefoneRef = useRef();
   const docRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
@@ -38,6 +39,7 @@ export default function Signup() {
         emailRef.current.value,
         passwordRef.current.value,
         nameRef.current.value,
+        telefoneRef.current.value,
         docRef.current.value,
         selectedImages,
         rule,
@@ -67,6 +69,10 @@ export default function Signup() {
                 <Form.Group id="email">
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" ref={emailRef} required />
+                </Form.Group>
+                <Form.Group id="telefone">
+                  <Form.Label>Telefone / Whats</Form.Label>
+                  <Form.Control type="telefone" ref={telefoneRef} required />
                 </Form.Group>
                 <Form.Group id="doc">
                   <Form.Label>Documento</Form.Label>
@@ -99,7 +105,7 @@ export default function Signup() {
                       <Input
                         type="checkbox"
                         name="rule"
-                        value={rule || ""}
+                        value={rule || false}
                         // checked={true}
                         onChange={(e) => handleRule(e)}
                       />{" "}

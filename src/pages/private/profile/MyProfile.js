@@ -51,18 +51,24 @@ export default function MyProfile() {
               <h2 className="text-center mb-4">Usuário</h2>
               {error && <Alert variant="danger">{error}</Alert>}
               {currentUser?.photoURL ? (
-                <img src={currentUser?.photoURL} alt="Capa" />
+                <img
+                  src={currentUser?.photoURL}
+                  alt="Capa"
+                  style={{ height: "6rem" }}
+                />
               ) : (
                 <></>
               )}
-              <strong>Nome:</strong> {currentUser.displayName}
               <br />
-              <strong>Email:</strong> {currentUser.email}
+              <strong>Nome:</strong> {currentUser?.displayName}
+              <br />
+              <strong>Email:</strong> {currentUser?.email}
               <br />
               <strong>Verificado:</strong>{" "}
-              {currentUser.emailVerified ? "Sim" : "Não"}
+              {currentUser?.emailVerified ? "Sim" : "Não"}
               <br />
-              <strong>Admin:</strong> {currentUser.usuario.rule ? "Sim" : "Não"}
+              <strong>Admin:</strong>{" "}
+              {currentUser?.usuario?.rule ? "Sim" : "Não"}
               <br />
               <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
                 Atualizar usuário

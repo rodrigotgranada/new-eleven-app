@@ -5,8 +5,14 @@ import { SubContainer } from "./styles";
 const SubNav = ({ admin }) => {
   let admin__nav;
   admin
-    ? (admin__nav = [{ path: "admin/permanentes", display: "Permanentes" }])
-    : (admin__nav = [{ path: "marcar-quadra", display: "Marcar Quadra" }]);
+    ? (admin__nav = [
+        { path: "admin/permanentes", display: "Permanentes" },
+        { path: "admin/quadras", display: "Quadras" },
+      ])
+    : (admin__nav = [
+        { path: "marcar-quadra", display: "Marcar Quadra" },
+        { path: "meus-agendamentos", display: "Meus Agendamentos" },
+      ]);
 
   return (
     <SubContainer>

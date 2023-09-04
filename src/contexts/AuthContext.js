@@ -1,7 +1,14 @@
-import React, { useContext, useState, useEffect } from "react";
-import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { collection, addDoc, setDoc, doc, getDoc } from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import React, { useContext, useEffect, useState } from "react";
 import { auth, db, storage } from "../firebase";
 
 const AuthContext = React.createContext();
@@ -15,9 +22,16 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [urls, setUrls] = useState([]);
-  
 
-  const signup = async (email, password, name, documento, images, rule) => {
+  const signup = async (
+    email,
+    password,
+    name,
+    telefone,
+    documento,
+    images,
+    rule
+  ) => {
     const promises = [];
     try {
       const docRef = collection(db, "users");
@@ -65,10 +79,10 @@ export function AuthProvider({ children }) {
                     auth,
                     email,
                     password
-                  )                  
+                  );
                   const user = userCredential.user;
-                  console.log(`userSignUp`, user)
-                  await sendEmailVerification(user)
+                  console.log(`userSignUp`, user);
+                  await sendEmailVerification(user);
                   await updateProfile(user, {
                     displayName: name,
                     photoURL: downloadURL,
@@ -78,9 +92,10 @@ export function AuthProvider({ children }) {
                     uid: user.uid,
                     displayName: name,
                     documento: documento,
+                    telefone: telefone,
                     email,
                     photoURL: downloadURL,
-                    rule: rule
+                    rule: rule,
                   });
                 }
               );
@@ -98,36 +113,37 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const validacao = await signInWithEmailAndPassword(auth, email, password);
     return validacao;
-  }
+  };
 
   const logout = async () => {
     return signOut(auth);
-  }
+  };
 
   const resetPassword = async (email) => {
     return sendPasswordResetEmail(auth, email);
-  }
+  };
 
   const updateEmail = async (usuario, email) => {
     return updateEmail(usuario, email);
-  }
+  };
 
   const updatePassword = async (usuario, password) => {
     return updatePassword(usuario, password);
-  }
+  };
 
   const verifyUser = () => {
-    const verify = sendEmailVerification(auth.currentUser).then(result => {
-    }).catch(message => console.log(message))
-    return verify
-  }
+    const verify = sendEmailVerification(auth.currentUser)
+      .then((result) => {})
+      .catch((message) => console.log(message));
+    return verify;
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if(user) {
-        const colletionRef = doc(db, 'users', user.uid);
+      if (user) {
+        const colletionRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(colletionRef);
-        const userFull = { ...user }
+        const userFull = { ...user };
         userFull.usuario = docSnap.data();
         setCurrentUser(userFull);
       } else {
@@ -147,7 +163,7 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
-    verifyUser
+    verifyUser,
   };
 
   return (

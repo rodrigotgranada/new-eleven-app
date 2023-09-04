@@ -1,0 +1,21 @@
+.buttons-confirm-diag {
+  display: flex;
+  justify-content: left;
+  gap: 1.5rem;
+
+  button {
+    width: 10rem;
+    text-align: center;
+    height: 3rem;
+  }
+}
+
+.jogadorConfirm {
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  p {
+    margin: 0 2rem;
+  }
+}

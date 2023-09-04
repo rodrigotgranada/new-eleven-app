@@ -1,84 +1,68 @@
-import { useState } from "react";
-import Calendar from "react-calendar";
-// import bootstrap5Plugin from "@fullcalendar/bootstrap5";
-// import dayGridPlugin from "@fullcalendar/daygrid";
-// import interactionPlugin from "@fullcalendar/interaction";
-// import FullCalendar from "@fullcalendar/react";
-import "./calendar.scss";
+import React from "react";
+import { Container, Row } from "react-bootstrap";
+import { MdArrowBack } from "react-icons/md";
+import Calendario from "../../../components/public/marcacao/calendario/Calendario";
+import Confirmacao from "../../../components/public/marcacao/confirmacao/Confirmacao";
+import Horario from "../../../components/public/marcacao/horario/Horario";
+import Jogadores from "../../../components/public/marcacao/jogadores/Jogadores";
+import Modalidade from "../../../components/public/marcacao/modalidade/Modalidade";
+import Quadra from "../../../components/public/marcacao/quadra/Quadra";
+import Steps from "../../../components/public/marcacao/steps/Steps";
+import { MarcacaoProvider } from "../../../contexts/MarcacaoContext";
+import useStepsForm from "../../../hooks/useStepsForm";
+import "../../../styles/public/cadMarcacao.scss";
 
 const CadMarcacao = () => {
-  const [date, setDate] = useState(new Date());
-  //   useEffect(() => {
-  //     console.log("data", value);
-  //   }, [value]);
-
-  const handleDateClick = (arg) => {
-    console.log(arg);
-  };
-
-  //   function renderEventContent(eventInfo) {
-  //     return (
-  //       <>
-  //         <b>{eventInfo.timeText}</b>
-  //         <i>{eventInfo.event.title}</i>
-  //       </>
-  //     );
-  //   }
-
-  let max_date = new Date(); // today!
-  let x = 7; // go back 5 days!
-  max_date.setDate(max_date.getDate() + x);
+  const formComponents = [
+    <Calendario />,
+    <Modalidade />,
+    <Horario />,
+    <Quadra />,
+    <Jogadores />,
+    <Confirmacao />,
+  ];
+  const { currentStep, currentComponent, changeStep, isFirstStep, isLastStep } =
+    useStepsForm(formComponents);
 
   return (
-    <div>
-      <Calendar
-        onChange={handleDateClick}
-        value={date}
-        className="react-calendar"
-        defaultView="month"
-        view="month"
-        activeStartDate={new Date()}
-        maxDate={max_date} // will not allow date later than today
-        minDate={new Date()}
-        locale="pt"
-        calendarStartDay={7}
-        // onClickDay={(value) => alert("day" + value + "clicked")}
-      />
-      {/* <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin, bootstrap5Plugin]}
-        themeSystem={"bootstrap5"}
-        initialView="dayGridMonth"
-        validRange={{
-          start: new Date(),
-          end: max_date,
-        }}
-        weekends={true}
-        dateClick={(e) => handleDateClick(e)}
-        headerToolbar={{
-          start: "prev",
-          center: "title",
-          end: "next",
-        }}
-        height={"60vh"}
-        locale={"pt-br"}
-        buttonText={{
-          today: "Hoje",
-          month: "Mês",
-          week: "Semana",
-          day: "Hoje",
-          list: "Lista",
-        }}
-        buttonIcons={{
-          prev: "chevron-double-left",
-          next: "chevron-double-right",
-        }}
-        timeFormat={"HH:mm"}
-        slotLabelForma={"HH:mm"}
-        allDayText={"24 horas"}
-        columnFormat={"dddd"}
-        eventContent={renderEventContent}
-      /> */}
-    </div>
+    <Container>
+      <Row>
+        <MarcacaoProvider>
+          <Steps currentStep={currentStep} changeStep={changeStep} />
+          <div className="form__etapas">
+            <div className="actions">
+              {!isFirstStep && (
+                <button
+                  type="button"
+                  className="btn btn-warning"
+                  onClick={() => changeStep(currentStep - 1)}
+                >
+                  <span>
+                    {" "}
+                    <MdArrowBack /> Voltar
+                  </span>
+                </button>
+              )}
+
+              {/* {isLastStep ? (
+                <button type="button">
+                  <span>Enviar</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={(e) => changeStep(currentStep + 1, e)}
+                >
+                  <span>Avançar</span>
+                </button>
+              )} */}
+            </div>
+
+            <div className="inputs-container"> {currentComponent} </div>
+          </div>
+        </MarcacaoProvider>
+      </Row>
+    </Container>
   );
 };
 

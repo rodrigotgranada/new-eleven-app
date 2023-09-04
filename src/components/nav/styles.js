@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  height: 12vh;
+  height: 8vh;
 
   background: grey;
   transition: 1s;
@@ -68,7 +68,7 @@ export const Container = styled.div`
 `;
 
 export const SubContainer = styled.div`
-  height: 12vh;
+  height: 8vh;
 
   background: grey;
   transition: 1s;

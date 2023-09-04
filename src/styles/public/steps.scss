@@ -1,0 +1,50 @@
+.steps {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 80%;
+  margin: 0 auto;
+  position: relative;
+  margin-bottom: 2rem;
+
+  &::after {
+    content: "";
+    width: 200%;
+    border-bottom: 1px solid #ccc;
+    position: absolute;
+    top: 4rem;
+  }
+}
+
+.step {
+  text-align: center;
+  // background-color: #FFF;
+  background-color: none;
+  z-index: 1;
+  width: 5rem;
+  padding: 0.5rem;
+  svg {
+    font-size: 1.4rem;
+    margin-bottom: 0.2rem;
+  }
+}
+
+.active {
+  font-weight: bold;
+  svg {
+    color: #7076f4;
+    fill: #7076f4;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+.block-itens {
+  box-shadow: 2px 2px #888888;
+}
+.messagesArea {
+  height: 50vh;
+  overflow: scroll;
+}

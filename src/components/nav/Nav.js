@@ -1,14 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ThemeContext } from "styled-components";
 import { useAuth } from "../../contexts/AuthContext";
+import useGetData from "../../hooks/useGetData";
 import SubNav from "./SubNav";
 import { Container } from "./styles";
 
 export const Nav = (props) => {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
+  const {
+    getData: getImagemPadrao,
+    data: fotoPadrao,
+    loading: carregaFotoPadrao,
+  } = useGetData();
+
+  useEffect(() => {
+    getImagemPadrao("fotoPadrao");
+  }, []);
+
   const navigate = useNavigate();
   const location = useLocation();
   const { title } = useContext(ThemeContext);
@@ -33,9 +44,10 @@ export const Nav = (props) => {
   let buttons;
 
   if (currentUser) {
+    // console.log("rule", currentUser?.usuario?.rule);
     buttons = (
       <>
-        {currentUser.usuario.rule &&
+        {currentUser?.usuario?.rule &&
           !location.pathname.startsWith("/admin") && (
             <li>
               <Link to="/admin" title="Admin">
@@ -45,13 +57,28 @@ export const Nav = (props) => {
           )}
 
         <li>
+          <img
+            src={
+              currentUser?.usuario?.photoURL
+                ? currentUser?.usuario?.photoURL
+                : fotoPadrao[0]?.userPadrao
+            }
+            style={{ width: "2rem", height: "2rem", borderRadius: "50%" }}
+          />
+        </li>
+        <li>
           <Link to="/my-profile" title="Entrar">
-            Profile
+            {currentUser?.usuario?.displayName
+              ? currentUser?.usuario?.displayName
+              : `Profile`}
           </Link>
         </li>
 
         <li>
           <span onClick={handleLogout}>Sair</span>
+        </li>
+        <li>
+          <img />
         </li>
       </>
     );

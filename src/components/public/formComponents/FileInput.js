@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./fileinput.scss";
 
 const FileInput = ({
@@ -49,10 +49,10 @@ const FileInput = ({
           selectedImages.map((image, index) => {
             return (
               <div key={index} className="image">
-                <img 
-                src={image.localUrl} 
-                alt="upload" 
-                height={tamanho ? 180 : false}
+                <img
+                  src={image.localUrl}
+                  alt="upload"
+                  height={tamanho ? 100 : false}
                 />
                 <button
                   onClick={() =>
