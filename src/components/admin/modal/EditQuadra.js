@@ -17,11 +17,10 @@ import {
 } from "reactstrap";
 import { db } from "../../../firebase";
 import useGetData from "../../../hooks/useGetData";
-import ExcluirQuadra from "../../public/formComponents/ExcluirQuadra";
-import FileInputQuadra from "../../public/formComponents/FileInputQuadra";
+import FileInputQuadra from "../quadrasMenu/FileInputQuadra";
 import DeleteQuadra from "./DeleteQuadra";
 
-const EditQuadra = ({ isOpen, setIsOpen, id, editarQuadra, ...props }) => {
+const EditQuadra = ({ isOpen, setIsOpen, editarQuadra, ...props }) => {
   const [estaQuadra, setEstaQuadra] = useState();
   const [novaQuadra, setNovaQuadra] = useState();
   const [numQuadra, setNumQuadra] = useState();
@@ -39,9 +38,6 @@ const EditQuadra = ({ isOpen, setIsOpen, id, editarQuadra, ...props }) => {
     if (!isOpen) {
       resetForm();
     } else {
-      if (id) {
-        getItemId("quadras", id);
-      }
       if (editarQuadra) {
         setEstaQuadra(editarQuadra);
         getImagemPadrao("fotoPadrao");
@@ -62,19 +58,16 @@ const EditQuadra = ({ isOpen, setIsOpen, id, editarQuadra, ...props }) => {
   } = useGetData();
 
   const {
-    getDataWhere: getTiposQuadra,
-    data: tiposQuadra,
-    loading: carregaTiposQuadra,
+    getDataWhereId: getMinhasModalidades,
+    data: minhasModalidades,
+    loading: carregaMinhasModalidades,
   } = useGetData();
 
   useEffect(() => {
     if (estaQuadra && Object.keys(estaQuadra).length > 0) {
-      getTiposQuadra(
-        "tiposQuadra",
-        "type",
-        "==",
-        `${estaQuadra?.type?.type.toLowerCase()}`
-      );
+      console.log(estaQuadra);
+      getModalidades("modalidades", "type", "==", estaQuadra?.type);
+      getMinhasModalidades("modalidades", "in", estaQuadra?.esportes);
       setNovaQuadra(estaQuadra?.name);
       setNumQuadra(estaQuadra?.numero);
       setModalidade(estaQuadra?.esportes);
@@ -82,13 +75,6 @@ const EditQuadra = ({ isOpen, setIsOpen, id, editarQuadra, ...props }) => {
       setSelectedImage(estaQuadra?.foto);
     }
   }, [estaQuadra]);
-
-  useEffect(() => {
-    const result = tiposQuadra[0]?.type;
-    if (result) {
-      getModalidades("modalidades", "type.type", "==", result.toLowerCase());
-    }
-  }, [tiposQuadra]);
 
   const handleUpdateContext = (e) => {
     let body = [];
@@ -113,8 +99,8 @@ const EditQuadra = ({ isOpen, setIsOpen, id, editarQuadra, ...props }) => {
     setEstaQuadra("");
   };
   const handleCLose = () => {
-    setIsOpen(false);
     resetForm();
+    setIsOpen(false);
   };
 
   const EditarQuadra = async (e) => {
@@ -146,118 +132,102 @@ const EditQuadra = ({ isOpen, setIsOpen, id, editarQuadra, ...props }) => {
       isOpen={isOpen}
       className="responsive-modal"
     >
-      {carregaQuadra && <p>Carregando...</p>}
-      {!carregaQuadra && Object.keys(estaQuadra).length > 0 && (
-        <>
-          <ModalHeader className="d-block justify-content-between w-100">
-            <div className="d-flex justify-content-between w-100">
-              Editar Quadra {estaQuadra?.name}
-              <div>
-                <span
-                  className="cursor-pointer"
-                  onClick={() => {
-                    handleCLose();
-                  }}
-                >
-                  x
-                </span>
+      {Object.keys(minhasModalidades).length > 0 &&
+        Object.keys(estaQuadra).length > 0 && (
+          <>
+            <ModalHeader className="d-block justify-content-between w-100">
+              <div className="d-flex justify-content-between w-100">
+                Editar Quadra {estaQuadra?.name}
+                <div>
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => {
+                      handleCLose();
+                    }}
+                  >
+                    x
+                  </span>
+                </div>
               </div>
-            </div>
-          </ModalHeader>
+            </ModalHeader>
 
-          <ModalBody>
-            <Row>
-              <Col lg="12">
-                <Form onSubmit={EditarQuadra}>
-                  <Row>
-                    <Col lg="6">
-                      <FormGroup className="form__group">
-                        <Label>Nome</Label>
-                        <Input
-                          type="text"
-                          placeholder="Nome"
-                          defaultValue={estaQuadra?.name}
-                          onChange={(e) => setNovaQuadra(e.target.value)}
-                          required
+            <ModalBody>
+              <Row>
+                <Col lg="12">
+                  <Form onSubmit={EditarQuadra}>
+                    <Row>
+                      <Col lg="6">
+                        <FormGroup className="form__group">
+                          <Label>Nome</Label>
+                          <Input
+                            type="text"
+                            placeholder="Nome"
+                            defaultValue={estaQuadra?.name}
+                            onChange={(e) => setNovaQuadra(e.target.value)}
+                            required
+                          />
+                        </FormGroup>
+                        <FormGroup className="form__group">
+                          <Label>Número</Label>
+                          <Input
+                            type="text"
+                            placeholder="Número"
+                            defaultValue={estaQuadra?.numero}
+                            onChange={(e) => setNumQuadra(e.target.value)}
+                            required
+                          />
+                        </FormGroup>
+                        <FormGroup className="form__group">
+                          <Label>Esportes</Label>
+                          <Select
+                            isMulti={
+                              estaQuadra?.type === "OoAxvibwL5Q38cpDSaYh"
+                                ? false
+                                : true
+                            }
+                            options={modalidades}
+                            getOptionLabel={(option) => option.display}
+                            getOptionValue={(option) => option.id}
+                            defaultValue={minhasModalidades}
+                            onChange={(e) => handleUpdateContext(e)}
+                            isSearchable
+                            required
+                            closeMenuOnSelect={true}
+                            placeholder="Selecione uma opção"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="6">
+                        <FileInputQuadra
+                          selectedImage={selectedImage}
+                          setSelectedImage={setSelectedImage}
+                          numImage={1}
+                          rotulo={`Capa Quadra`}
+                          tamanho={true}
                         />
-                      </FormGroup>
-                      <FormGroup className="form__group">
-                        <Label>Número</Label>
-                        <Input
-                          type="text"
-                          placeholder="Número"
-                          defaultValue={estaQuadra?.numero}
-                          onChange={(e) => setNumQuadra(e.target.value)}
-                          required
-                        />
-                      </FormGroup>
-                      <FormGroup className="form__group">
-                        <Label>Esportes</Label>
-                        <Select
-                          isMulti={
-                            estaQuadra?.type?.id === "OoAxvibwL5Q38cpDSaYh"
-                              ? false
-                              : true
-                          }
-                          options={modalidades}
-                          getOptionLabel={(option) => option.display}
-                          getOptionValue={(option) => option.id}
-                          defaultValue={estaQuadra?.esportes}
-                          onChange={(e) => handleUpdateContext(e)}
-                          isSearchable
-                          required
-                          closeMenuOnSelect={true}
-                          placeholder="Selecione uma opção"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col lg="6">
-                      <FileInputQuadra
-                        selectedImage={selectedImage}
-                        setSelectedImage={setSelectedImage}
-                        numImage={1}
-                        rotulo={`Capa Quadra`}
-                        tamanho={true}
-                      />
-                    </Col>
-                  </Row>
-                  <button className="buy__btn btn " type="submit">
-                    Salvar
-                  </button>
-                </Form>
-              </Col>
-            </Row>
-          </ModalBody>
+                      </Col>
+                    </Row>
+                    <button className="btn btn-success " type="submit">
+                      Salvar
+                    </button>
+                  </Form>
+                </Col>
+              </Row>
+            </ModalBody>
 
-          <ModalFooter>
-            {/* <Button
-              className="btn btn-danger"
-              type="button"
-              onClick={() => {
-                handleCLose();
-              }}
-            >
-              Excluir
-            </Button> */}
-            <ExcluirQuadra
-              quadra={quadra}
-              id={id}
-              deleteQuadra={deleteQuadra}
-              handleClose={handleCLose}
-            />
-            {/* {deleteQuadra} */}
-            <Button
-              className="btn btn-secondary"
-              type="button"
-              onClick={() => {
-                handleCLose();
-              }}
-            >
-              Fechar
-            </Button>
-          </ModalFooter>
-        </>
-      )}
+            <ModalFooter>
+              <Button
+                className="btn btn-secondary"
+                type="button"
+                onClick={() => {
+                  handleCLose();
+                }}
+              >
+                Fechar
+              </Button>
+            </ModalFooter>
+          </>
+        )}
     </Modal>
   );
 };

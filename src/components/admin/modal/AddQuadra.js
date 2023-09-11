@@ -17,7 +17,7 @@ import {
 } from "reactstrap";
 import { db } from "../../../firebase";
 import useGetData from "../../../hooks/useGetData";
-import FileInputQuadra from "../../public/formComponents/FileInputQuadra";
+import FileInputQuadra from "../quadrasMenu/FileInputQuadra";
 
 const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
   const {
@@ -57,7 +57,8 @@ const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
   // }, [quadras]);
 
   // useEffect(() => {
-  //   console.log(modalidades);
+  //   console.log("tipoQuadra", tipoQuadra);
+  //   console.log("modalidade", modalidades);
   // }, [modalidades]);
 
   const [novaQuadra, setNovaQuadra] = useState(null);
@@ -132,15 +133,14 @@ const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
           </div>
         </div>
       </ModalHeader>
+      {console.log("carregaTiposQuadra", carregaTiposQuadra)}
       {carregaTiposQuadra && <p>Carregando...</p>}
-      {/* {console.log("tiposQuadra[0]", tiposQuadra[0])} */}
-      {!carregaTiposQuadra && tiposQuadra[0] && (
+      {console.log("tiposQuadra[0]", tiposQuadra)}
+      {!carregaTiposQuadra && tiposQuadra && (
         <ModalBody>
           <Row>
             <Col lg="6">
-              <h4 className="mb-5">
-                Adicionar Quadra {tiposQuadra[0].display}
-              </h4>
+              <h4 className="mb-5">Adicionar Quadra {tiposQuadra.display}</h4>
               <Form onSubmit={addNovaQuadra}>
                 <FormGroup className="form__group">
                   <Label>Nome</Label>
@@ -166,9 +166,7 @@ const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
                   <Label>Esportes</Label>
                   <Select
                     isMulti={
-                      tiposQuadra[0].id === "OoAxvibwL5Q38cpDSaYh"
-                        ? false
-                        : true
+                      tiposQuadra.id != "8m6tNatSE2W0gLwtNDmr" ? false : true
                     }
                     options={modalidades}
                     getOptionLabel={(option) => option.display}
@@ -201,7 +199,7 @@ const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
               </Form>
             </Col>
             <Col lg="6">
-              <h4> Quadras {tiposQuadra[0].display}:</h4>
+              <h4> Quadras {tiposQuadra.display}:</h4>
               <div className="w-100 messagesArea">
                 {/* {console.log(`quadras ${tipoQuadra}`, quadras)} */}
                 {quadras &&

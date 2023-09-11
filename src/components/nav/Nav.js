@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ThemeContext } from "styled-components";
+// import { ThemeContext } from "styled-components";
 import { useAuth } from "../../contexts/AuthContext";
+import { ThemeContext } from "../../contexts/ThemeContext";
 import useGetData from "../../hooks/useGetData";
+import "../../styles/public/nav.scss";
 import SubNav from "./SubNav";
-import { Container } from "./styles";
 
 export const Nav = (props) => {
   const [error, setError] = useState("");
@@ -22,7 +23,8 @@ export const Nav = (props) => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { title } = useContext(ThemeContext);
+  // const { title } = useContext(ThemeContext);
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const handleLogout = async () => {
     setError("");
@@ -38,6 +40,14 @@ export const Nav = (props) => {
         position: toast.POSITION.TOP_CENTER,
       });
       setError("Failed to log out");
+    }
+  };
+
+  const changeTheme = () => {
+    if (theme === "light") {
+      setTheme("dark");
+    } else {
+      setTheme("light");
     }
   };
 
@@ -103,50 +113,54 @@ export const Nav = (props) => {
   if (location.pathname.startsWith("/admin")) {
     verifyNav = (
       <>
-        <Container>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">
-                  <img src="https://firebasestorage.googleapis.com/v0/b/new-eleven-app.appspot.com/o/assets%2Fimgs%2FelevenSemFundo.png?alt=media&token=f5cd4011-7d26-4bca-8852-268360aca99c" />
-                </Link>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                <button onClick={() => props.toggleTheme()}>
-                  {title === "light" ? "Modo Escuro" : "Modo Claro"}
-                </button>
-              </li>
-              {buttons}
-            </ul>
-          </nav>
-        </Container>
-        <SubNav admin={true} />
+        {/* <Container> */}
+        {/* <nav className="main-nav"> */}
+        <nav className="main-nav">
+          <ul>
+            <li>
+              <Link to="/">
+                <img src="https://firebasestorage.googleapis.com/v0/b/new-eleven-app.appspot.com/o/assets%2Fimgs%2FelevenSemFundo.png?alt=media&token=f5cd4011-7d26-4bca-8852-268360aca99c" />
+              </Link>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <button onClick={() => changeTheme()}>
+                {theme === "light" ? "Modo Escuro" : "Modo Claro"}
+              </button>
+            </li>
+            {buttons}
+          </ul>
+        </nav>
+        {/* </nav> */}
+        {/* </Container> */}
+        <SubNav admin={true} rule={currentUser?.usuario?.owner} />
       </>
     );
   } else {
     verifyNav = (
       <>
-        <Container>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">
-                  <img src="https://firebasestorage.googleapis.com/v0/b/new-eleven-app.appspot.com/o/assets%2Fimgs%2FelevenSemFundo.png?alt=media&token=f5cd4011-7d26-4bca-8852-268360aca99c" />
-                </Link>
-              </li>
-            </ul>
-            <ul>
-              <li>
-                <button onClick={() => props.toggleTheme()}>
-                  {title === "light" ? "Modo Escuro" : "Modo Claro"}
-                </button>
-              </li>
-              {buttons}
-            </ul>
-          </nav>
-        </Container>
+        {/* <Container> */}
+        <nav className="main-nav">
+          {/* <nav className="main-nav"> */}
+          <ul>
+            <li>
+              <Link to="/">
+                <img src="https://firebasestorage.googleapis.com/v0/b/new-eleven-app.appspot.com/o/assets%2Fimgs%2FelevenSemFundo.png?alt=media&token=f5cd4011-7d26-4bca-8852-268360aca99c" />
+              </Link>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <button onClick={() => changeTheme()}>
+                {theme === "light" ? "Modo Escuro" : "Modo Claro"}
+              </button>
+            </li>
+            {buttons}
+          </ul>
+          {/* </nav> */}
+        </nav>
+        {/* </Container> */}
 
         <SubNav admin={false} />
       </>

@@ -6,9 +6,10 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { auth, db, storage } from "../firebase";
 
 const AuthContext = React.createContext();
@@ -27,6 +28,7 @@ export function AuthProvider({ children }) {
     email,
     password,
     name,
+    surname,
     telefone,
     documento,
     images,
@@ -91,11 +93,14 @@ export function AuthProvider({ children }) {
                   await setDoc(doc(db, "users", user.uid), {
                     uid: user.uid,
                     displayName: name,
+                    sobrenome: surname,
                     documento: documento,
                     telefone: telefone,
                     email,
                     photoURL: downloadURL,
                     rule: rule,
+                    checked: false,
+                    owner: false,
                   });
                 }
               );
@@ -138,13 +143,44 @@ export function AuthProvider({ children }) {
     return verify;
   };
 
+  const compareStatus = (authStatus, userStatus) => {
+    return authStatus ? (authStatus != userStatus ? true : false) : false;
+  };
+
+  const atualizaStatus = async (id, status) => {
+    try {
+      const docRef = doc(db, "users", id);
+      const snap = await updateDoc(docRef, { checked: status }).then(
+        async (e) => {
+          const colletionRef = doc(db, "users", id);
+          const docSnap = await getDoc(colletionRef);
+          return docSnap.data();
+        }
+      );
+
+      return snap;
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const colletionRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(colletionRef);
+        const meuUsuario = docSnap.data();
+        const atualiza = compareStatus(user.emailVerified, meuUsuario?.checked);
         const userFull = { ...user };
-        userFull.usuario = docSnap.data();
+        if (atualiza) {
+          const novoUsuario = await atualizaStatus(
+            user.uid,
+            user.emailVerified
+          );
+          userFull.usuario = novoUsuario;
+        } else {
+          userFull.usuario = docSnap.data();
+        }
         setCurrentUser(userFull);
       } else {
         setCurrentUser(user);

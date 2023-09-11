@@ -1,0 +1,110 @@
+@import "../themes/_theme.scss";
+
+.customDatePickerWidth {
+  width: 100%;
+  min-height: 50vh;
+
+  //   div {
+  //     width: 100%;
+  //   }
+  .datePicker {
+    width: 70%;
+    min-height: 50vh;
+    background: none;
+    margin: 0px 15%;
+    @include themed() {
+      color: t("text");
+    }
+  }
+  .react-datepicker__header {
+    background: none;
+  }
+
+  .datePickerNav {
+    margin: 1rem;
+    display: flex;
+    justify-content: space-around;
+
+    button {
+      @include themed() {
+        background: t("bg-button-calendar");
+      }
+      border-radius: 70px;
+      box-shadow: none;
+    }
+
+    p {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+  }
+
+  .react-datepicker__month-container {
+    width: 100% !important;
+    min-height: 50vh;
+    // text-transform: uppercase !important;
+  }
+  .react-datepicker__day-names {
+    width: 100% !important;
+    min-height: 8vh;
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    text-transform: uppercase !important;
+  }
+
+  .react-datepicker__day-name {
+    @include themed() {
+      color: t("text");
+    }
+  }
+
+  .react-datepicker__week {
+    width: 100% !important;
+    min-height: 8vh;
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+  }
+
+  .react-datepicker__day {
+    width: 4.7rem !important;
+    min-height: 4.7rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    @include themed() {
+      color: t("text");
+    }
+
+    &:hover {
+      @include themed() {
+        background: t("bg-date-calendar-hover");
+        color: t("bg");
+      }
+    }
+  }
+
+  .react-datepicker__day--keyboard-selected {
+    @include themed() {
+      background: t("bg-date-calendar-selected");
+      color: t("bg");
+    }
+  }
+
+  .react-datepicker__day--disabled {
+    @include themed() {
+      color: t("text-date-calendar-disabled") !important;
+    }
+    &:hover {
+      background: transparent !important;
+    }
+  }
+
+  .react-datepicker__day--selected {
+    @include themed() {
+      background: t("bg-date-calendar-selected");
+      color: t("bg");
+    }
+  }
+}

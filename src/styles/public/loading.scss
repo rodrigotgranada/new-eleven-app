@@ -1,0 +1,7 @@
+@import "../themes/_theme.scss";
+
+.loadDefault {
+  @include themed() {
+    fill: t("text") !important;
+  }
+}

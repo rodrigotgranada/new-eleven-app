@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { useAuth } from "../../../../contexts/AuthContext";
 import MarcacaoContext from "../../../../contexts/MarcacaoContext";
-import "./calendar.scss";
+import "./../../../../styles/public/calendar.scss";
 registerLocale("ptBR", ptBR);
 
 const Calendario = () => {
@@ -19,6 +19,7 @@ const Calendario = () => {
     usuario.codLocacao = getRandomInt(0, 99999);
     usuario.owner = currentUser?.usuario?.uid;
     usuario.user = currentUser?.usuario;
+    usuario.createAt = moment(new Date()).format("DD/MM/YYYY");
     usuario.step = 0;
     setMarcacao(usuario);
   }, []);
@@ -42,7 +43,7 @@ const Calendario = () => {
   };
 
   let max_date = new Date(); // today!
-  let x = 7;
+  let x = 40;
   max_date.setDate(max_date.getDate() + x);
   let min_date = new Date();
 

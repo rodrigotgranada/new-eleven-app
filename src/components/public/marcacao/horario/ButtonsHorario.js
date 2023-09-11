@@ -1,39 +1,34 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MarcacaoContext from "../../../../contexts/MarcacaoContext";
 import useGetData from "../../../../hooks/useGetData";
+import Loading from "../../Loading/Loading";
 
-const ButtonsHorario = ({ dia, esporte, horario, handleChange, chave }) => {
+const ButtonsHorario = ({
+  dia,
+  tipoQuadra,
+  esporte,
+  horario,
+  handleChange,
+  chave,
+}) => {
+  const [lotado, setLotado] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { marcacao, setMarcacao } = useContext(MarcacaoContext);
   const { getData, data: horarios, loadingHorarios } = useGetData();
   const { getDataWhere, data: quadras, loadingQuadras } = useGetData();
   const {
     getDataWhere3,
     data: disponibilidadeHorario,
-    loadingDisponibilidadeHorario,
+    loading: loadingDisponibilidadeHorario,
   } = useGetData();
 
   useEffect(() => {
     getData("horarios");
-    console.log(`horario`, horario);
-    console.log(`esporte`, esporte);
-    console.log(`dia`, dia);
   }, []);
 
   useEffect(() => {
-    console.log("horariosTTT", horarios.length);
-  }, [horarios]);
-
-  useEffect(() => {
-    getDataWhere("quadras", "esportes", "array-contains", {
-      display: "Padel",
-      id: esporte,
-      type: { display: "Piso", id: "OoAxvibwL5Q38cpDSaYh", type: "piso" },
-      value: "padel",
-    });
+    getDataWhere("quadras", "esportes", "array-contains", esporte);
   }, [esporte]);
-  useEffect(() => {
-    console.log("hquadrasTTT", quadras);
-  }, [quadras]);
 
   useEffect(() => {
     getDataWhere3(
@@ -41,27 +36,53 @@ const ButtonsHorario = ({ dia, esporte, horario, handleChange, chave }) => {
       "dataDia",
       "==",
       dia,
-      "esporte",
+      "tipoQuadra",
       "==",
-      esporte,
+      tipoQuadra,
       "dataHorario",
       "==",
       horario.id
     );
-  }, [horario, esporte, dia]);
+  }, [horario, esporte, tipoQuadra, dia]);
 
-  // useEffect(() => {
-  //   console.log("disponibilidadeHorarioTTTT", disponibilidadeHorario.length);
-  // }, [disponibilidadeHorario]);
+  useEffect(() => {
+    if (
+      Object.keys(quadras).length > 0 &&
+      Object.keys(disponibilidadeHorario).length > 0
+    ) {
+      let ocupadas = [];
+      quadras.map((quadra) => {
+        disponibilidadeHorario
+          .filter((vendor) => vendor["quadra"] === quadra.id)
+          .map((quadra2) => {
+            ocupadas.push(quadra2);
+          });
+      });
+      verificaLotado(quadras, ocupadas);
+    }
+    setLoading(false);
+  }, [quadras, disponibilidadeHorario]);
+
+  const verificaLotado = (quadras, ocupadas) => {
+    if (ocupadas.length >= quadras.length) {
+      setLotado(true);
+    }
+  };
 
   return (
-    <button
-      key={chave}
-      onClick={(e) => handleChange(e, horario)}
-      value={horario}
-    >
-      {`${horario.value}:00`}
-    </button>
+    <>
+      {loading && <Loading type={`spin`} width={"30px"} />}
+      {!loading && (
+        <button
+          key={chave}
+          onClick={(e) => handleChange(e, horario)}
+          value={horario}
+          disabled={lotado}
+        >
+          {lotado ? `Lotado` : `${horario.value}:00`}
+        </button>
+      )}
+    </>
   );
 };
 

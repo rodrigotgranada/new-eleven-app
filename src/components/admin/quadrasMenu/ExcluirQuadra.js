@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import DeleteQuadra from "../../admin/modal/DeleteQuadra";
+import DeleteQuadra from "../modal/DeleteQuadra";
 
 const ExcluirQuadra = (props) => {
   const [ModalOpenDelete, setModalOpenDelete] = useState(false);

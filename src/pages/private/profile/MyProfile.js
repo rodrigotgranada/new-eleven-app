@@ -60,7 +60,9 @@ export default function MyProfile() {
                 <></>
               )}
               <br />
-              <strong>Nome:</strong> {currentUser?.displayName}
+              <strong>Nome:</strong> {currentUser?.usuario?.displayName}
+              <br />
+              <strong>Sobrenome:</strong> {currentUser?.usuario?.sobrenome}
               <br />
               <strong>Email:</strong> {currentUser?.email}
               <br />
@@ -69,6 +71,9 @@ export default function MyProfile() {
               <br />
               <strong>Admin:</strong>{" "}
               {currentUser?.usuario?.rule ? "Sim" : "Não"}
+              <br />
+              <strong>Full:</strong>{" "}
+              {currentUser?.usuario?.owner ? "Sim" : "Não"}
               <br />
               <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
                 Atualizar usuário

@@ -8,6 +8,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 export default function Signup() {
   const emailRef = useRef();
   const nameRef = useRef();
+  const surnameRef = useRef();
   const telefoneRef = useRef();
   const docRef = useRef();
   const passwordRef = useRef();
@@ -39,6 +40,7 @@ export default function Signup() {
         emailRef.current.value,
         passwordRef.current.value,
         nameRef.current.value,
+        surnameRef.current.value,
         telefoneRef.current.value,
         docRef.current.value,
         selectedImages,
@@ -65,6 +67,10 @@ export default function Signup() {
                 <Form.Group id="name">
                   <Form.Label>Nome</Form.Label>
                   <Form.Control type="name" ref={nameRef} required />
+                </Form.Group>
+                <Form.Group id="surname">
+                  <Form.Label>Sobrenome</Form.Label>
+                  <Form.Control type="surname" ref={surnameRef} required />
                 </Form.Group>
                 <Form.Group id="email">
                   <Form.Label>Email</Form.Label>
@@ -99,7 +105,7 @@ export default function Signup() {
                     tamanho={true}
                   />
                 </Form.Group>
-                {currentUser?.usuario?.rule && (
+                {currentUser?.usuario?.owner && (
                   <Form.Group>
                     <Label check>
                       <Input

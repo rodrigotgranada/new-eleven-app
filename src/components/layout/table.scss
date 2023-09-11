@@ -1,0 +1,11 @@
+// .MuiPaper-root {
+//   background-color: blue !important;
+// }
+
+// .MuiTableContainer-root {
+//   background-color: none !important;
+// }
+
+[class*="Mui"] {
+  background: inherit !important;
+}

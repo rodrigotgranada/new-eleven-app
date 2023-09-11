@@ -48,7 +48,12 @@ const FileInputQuadra = ({
               src={selectedImage}
               alt="upload"
               id="imageid"
-              height={tamanho ? 130 : false}
+              style={{
+                width: tamanho ? "17rem" : false,
+                height: tamanho ? "9rem" : false,
+              }}
+              // width={tamanho ? "25rem" : false}
+              // height={tamanho ? 130 : false}
             />
             <button
               //   type="button"

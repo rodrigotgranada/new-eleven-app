@@ -1,0 +1,13 @@
+@import "_theme.scss";
+
+.body-main {
+  //   font-family: sans-serif;
+  //   background: black;
+  @include themed() {
+    color: t("text");
+    background: t("bg");
+  }
+  min-height: 100vh;
+  padding: 0 3rem;
+  transition: all 0.5s;
+}

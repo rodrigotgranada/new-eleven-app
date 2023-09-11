@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import MarcacaoContext from "../../../../contexts/MarcacaoContext";
 import useGetData from "../../../../hooks/useGetData";
 import "../../../../styles/public/paginaHorarios.scss";
+import Loading from "../../Loading/Loading";
 import ButtonsHorario from "./ButtonsHorario";
 
 const Horario = () => {
@@ -28,7 +29,7 @@ const Horario = () => {
 
   return (
     <>
-      {loading && <p>Carregando...</p>}
+      {loading && <Loading type={`spin`} width={"30px"} />}
       <div className="paginaHorario">
         {horarios &&
           marcacao.esporte &&
@@ -38,6 +39,7 @@ const Horario = () => {
               <ButtonsHorario
                 key={index}
                 dia={marcacao?.dataDia}
+                tipoQuadra={marcacao?.tipoQuadra}
                 esporte={marcacao?.esporte}
                 horario={horario}
                 handleChange={handleChange}

@@ -1,0 +1,80 @@
+$text--light: #282828;
+$text--dark: #f17300;
+$text-active--light: #313df1;
+$text-active--dark: #3de92e;
+$bg--light: #cfcfcf;
+$bg--dark: #282828;
+
+$bg-card--light: rgba(0, 0, 0, 0.15);
+$bg-card--dark: rgba(255, 255, 255, 0.2);
+
+$box-shadow--light: 0 0 1em 0 rgba(0, 0, 0, 0.2);
+$box-shadow--dark: 0 0 1em 0 rgba(255, 255, 255, 0.2);
+
+$bg-button-calendar--light: "transparent";
+$bg-button-calendar--dark: #f17300;
+
+$text-date-calendar-disabled--light: #3a2f2f4d;
+$text-date-calendar-disabled--dark: #ffffff4d;
+
+$bg-date-calendar-selected--light: linear-gradient(
+  45deg,
+  #f17300 70%,
+  rgb(43, 243, 17)
+);
+$bg-date-calendar-selected--dark: linear-gradient(
+  45deg,
+  #f17300 70%,
+  rgb(43, 243, 17)
+);
+
+$bg-date-calendar-hover--light: radial-gradient(#f17300 40%, #f1740083);
+$bg-date-calendar-hover--dark: radial-gradient(#f17300 40%, #f1740083);
+
+$themes: (
+  light: (
+    bg: $bg--light,
+    text: $text--light,
+    text-active: $text-active--light,
+    bg-card: $bg-card--light,
+    box-shadow: $box-shadow--light,
+    bg-button-calendar: $bg-button-calendar--light,
+    text-date-calendar-disabled: $text-date-calendar-disabled--light,
+    bg-date-calendar-selected: $bg-date-calendar-selected--light,
+    bg-date-calendar-hover: $bg-date-calendar-hover--light,
+  ),
+  dark: (
+    bg: $bg--dark,
+    text: $text--dark,
+    text-active: $text-active--dark,
+    bg-card: $bg-card--dark,
+    box-shadow: $box-shadow--dark,
+    bg-button-calendar: $bg-button-calendar--dark,
+    text-date-calendar-disabled: $text-date-calendar-disabled--dark,
+    bg-date-calendar-selected: $bg-date-calendar-selected--dark,
+    bg-date-calendar-hover: $bg-date-calendar-hover--dark,
+  ),
+);
+
+@mixin themed() {
+  @each $theme, $map in $themes {
+    .theme--#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), "#{$key}");
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function t($key) {
+  @return map-get($theme-map, $key);
+}

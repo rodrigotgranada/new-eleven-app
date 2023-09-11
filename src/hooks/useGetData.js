@@ -18,6 +18,14 @@ const useGetData = () => {
   const [loading, setLoading] = useState(true);
   //   const collectionRef = collection(db, collectionName);
 
+  const getAllUsers = async (collectionName) => {
+    const collectionRef = collection(db, collectionName);
+    await onSnapshot(collectionRef, (snapshot) => {
+      setData(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(false);
+    });
+  };
+
   const getData = async (collectionName) => {
     const collectionRef = collection(db, collectionName);
     await onSnapshot(collectionRef, (snapshot) => {
@@ -141,6 +149,43 @@ const useGetData = () => {
     });
   };
 
+  const getDataWhere4 = async (
+    collectionName,
+    campo1,
+    type1,
+    valor1,
+    campo2,
+    type2,
+    valor2,
+    campo3,
+    type3,
+    valor3,
+    campo4,
+    type4,
+    valor4
+  ) => {
+    const colletionRef = collection(db, collectionName);
+    const q = query(
+      colletionRef,
+      where(campo1, type1, valor1),
+      where(campo2, type2, valor2),
+      where(campo3, type3, valor3),
+      where(campo4, type4, valor4)
+    );
+
+    await onSnapshot(q, (querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push({ ...doc.data(), id: doc.id });
+      });
+
+      // console.log("getDataWhere4", items);
+      setData(items);
+      setLoading(false);
+      return items;
+    });
+  };
+
   const getDataWhereOrderByLimit = async (
     collectionName,
     campo,
@@ -172,8 +217,10 @@ const useGetData = () => {
   };
 
   return {
+    getAllUsers,
     getDataWhereId,
     getDataWhere3,
+    getDataWhere4,
     getDataOrderBy2,
     getDataWhereOrderByLimit,
     getDataId,

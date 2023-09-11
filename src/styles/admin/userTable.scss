@@ -1,0 +1,36 @@
+@import "../themes/_theme.scss";
+
+.MuiPaper-root {
+  @include themed() {
+    box-shadow: t("box-shadow");
+  }
+}
+
+.MuiPaper-root,
+.MuiToolbar-root,
+.MuiTableRow-root,
+.MuiList-root,
+.MuiPaper-root,
+.MuiTableCell-root {
+  @include themed() {
+    color: t("text");
+    background-color: t("bg") !important;
+    fill: t("text");
+  }
+}
+.MuiInputBase-input {
+  @include themed() {
+    color: t("text");
+  }
+}
+
+.MuiTableCell-root {
+  @include themed() {
+    border-bottom: 1px solid t("text");
+  }
+}
+.MuiSvgIcon-root {
+  @include themed() {
+    fill: t("text");
+  }
+}

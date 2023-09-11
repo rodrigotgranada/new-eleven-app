@@ -1,0 +1,118 @@
+@import "./../themes/theme";
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+  margin: 0 auto;
+  //   padding: 0 3rem;
+  /* background: #fff; */
+  justify-content: space-between;
+  @include themed() {
+    color: t("text");
+  }
+  //   color: #111;
+
+  ul {
+    list-style: none;
+    padding: 0px 10px;
+    margin: 10px 0px;
+  }
+
+  ul li a {
+    text-decoration: none;
+    @include themed() {
+      color: t("text");
+    }
+  }
+
+  ul li span {
+    text-decoration: none;
+    @include themed() {
+      color: t("text");
+    }
+    cursor: pointer;
+  }
+
+  ul li img {
+    height: 6vh;
+  }
+
+  ul li {
+    display: inline-block;
+    margin-left: 10px;
+    @include themed() {
+      color: t("text");
+    }
+  }
+
+  ul:first-of-type li:first-of-type {
+    font-weight: bold;
+    font-size: 2.1rem;
+  }
+
+  .animateIcon {
+    color: black;
+    cursor: pointer;
+    z-index: 4;
+    &:hover,
+    :focus {
+      font-size: 1.5rem;
+    }
+    &:not(:hover) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.sub-nav {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+  margin: 0 auto;
+  justify-content: center;
+  @include themed() {
+    color: t("text");
+  }
+
+  ul {
+    list-style: none;
+    padding: 0px 10px;
+    margin: 10px 0px;
+  }
+
+  ul li a {
+    text-decoration: none;
+    @include themed() {
+      color: t("text");
+    }
+  }
+
+  .active__admin-menu {
+    @include themed() {
+      color: t("text-active");
+    }
+  }
+
+  ul li span {
+    text-decoration: none;
+    @include themed() {
+      color: t("text");
+    }
+    cursor: pointer;
+  }
+
+  ul li img {
+    height: 6vh;
+  }
+
+  ul li {
+    display: inline-block;
+    margin-left: 10px;
+    @include themed() {
+      color: t("text");
+    }
+  }
+}

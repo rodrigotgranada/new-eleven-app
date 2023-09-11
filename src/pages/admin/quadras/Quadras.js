@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container, FormSelect, Row } from "react-bootstrap";
+import { Col, Label } from "reactstrap";
+import CardQuadra from "../../../components/admin/quadrasMenu/CardQuadra";
 import MenuAddQuadra from "../../../components/admin/quadrasMenu/MenuAddQuadra";
-import ListQuadra from "../../../components/public/formComponents/ListQuadra";
 import useGetData from "../../../hooks/useGetData";
+import "../../../styles/admin/listQuadra.scss";
 
 const Quadras = () => {
   const [search, setSearch] = useState("");
@@ -48,14 +50,17 @@ const Quadras = () => {
   }, [tiposQuadras]);
 
   const handleSearch = (filter) => {
-    const data = quadras;
-    const result = data
-      .map((item) => ({
-        ...item,
-        esportes: item.esportes.filter((child) => child.includes(filter)),
-      }))
-      .filter((item) => item.esportes.length > 0);
-    setFilteredQuadras(result);
+    console.log("filter", filter);
+    if (filter != "all") {
+      const filtered = quadras.filter((child) => {
+        if (child?.esportes?.includes(filter)) {
+          return child;
+        }
+      });
+      setFilteredQuadras(filtered);
+    } else {
+      setFilteredQuadras(quadras);
+    }
   };
   return (
     <>
@@ -92,38 +97,63 @@ const Quadras = () => {
       </section>
       <section>
         <Container>
-          <select
+          <Col lg="4">
+            <Label>Filtro</Label>
+            <FormSelect
+              className="select-filter"
+              onChange={(e) => {
+                handleSearch(e.target.value);
+              }}
+            >
+              <option value="all">Todos</option>
+              {modalidades &&
+                modalidades.map((modalidade, index) => {
+                  return (
+                    <option key={index} value={modalidade.id}>
+                      {modalidade.display}
+                    </option>
+                  );
+                })}
+            </FormSelect>
+          </Col>
+          {/* <select
             onChange={(e) => {
               handleSearch(e.target.value);
             }}
           >
-            <option value="">Todos</option>
+            <option value="all">Todos</option>
             {modalidades &&
               modalidades.map((modalidade, index) => {
                 return (
                   <option value={modalidade.id}>{modalidade.display}</option>
                 );
               })}
-          </select>
+          </select> */}
         </Container>
       </section>
       <section>
         <Container>
-          <div
+          <Row className="container-quadras">
+            {/* <Col lg="12"> */}
+            {carregaQuadras && <p> Carregando....</p>}
+
+            {filteredQuadras &&
+              filteredQuadras.map((quadra, index) => {
+                return <CardQuadra key={index} quadra={quadra} />;
+                // return <ListQuadra key={index} quadra={quadra} index={index} />;
+              })}
+            {/* </Col> */}
+          </Row>
+          {/* <div
             style={{
               width: "100%",
               margin: "20px auto",
               display: "flex",
               flexWrap: "wrap",
             }}
-          >
-            {carregaQuadras && <p> Carregando....</p>}
+          > */}
 
-            {filteredQuadras &&
-              filteredQuadras.map((quadra, index) => {
-                return <ListQuadra key={index} quadra={quadra} index={index} />;
-              })}
-          </div>
+          {/* </div> */}
         </Container>
       </section>
     </>

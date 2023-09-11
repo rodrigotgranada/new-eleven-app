@@ -5,12 +5,14 @@ const MenuAddQuadra = ({ chave, type, display, id, ...props }) => {
   const [ModalOpen, setModalOpen] = useState(false);
   return (
     <>
-      <AddQuadra
-        title={`Adicionar quadra ${display}`}
-        isOpen={ModalOpen}
-        setIsOpen={setModalOpen}
-        tipoQuadra={id}
-      />
+      {ModalOpen && (
+        <AddQuadra
+          title={`Adicionar quadra ${display}`}
+          isOpen={ModalOpen}
+          setIsOpen={setModalOpen}
+          tipoQuadra={id}
+        />
+      )}
       <button className="btn btn-warning" onClick={() => setModalOpen(true)}>
         Adicionar Quadra {display}
       </button>

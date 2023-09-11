@@ -2,10 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import MarcacaoContext from "../../../../contexts/MarcacaoContext";
 import useGetData from "../../../../hooks/useGetData";
 import "../../../../styles/public/paginaQuadra.scss";
+import Loading from "../../Loading/Loading";
 
 const Quadra = () => {
   const { marcacao, setMarcacao } = useContext(MarcacaoContext);
-  const { getData, data: quadras, loading } = useGetData();
+  const {
+    getDataOrderBy2: getQuadras,
+    data: quadras,
+    loading: carregaQuadras,
+  } = useGetData();
   const [filteredQuadras, setFilteredQuadras] = useState();
 
   useEffect(() => {
@@ -13,26 +18,23 @@ const Quadra = () => {
     quadra.step = 3;
     setMarcacao(quadra);
 
-    getData("quadras");
+    getQuadras("quadras", "esportes", "asc", "numero", "asc");
   }, []);
   useEffect(() => {
-    Object.keys(quadras).length > 0 && setFilteredQuadras(quadras);
+    Object.keys(quadras).length > 0 && handleSearch(marcacao.esporte);
   }, [quadras]);
 
-  useEffect(() => {
-    handleSearch(quadras);
-  }, [quadras]);
+  // useEffect(() => {
+  //   handleSearch(quadras);
+  // }, [quadras]);
 
-  const handleSearch = (data) => {
-    const result = data
-      .map((item) => ({
-        ...item,
-        esportes: item.esportes.filter((child) => {
-          return child.id.includes(marcacao.esporte);
-        }),
-      }))
-      .filter((item) => item.esportes.length > 0);
-    setFilteredQuadras(result);
+  const handleSearch = (filter) => {
+    const filtered = quadras.filter((child) => {
+      if (child?.esportes?.includes(filter)) {
+        return child;
+      }
+    });
+    setFilteredQuadras(filtered);
   };
 
   const handleChange = (e, value) => {
@@ -45,7 +47,7 @@ const Quadra = () => {
 
   return (
     <>
-      {loading && <p>Carregando...</p>}
+      {carregaQuadras && <Loading type={`spin`} width={"30px"} />}
       <div className="paginaQuadra">
         {filteredQuadras?.length > 0 &&
           filteredQuadras.map((quadra, index) => {
