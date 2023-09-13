@@ -12,7 +12,7 @@ import UpdateProfile from "../pages/private/profile/UpdateProfile";
 import ForgotPassword from "../pages/public/auth/ForgotPassword";
 import Login from "../pages/public/auth/Login";
 import Signup from "../pages/public/auth/Signup";
-import Page_404 from "../pages/public/error/Page_404";
+import Page404 from "../pages/public/error/Page404";
 import Home from "../pages/public/home/Home";
 import CadMarcacao from "../pages/public/marcacao/CadMarcacao";
 import MeusAgendamentos from "../pages/public/marcacao/MeusAgendamentos";
@@ -27,7 +27,7 @@ const Routers = () => {
   return (
     <Routes>
       {/* <Routes> */}
-      <Route path="*" element={<Page_404 />} />
+      <Route path="*" element={<Page404 />} />
       <Route path="/" element={<Navigate to="home" />} />
       <Route path="home" element={<Home />} />
       {/* Private */}

@@ -129,6 +129,17 @@ const useGetData = () => {
     type3,
     valor3
   ) => {
+    console.log(
+      campo1,
+      type1,
+      valor1,
+      campo2,
+      type2,
+      valor2,
+      campo3,
+      type3,
+      valor3
+    );
     const colletionRef = collection(db, collectionName);
     const q = query(
       colletionRef,

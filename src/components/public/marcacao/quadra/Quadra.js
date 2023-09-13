@@ -1,16 +1,28 @@
 import { useContext, useEffect, useState } from "react";
 import MarcacaoContext from "../../../../contexts/MarcacaoContext";
 import useGetData from "../../../../hooks/useGetData";
-import "../../../../styles/public/paginaQuadra.scss";
+
 import Loading from "../../Loading/Loading";
+import ButtonsQuadra from "./ButtonsQuadra";
 
 const Quadra = () => {
   const { marcacao, setMarcacao } = useContext(MarcacaoContext);
+  // const {
+  //   getDataOrderBy2: getQuadras,
+  //   data: quadras,
+  //   loading: carregaQuadras,
+  // } = useGetData();
   const {
-    getDataOrderBy2: getQuadras,
+    getDataWhereOrderByLimit: getQuadras,
     data: quadras,
     loading: carregaQuadras,
   } = useGetData();
+  const {
+    getDataWhere3,
+    data: disponibilidadeHorario,
+    loading: loadingDisponibilidadeHorario,
+  } = useGetData();
+
   const [filteredQuadras, setFilteredQuadras] = useState();
 
   useEffect(() => {
@@ -18,24 +30,49 @@ const Quadra = () => {
     quadra.step = 3;
     setMarcacao(quadra);
 
-    getQuadras("quadras", "esportes", "asc", "numero", "asc");
+    // getQuadras("quadras", "esportes", "asc", "numero", "asc");
+    getQuadras(
+      "quadras",
+      "esportes",
+      "array-contains",
+      marcacao.esporte,
+      "numero",
+      "asc"
+    );
+    getDataWhere3(
+      "agenda",
+      "dataDia",
+      "==",
+      marcacao.dataDia,
+      "tipoQuadra",
+      "==",
+      marcacao.tipoQuadra,
+      "dataHorario",
+      "==",
+      marcacao.dataHorario
+    );
   }, []);
+
   useEffect(() => {
-    Object.keys(quadras).length > 0 && handleSearch(marcacao.esporte);
-  }, [quadras]);
+    console.log("disponibilidadeHorario", disponibilidadeHorario);
+  }, [disponibilidadeHorario]);
+
+  // useEffect(() => {
+  //   Object.keys(quadras).length > 0 && handleSearch(marcacao.esporte);
+  // }, [quadras]);
 
   // useEffect(() => {
   //   handleSearch(quadras);
   // }, [quadras]);
 
-  const handleSearch = (filter) => {
-    const filtered = quadras.filter((child) => {
-      if (child?.esportes?.includes(filter)) {
-        return child;
-      }
-    });
-    setFilteredQuadras(filtered);
-  };
+  // const handleSearch = (filter) => {
+  //   const filtered = quadras.filter((child) => {
+  //     if (child?.esportes?.includes(filter)) {
+  //       return child;
+  //     }
+  //   });
+  //   setFilteredQuadras(filtered);
+  // };
 
   const handleChange = (e, value) => {
     const valor = value.id;
@@ -47,20 +84,29 @@ const Quadra = () => {
 
   return (
     <>
-      {carregaQuadras && <Loading type={`spin`} width={"30px"} />}
+      {carregaQuadras && loadingDisponibilidadeHorario && (
+        <Loading type={`spin`} width={"30px"} />
+      )}
       <div className="paginaQuadra">
-        {filteredQuadras?.length > 0 &&
-          filteredQuadras.map((quadra, index) => {
+        {Object.keys(quadras).length > 0 &&
+          quadras.map((quadra, index) => {
+            let teste = false;
+            disponibilidadeHorario
+              .filter((quadraOcupada) => quadraOcupada["quadra"] === quadra.id)
+              .map((quadra2) => {
+                if (quadra2) {
+                  teste = true;
+                }
+              });
+            console.log("teste", teste);
             return (
-              <div
+              <ButtonsQuadra
                 key={index}
-                className="paginaQuadraItem"
-                onClick={(e) => handleChange(e, quadra)}
-                value={quadra}
-              >
-                <p>{quadra?.name}</p>
-                <img src={quadra?.foto} />
-              </div>
+                quadra={quadra}
+                handleChange={handleChange}
+                chave={index}
+                reservada={teste}
+              />
             );
           })}
       </div>
