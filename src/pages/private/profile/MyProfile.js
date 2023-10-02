@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import { Alert, Button, Card, Container } from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap";
 // import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../contexts/AuthContext";
+import ConfirmUser from "../../../components/public/user/ConfirmUser";
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import UpdateProfileEmail from "./UpdateProfileEmail";
+import UpdateProfileSenha from "./UpdateProfileSenha";
+import UpdateProfileCel from "./UpdateProfileCel";
+import UpdateProfileDados from "./UpdateProfileDados";
+import MyFriends from "./MyFriends";
 // import "../../styles/MyProfile.scss";
 
 export default function MyProfile() {
   const [error, setError] = useState("");
+  const [page, setPage] = useState("profile");
   const { currentUser, logout, verifyUser } = useAuth();
   const navigate = useNavigate();
 
@@ -36,48 +44,101 @@ export default function MyProfile() {
   };
 
   const handleMessageVerify = () => {
-    if (!currentUser?.emailVerified) {
-      return <button onClick={handleVerify}>Verificar E-mail</button>;
+    if (!currentUser?.usuario?.checked) {
+      return <ConfirmUser user={currentUser} />;
     }
   };
 
   return (
     <>
       <Container className="d-flex align-items-center justify-content-center">
-        <div className="w-100" style={{ maxWidth: "400px" }}>
+        {/* <div className="w-100" style={{ maxWidth: "400px" }}> */}
+        <div className="w-100">
           <Card>
             <Card.Body>
-              {handleMessageVerify()}
-              <h2 className="text-center mb-4">Usuário</h2>
-              {error && <Alert variant="danger">{error}</Alert>}
-              {currentUser?.photoURL ? (
-                <img
-                  src={currentUser?.photoURL}
-                  alt="Capa"
-                  style={{ height: "6rem" }}
-                />
-              ) : (
-                <></>
-              )}
-              <br />
-              <strong>Nome:</strong> {currentUser?.usuario?.displayName}
-              <br />
-              <strong>Sobrenome:</strong> {currentUser?.usuario?.sobrenome}
-              <br />
-              <strong>Email:</strong> {currentUser?.email}
-              <br />
-              <strong>Verificado:</strong>{" "}
-              {currentUser?.emailVerified ? "Sim" : "Não"}
-              <br />
-              <strong>Admin:</strong>{" "}
-              {currentUser?.usuario?.rule ? "Sim" : "Não"}
-              <br />
-              <strong>Full:</strong>{" "}
-              {currentUser?.usuario?.owner ? "Sim" : "Não"}
-              <br />
-              <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
-                Atualizar usuário
-              </Link>
+              <Row>
+                <Col lg="3">
+                  <Sidebar>
+                    <Menu>
+                      {/* <SubMenu label="Charts">
+                        <MenuItem> Pie charts </MenuItem>
+                        <MenuItem> Line charts </MenuItem>
+                      </SubMenu> */}
+                      <MenuItem onClick={() => setPage("profile")}>
+                        {" "}
+                        Meu Perfil{" "}
+                      </MenuItem>
+                      <MenuItem onClick={() => setPage("amigos")}>
+                        {" "}
+                        Amigos{" "}
+                      </MenuItem>
+                      <MenuItem onClick={() => setPage("email")}>
+                        {" "}
+                        Atualizar E-mail{" "}
+                      </MenuItem>
+                      <MenuItem onClick={() => setPage("senha")}>
+                        {" "}
+                        Atualizar Senha{" "}
+                      </MenuItem>
+                      <MenuItem onClick={() => setPage("telefone")}>
+                        {" "}
+                        Atualizar Celular{" "}
+                      </MenuItem>
+                      <MenuItem onClick={() => setPage("dados")}>
+                        {" "}
+                        Atualizar Dados{" "}
+                      </MenuItem>
+                    </Menu>
+                  </Sidebar>
+                </Col>
+                <Col lg="9">
+                  {page === "profile" && (
+                    <>
+                      {handleMessageVerify()}
+                      {/* <h2 className="text-center mb-4">Usuário</h2> */}
+                      {error && <Alert variant="danger">{error}</Alert>}
+                      {currentUser?.usuario?.photoURL ? (
+                        <img
+                          src={currentUser?.usuario?.photoURL}
+                          alt="Capa"
+                          style={{ height: "6rem" }}
+                        />
+                      ) : (
+                        <></>
+                      )}
+                      <br />
+                      {console.log(currentUser)}
+                      <strong>Nome:</strong> {currentUser?.usuario?.displayName}
+                      <br />
+                      <strong>Sobrenome:</strong>{" "}
+                      {currentUser?.usuario?.sobrenome}
+                      <br />
+                      <strong>Email:</strong> {currentUser?.email}
+                      <br />
+                      <strong>Verificado:</strong>{" "}
+                      {currentUser?.usuario?.checked ? "Sim" : "Não"}
+                      <br />
+                      <strong>Admin:</strong>{" "}
+                      {currentUser?.usuario?.rule ? "Sim" : "Não"}
+                      <br />
+                      <strong>Full:</strong>{" "}
+                      {currentUser?.usuario?.owner ? "Sim" : "Não"}
+                      <br />
+                    </>
+                  )}
+                  {page === "email" && <UpdateProfileEmail />}
+                  {page === "senha" && <UpdateProfileSenha />}
+                  {page === "telefone" && <UpdateProfileCel />}
+                  {page === "dados" && <UpdateProfileDados />}
+                  {page === "amigos" && <MyFriends />}
+                  {/* <Link
+                    to="/update-profile"
+                    className="btn btn-primary w-100 mt-3"
+                  >
+                    Atualizar usuário
+                  </Link> */}
+                </Col>
+              </Row>
             </Card.Body>
           </Card>
           <div className="w-100 text-center mt-2">

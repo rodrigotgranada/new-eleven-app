@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "../../styles/public/nav.scss";
 
 const SubNav = ({ admin, rule }) => {
-  console.log("RULE", rule);
+  // console.log("RULE", rule);
   let admin__nav;
   admin
     ? (admin__nav = [

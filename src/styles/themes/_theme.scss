@@ -2,11 +2,14 @@ $text--light: #282828;
 $text--dark: #f17300;
 $text-active--light: #313df1;
 $text-active--dark: #3de92e;
-$bg--light: #cfcfcf;
+$bg--light: #f8f8f8;
 $bg--dark: #282828;
 
 $bg-card--light: rgba(0, 0, 0, 0.15);
 $bg-card--dark: rgba(255, 255, 255, 0.2);
+
+$bg-card-text--light: #ffffffb8;
+$bg-card-text--dark: #060606bd;
 
 $box-shadow--light: 0 0 1em 0 rgba(0, 0, 0, 0.2);
 $box-shadow--dark: 0 0 1em 0 rgba(255, 255, 255, 0.2);
@@ -37,6 +40,7 @@ $themes: (
     text: $text--light,
     text-active: $text-active--light,
     bg-card: $bg-card--light,
+    bg-card-text: $bg-card-text--light,
     box-shadow: $box-shadow--light,
     bg-button-calendar: $bg-button-calendar--light,
     text-date-calendar-disabled: $text-date-calendar-disabled--light,
@@ -48,6 +52,7 @@ $themes: (
     text: $text--dark,
     text-active: $text-active--dark,
     bg-card: $bg-card--dark,
+    bg-card-text: $bg-card-text--dark,
     box-shadow: $box-shadow--dark,
     bg-button-calendar: $bg-button-calendar--dark,
     text-date-calendar-disabled: $text-date-calendar-disabled--dark,

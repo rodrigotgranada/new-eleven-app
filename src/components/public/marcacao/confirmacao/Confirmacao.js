@@ -6,6 +6,7 @@ import useGetData from "../../../../hooks/useGetData";
 import "../../../../styles/public/confirmacao.scss";
 import CancelMarcacao from "./Buttons/CancelMarcacao";
 import ConfirmMarcacao from "./Buttons/ConfirmMarcacao";
+import Loading from "../../Loading/Loading";
 
 const Confirmacao = () => {
   const { marcacao, setMarcacao } = useContext(MarcacaoContext);
@@ -24,6 +25,7 @@ const Confirmacao = () => {
     data: quadraEscolhida,
     loadingQuadra,
   } = useGetData();
+  const { getDataId: getUsuario, data: usuario, loadingUsuario } = useGetData();
 
   useEffect(() => {
     let confirm = { ...marcacao };
@@ -32,10 +34,14 @@ const Confirmacao = () => {
   }, []);
 
   useEffect(() => {
-    if (marcacao.dataHorario && marcacao.esporte && marcacao.quadra) {
+    if (
+      (marcacao.dataHorario && marcacao.esporte && marcacao.quadra,
+      marcacao.user)
+    ) {
       getHorarioEscolhido("horarios", marcacao.dataHorario);
       getEsporteEscolhido("modalidades", marcacao.esporte);
       getQuadraEscolhida("quadras", marcacao.quadra);
+      getUsuario("users", marcacao.user);
     }
   }, [marcacao]);
 
@@ -49,18 +55,19 @@ const Confirmacao = () => {
 
   return (
     <>
-      {loadingHorario && loadingEsporte && loadingQuadra && (
-        <p>Carregando...</p>
+      {loadingHorario && loadingEsporte && loadingQuadra && loadingUsuario && (
+        <Loading type={`spin`} width={"30px"} />
       )}
       {marcacao && quadraEscolhida && esporteEscolhido && horarioEscolhido && (
         <div>
           <h1>
-            {`${marcacao?.user?.displayName}, confirma a marcação da quadra ${quadraEscolhida?.name}, de ${esporteEscolhido?.display}, no dia ${marcacao.dataDia} no horário das ${horarioEscolhido.value}:00 ??`}
+            {`${usuario?.displayName}, confirma a marcação da quadra ${quadraEscolhida?.name}, de ${esporteEscolhido?.display}, no dia ${marcacao.dataDia} no horário das ${horarioEscolhido.value}:00 ??`}
           </h1>
           <div className="buttons-confirm-diag">
             <ConfirmMarcacao
               marcacao={marcacao}
               setMarcacao={setMarcacao}
+              usuario={usuario}
               handleConfirm={handleConfirm}
             />
             <CancelMarcacao
@@ -80,7 +87,7 @@ const Confirmacao = () => {
                     {jogador?.telefone && (
                       <ReactWhatsapp
                         number={`55${jogador?.telefone}`}
-                        message={`Oi ${jogador?.name}, o ${marcacao?.user?.displayName} marcou a quadra ${quadraEscolhida?.name}, de ${esporteEscolhido?.display}, no dia ${marcacao.dataDia} no horário das ${horarioEscolhido.value}:00 e marcou você.  `}
+                        message={`Oi ${jogador?.name}, o ${usuario?.displayName} marcou a quadra ${quadraEscolhida?.name}, de ${esporteEscolhido?.display}, no dia ${marcacao.dataDia} no horário das ${horarioEscolhido.value}:00 e marcou você.  `}
                       >
                         <MdOutlineWhatsapp /> {jogador?.telefone}
                       </ReactWhatsapp>

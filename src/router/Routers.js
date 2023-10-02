@@ -8,7 +8,7 @@ import Permanentes from "../pages/admin/permanentes/Permanentes";
 import Quadras from "../pages/admin/quadras/Quadras";
 import Usuarios from "../pages/admin/usuarios/Usuarios";
 import MyProfile from "../pages/private/profile/MyProfile";
-import UpdateProfile from "../pages/private/profile/UpdateProfile";
+// import UpdateProfile from "../pages/private/profile/UpdateProfile";
 import ForgotPassword from "../pages/public/auth/ForgotPassword";
 import Login from "../pages/public/auth/Login";
 import Signup from "../pages/public/auth/Signup";
@@ -33,11 +33,12 @@ const Routers = () => {
       {/* Private */}
       <Route path="/*" element={<RegisterRoute currentUser={currentUser} />}>
         <Route path="my-profile" element={<MyProfile />} />
+        {/* <Route path="update-profile" element={<UpdateProfile />} /> */}
       </Route>
       <Route path="/*" element={<PrivateRoute currentUser={currentUser} />}>
         <Route path="marcar-quadra" element={<CadMarcacao />} />
         <Route path="meus-agendamentos" element={<MeusAgendamentos />} />
-        <Route path="update-profile" element={<UpdateProfile />} />
+        {/* <Route path="update-profile" element={<UpdateProfile />} /> */}
       </Route>
       {/* Admin */}
       <Route path="/*" element={<AdminRoute currentUser={currentUser} />}>

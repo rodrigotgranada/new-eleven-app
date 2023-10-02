@@ -16,10 +16,10 @@ const Calendario = () => {
 
   useEffect(() => {
     let usuario = { ...marcacao };
-    usuario.codLocacao = getRandomInt(0, 99999);
-    usuario.owner = currentUser?.usuario?.uid;
-    usuario.user = currentUser?.usuario;
-    usuario.createAt = moment(new Date()).format("DD/MM/YYYY");
+    // usuario.codLocacao = getRandomInt(0, 99999);
+    // usuario.owner = currentUser?.usuario?.uid;
+    usuario.user = currentUser?.usuario?.uid;
+
     usuario.step = 0;
     setMarcacao(usuario);
   }, []);
@@ -83,6 +83,7 @@ const Calendario = () => {
           return (
             <div className="datePickerNav">
               <button
+                className="decreaseMonth"
                 onClick={decreaseMonth}
                 disabled={prevMonthButtonDisabled}
               >
@@ -92,6 +93,7 @@ const Calendario = () => {
                 style={{ margin: "auto 0" }}
               >{` ${month} - ${date.getFullYear()}`}</p>
               <button
+                className="increaseMonth"
                 onClick={increaseMonth}
                 disabled={nextMonthButtonDisabled}
               >

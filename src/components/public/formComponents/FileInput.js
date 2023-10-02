@@ -10,27 +10,65 @@ const FileInput = ({
   tamanho,
   ...props
 }) => {
-  // const [img64, setImg64] = useState();
-  const onSelectFile = (event) => {
-    const selectedFiles = event.target.files;
-    const selectedFilesArray = Array.from(selectedFiles);
-    // const data = new FileReader();
-    // data.addEventListener("load", () => {
-    //   setImg64(data.result);
-    // });
-    // data.readAsDataURL(event.target.files[0]);
-    const imagesArray = selectedFilesArray.map((file) => {
-      numImage ? (file.numImage = numImage) : (file.numImage = 0);
-      capa ? (file.capa = capa) : (file.capa = null);
-      file.localUrl = URL.createObjectURL(file);
-      console.log("file", file);
-      return file;
-    });
-    setSelectedImages(imagesArray);
+  const onSelectFile = async (event) => {
+    let imagem2 = event.target.files[0];
+    let base64 = await convertBase64(imagem2);
+    setSelectedImages(base64);
   };
-  return (
-    <section>
-      {(!selectedImages || selectedImages?.length === 0) && (
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  // useEffect(() => {
+  //   console.log("selectedImage", selectedImage);
+  // }, []);
+
+  const handleClearImg = async (e) => {
+    e.preventDefault();
+    setSelectedImages("");
+  };
+
+  const body = (selectedImg) => {
+    // console.log("selectedImage", selectedImage);
+    if (selectedImg) {
+      const chave = Math.random();
+      return (
+        <div className="images">
+          <div key={chave} className="image">
+            <img
+              src={selectedImages}
+              alt="upload"
+              id="imageid"
+              style={{
+                width: tamanho ? "17rem" : false,
+                height: tamanho ? "9rem" : false,
+              }}
+              // width={tamanho ? "25rem" : false}
+              // height={tamanho ? 130 : false}
+            />
+            <button
+              //   type="button"
+              onClick={(e) => {
+                handleClearImg(e);
+              }}
+            >
+              Remover
+            </button>
+          </div>
+        </div>
+      );
+    } else {
+      return (
         <label className="foto_user">
           {rotulo ? rotulo : `Foto`}
           <br />
@@ -38,35 +76,16 @@ const FileInput = ({
           <input
             type="file"
             name="images"
+            id="imageid"
             onChange={onSelectFile}
             // multiple
             accept="image/png, image/jpeg, image/webp"
           />
         </label>
-      )}
-      <div className="images">
-        {selectedImages?.length > 0 &&
-          selectedImages.map((image, index) => {
-            return (
-              <div key={index} className="image">
-                <img
-                  src={image.localUrl}
-                  alt="upload"
-                  height={tamanho ? 100 : false}
-                />
-                <button
-                  onClick={() =>
-                    setSelectedImages(selectedImages.filter((e) => e !== image))
-                  }
-                >
-                  Remover
-                </button>
-              </div>
-            );
-          })}
-      </div>
-    </section>
-  );
+      );
+    }
+  };
+  return <section>{body(selectedImages)}</section>;
 };
 
 export default FileInput;

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import MarcacaoContext from "../../../../contexts/MarcacaoContext";
 import useGetData from "../../../../hooks/useGetData";
+import "../../../../styles/public/paginaQuadra.scss";
 
 import Loading from "../../Loading/Loading";
 import ButtonsQuadra from "./ButtonsQuadra";
@@ -53,26 +54,9 @@ const Quadra = () => {
     );
   }, []);
 
-  useEffect(() => {
-    console.log("disponibilidadeHorario", disponibilidadeHorario);
-  }, [disponibilidadeHorario]);
-
   // useEffect(() => {
-  //   Object.keys(quadras).length > 0 && handleSearch(marcacao.esporte);
-  // }, [quadras]);
-
-  // useEffect(() => {
-  //   handleSearch(quadras);
-  // }, [quadras]);
-
-  // const handleSearch = (filter) => {
-  //   const filtered = quadras.filter((child) => {
-  //     if (child?.esportes?.includes(filter)) {
-  //       return child;
-  //     }
-  //   });
-  //   setFilteredQuadras(filtered);
-  // };
+  //   console.log("disponibilidadeHorario", disponibilidadeHorario);
+  // }, [disponibilidadeHorario]);
 
   const handleChange = (e, value) => {
     const valor = value.id;
@@ -90,22 +74,22 @@ const Quadra = () => {
       <div className="paginaQuadra">
         {Object.keys(quadras).length > 0 &&
           quadras.map((quadra, index) => {
-            let teste = false;
+            let reservada = false;
             disponibilidadeHorario
               .filter((quadraOcupada) => quadraOcupada["quadra"] === quadra.id)
               .map((quadra2) => {
                 if (quadra2) {
-                  teste = true;
+                  reservada = true;
                 }
               });
-            console.log("teste", teste);
+
             return (
               <ButtonsQuadra
                 key={index}
                 quadra={quadra}
                 handleChange={handleChange}
                 chave={index}
-                reservada={teste}
+                reservada={reservada}
               />
             );
           })}

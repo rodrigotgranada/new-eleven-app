@@ -3,18 +3,21 @@ import { Button } from "react-bootstrap";
 import { GiConfirmed } from "react-icons/gi";
 import ConfirmMarcacaoQuadra from "../../../modal/ConfirmMarcacaoQuadra";
 
-const ConfirmMarcacao = (props) => {
+const ConfirmMarcacao = ({ marcacao, setMarcacao, usuario, handleConfirm }) => {
   const [ModalOpen, setModalOpen] = useState(false);
   return (
     <>
-      <ConfirmMarcacaoQuadra
-        title="Comprovante de Marcação"
-        isOpen={ModalOpen}
-        setIsOpen={setModalOpen}
-        marcacao={props.marcacao}
-        setMarcacao={props.setMarcacao}
-        handleConfirm={props.handleConfirm}
-      />
+      {ModalOpen && (
+        <ConfirmMarcacaoQuadra
+          title="Comprovante de Marcação"
+          isOpen={ModalOpen}
+          setIsOpen={setModalOpen}
+          marcacao={marcacao}
+          setMarcacao={setMarcacao}
+          usuario={usuario}
+          handleConfirm={handleConfirm}
+        />
+      )}
       <Button
         className="btn btn-success"
         type="button"

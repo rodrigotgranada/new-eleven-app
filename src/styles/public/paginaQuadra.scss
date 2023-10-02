@@ -1,19 +1,39 @@
+@import "../themes/_theme.scss";
+
 .paginaQuadra {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  margin: 1rem 0;
+  gap: 3rem;
 
-  .paginaQuadraItem {
-    margin: 1rem 0.5rem;
-    min-width: 40%;
-    max-width: 40%;
-    min-height: 5rem;
+  .card-main-public {
+    margin: 1.2rem;
     cursor: pointer;
-    box-shadow: 0.3rem 0.3rem grey;
+    padding: 1.5rem;
+    @include themed() {
+      background: t("bg-card");
+      box-shadow: t("box-shadow");
+    }
 
-    img {
-      max-width: 100%;
-      min-height: auto;
+    text-align: center;
+    transition: all 1s;
+    &:hover {
+      scale: 1.1;
+    }
+
+    .card-text-name {
+      font-size: 1rem;
+      margin-bottom: 0;
+    }
+
+    .card-text-esportes {
+      font-size: 1rem;
+    }
+
+    .card-img {
+      width: 15rem;
+      height: 10rem;
     }
   }
 }

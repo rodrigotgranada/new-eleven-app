@@ -1,39 +1,3 @@
-// .customDatePickerWidth {
-//   div {
-//     width: 50%;
-//   }
-
-//   .customDatePickerWidth,
-//   .customDatePickerWidth > div.react-datepicker-wrapper,
-//   .customDatePickerWidth
-//     > div
-//     > div.react-datepicker__input-container
-//     .customDatePickerWidth
-//     > div
-//     > div.react-datepicker__input-container
-//     input {
-//     width: 50%;
-//   }
-
-//   .datePicker {
-
-//     background: none;
-
-//     .react-datepicker__header {
-//       background: none;
-//     }
-//   }
-// }
-
-// .customDatePickerWidth,
-// .customDatePickerWidth > div.react-datepicker-wrapper,
-// .customDatePickerWidth
-//   > div
-//   > div.react-datepicker__input-container
-//   .customDatePickerWidth
-//   > div
-//   > div.react-datepicker__input-container
-//   input
 .customDatePickerWidth {
   width: 100%;
   min-height: 50vh;
@@ -56,7 +20,8 @@
     display: flex;
     justify-content: space-around;
 
-    button {
+    .increaseMonth,
+    .decreaseMonth {
       background: none;
       box-shadow: none;
     }

@@ -3,6 +3,7 @@ import MarcacaoContext from "../../../../contexts/MarcacaoContext";
 import useGetData from "../../../../hooks/useGetData";
 import "../../../../styles/public/paginaModalidade.scss";
 import Loading from "../../Loading/Loading";
+import CardModalidade from "./CardModalidade";
 
 const Modalidade = () => {
   const { marcacao, setMarcacao } = useContext(MarcacaoContext);
@@ -18,7 +19,7 @@ const Modalidade = () => {
     getData("modalidades");
   }, []);
 
-  const handleChange = (e, value) => {
+  const handleChange = (value) => {
     const valor = value.id;
     const tipoQuadra = value.type;
     let modadelidade = { ...marcacao };
@@ -35,13 +36,18 @@ const Modalidade = () => {
         {modalidades &&
           modalidades.map((modalidade, index) => {
             return (
-              <button
+              <CardModalidade
                 key={index}
-                onClick={(e) => handleChange(e, modalidade)}
-                value={modalidade}
-              >
-                {modalidade.display}
-              </button>
+                modalidade={modalidade}
+                handleChange={handleChange}
+              />
+              // <button
+              //   key={index}
+              //   onClick={(e) => handleChange(e, modalidade)}
+              //   value={modalidade}
+              // >
+              //   {modalidade.display}
+              // </button>
             );
           })}
       </div>

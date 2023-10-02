@@ -1,0 +1,77 @@
+@import "../themes/_theme.scss";
+
+.vi__wrapper {
+  width: 100%;
+}
+
+.container-confirm {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  height: 3rem;
+  min-height: 2rem;
+}
+
+.characters-confirm {
+  min-height: 2rem;
+}
+
+.character-confirm {
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0.5rem;
+  user-select: none;
+  text-align: center;
+  line-height: 3rem;
+  font-size: 1.5rem;
+  cursor: default;
+  @include themed() {
+    color: t("text");
+  }
+
+  svg {
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.character--inactive-confirm {
+  font-size: 1.5rem;
+  @include themed() {
+    color: t("text");
+  }
+}
+
+.character--selected-confirm {
+  font-size: 1.5rem;
+  @include themed() {
+    color: t("text");
+  }
+}
+
+.btn-resend-code {
+  // margin-top: 0.3rem;
+}

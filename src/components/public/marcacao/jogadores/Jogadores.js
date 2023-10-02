@@ -5,19 +5,43 @@ import { Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import { v4 as uuidv4 } from "uuid";
 import MarcacaoContext from "../../../../contexts/MarcacaoContext";
 import "../../../../styles/public/jogadores.scss";
+import useGetData from "../../../../hooks/useGetData";
 
 const Jogadores = () => {
   const { marcacao, setMarcacao } = useContext(MarcacaoContext);
+  const { getDataId: getUsuario, data: usuario, loadingUsuario } = useGetData();
 
+  useEffect(() => {
+    if (marcacao) {
+      getUsuario("users", marcacao?.user);
+    }
+  }, []);
+
+  return (
+    <>
+      {Object.keys(usuario).length > 0 && (
+        <Invited
+          usuario={usuario}
+          marcacao={marcacao}
+          setMarcacao={setMarcacao}
+        />
+      )}
+    </>
+  );
+};
+
+const Invited = ({ usuario, marcacao, setMarcacao }) => {
+  // console.log(usuario, marcacao, setMarcacao);
   const [invitedPlayers, setInvitedPlayers] = useState([
     {
-      name: marcacao.user.displayName,
-      telefone: marcacao.user.telefone,
-      id: marcacao.user.uid ? marcacao.user.uid : uuidv4(),
+      name: usuario?.displayName,
+      telefone: usuario?.telefone,
+      id: usuario?.uid ? usuario?.uid : uuidv4(),
     },
   ]);
 
   useEffect(() => {
+    console.log("invitessss", invitedPlayers);
     let jogadores = { ...marcacao };
     jogadores.step = 4;
     jogadores.jogadores = invitedPlayers;

@@ -40,7 +40,7 @@ export default function Login() {
       toast.error("Usuário ou senha inválidos", {
         position: toast.POSITION.TOP_CENTER,
       });
-      setError("Failed to log in");
+      setError("Usuário ou senha inválidos");
     }
 
     setLoading(false);

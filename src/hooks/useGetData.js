@@ -3,6 +3,7 @@ import {
   doc,
   documentId,
   getDoc,
+  getDocs,
   limit,
   onSnapshot,
   or,
@@ -129,17 +130,6 @@ const useGetData = () => {
     type3,
     valor3
   ) => {
-    console.log(
-      campo1,
-      type1,
-      valor1,
-      campo2,
-      type2,
-      valor2,
-      campo3,
-      type3,
-      valor3
-    );
     const colletionRef = collection(db, collectionName);
     const q = query(
       colletionRef,
@@ -227,6 +217,36 @@ const useGetData = () => {
     });
   };
 
+  const getDataAgenda = async (
+    collectionName,
+    campo1,
+    type1,
+    valor1,
+    campo2,
+    type2,
+    valor2,
+    campo3,
+    type3,
+    valor3
+  ) => {
+    const colletionRef = collection(db, collectionName);
+    const q = query(
+      colletionRef,
+      where(campo1, type1, valor1),
+      where(campo2, type2, valor2),
+      where(campo3, type3, valor3)
+    );
+
+    const querySnapshot = await getDocs(q);
+    let items = null;
+    querySnapshot.forEach((doc) => {
+      items = { ...doc.data(), id: doc.id };
+    });
+
+    setLoading(false);
+    return items;
+  };
+
   return {
     getAllUsers,
     getDataWhereId,
@@ -238,6 +258,7 @@ const useGetData = () => {
     getDataWhere,
     getData,
     getDataOrderBy,
+    getDataAgenda,
     data,
     loading,
   };

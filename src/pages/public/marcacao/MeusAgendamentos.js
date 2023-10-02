@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Container, Row } from "reactstrap";
+import Loading from "../../../components/public/Loading/Loading";
 import CardAgendamento from "../../../components/public/meusAgendamentos/CardAgendamento";
 import { useAuth } from "../../../contexts/AuthContext";
 import useGetData from "../../../hooks/useGetData";
@@ -29,7 +30,7 @@ const MeusAgendamentos = () => {
       // getMinhasMarcacoes("agenda", "owner", "==", currentUser?.uid);
       getMinhasMarcacoes2(
         "agenda",
-        "owner",
+        "user",
         "==",
         currentUser?.uid,
         "dataDia",
@@ -42,24 +43,8 @@ const MeusAgendamentos = () => {
   return (
     <>
       <Container>
-        {/* <Row className="row-meus-agendamentos">
-          {loadingMinhasMarcacoes && <p>Carregando...</p>}
-
-          {minhasMarcacoes &&
-            minhasMarcacoes.length > 0 &&
-            minhasMarcacoes.map((minhaMarcacao, index) => {
-              return (
-                <CardAgendamento
-                  key={index}
-                  marcacao={minhaMarcacao}
-                  chave={index}
-                />
-              );
-            })}
-        </Row> */}
-
         <Row className="row-meus-agendamentos">
-          {loadingMinhasMarcacoes2 && <p>Carregando...</p>}
+          {loadingMinhasMarcacoes2 && <Loading type={`spin`} width={"30px"} />}
           {minhasMarcacoes2 &&
             minhasMarcacoes2.length > 0 &&
             minhasMarcacoes2.map((minhaMarcacao, index) => {

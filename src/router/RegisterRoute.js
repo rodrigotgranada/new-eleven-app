@@ -4,10 +4,12 @@ import { toast } from "react-toastify";
 
 const RegisterRoute = ({ currentUser }) => {
   useEffect(() => {
-    if (!currentUser?.emailVerified) {
-      toast.warning("E-mail não verificado!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+    if (currentUser) {
+      if (!currentUser?.usuario?.checked) {
+        toast.warning("Usuário não verificado!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
     }
   }, []);
 

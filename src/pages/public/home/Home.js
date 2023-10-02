@@ -1,5 +1,9 @@
 const Home = () => {
-  return <div>Home</div>;
+  const random = () => {
+    return Math.floor(Math.random() * 900000) + 100000;
+  };
+
+  return <div>{random()}</div>;
 };
 
 export default Home;

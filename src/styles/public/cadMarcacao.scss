@@ -1,14 +1,8 @@
-.form-container {
-  min-width: 80%;
-  max-width: 80%;
-  margin: 0 auto;
-  background-color: #f0f0f0;
-  padding: 1.5rem;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
+@import "../themes/_theme.scss";
+
 .form__etapas {
-  min-width: 75%;
-  max-width: 75%;
+  min-width: 100%;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -22,18 +16,17 @@
   gap: 1rem;
 }
 
-button {
+.increaseMonth,
+.decreaseMonth {
   font-size: 0.9rem;
   padding: 0.5rem 1rem;
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  border-radius: 3px;
-  background-color: #dfdfdf;
+
   cursor: pointer;
   border: none;
   transition: 0.3s;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
   &:hover {
     background-color: #cfcfcf;

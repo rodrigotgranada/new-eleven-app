@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/AuthContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import useGetData from "../../hooks/useGetData";
+import ReactSwitch from "react-switch";
 import "../../styles/public/nav.scss";
 import SubNav from "./SubNav";
 
@@ -53,8 +54,8 @@ export const Nav = (props) => {
 
   let buttons;
 
-  if (currentUser) {
-    // console.log("rule", currentUser?.usuario?.rule);
+  if (currentUser?.usuario) {
+    console.log("rule", currentUser);
     buttons = (
       <>
         {currentUser?.usuario?.rule &&
@@ -72,6 +73,11 @@ export const Nav = (props) => {
               currentUser?.usuario?.photoURL
                 ? currentUser?.usuario?.photoURL
                 : fotoPadrao[0]?.userPadrao
+            }
+            alt={
+              currentUser?.usuario?.displayName
+                ? currentUser?.usuario?.displayName
+                : "Usuario"
             }
             style={{ width: "2rem", height: "2rem", borderRadius: "50%" }}
           />
@@ -119,15 +125,17 @@ export const Nav = (props) => {
           <ul>
             <li>
               <Link to="/">
-                <img src="https://firebasestorage.googleapis.com/v0/b/new-eleven-app.appspot.com/o/assets%2Fimgs%2FelevenSemFundo.png?alt=media&token=f5cd4011-7d26-4bca-8852-268360aca99c" />
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/new-eleven-app.appspot.com/o/assets%2Fimgs%2FelevenSemFundo.png?alt=media&token=f5cd4011-7d26-4bca-8852-268360aca99c"
+                  alt="Home"
+                />
               </Link>
             </li>
           </ul>
           <ul>
-            <li>
-              <button onClick={() => changeTheme()}>
-                {theme === "light" ? "Modo Escuro" : "Modo Claro"}
-              </button>
+            <li className="theme-toggle">
+              <ReactSwitch onChange={changeTheme} checked={theme === "dark"} />
+              {/* <span>Modo Claro</span> */}
             </li>
             {buttons}
           </ul>
@@ -146,15 +154,21 @@ export const Nav = (props) => {
           <ul>
             <li>
               <Link to="/">
-                <img src="https://firebasestorage.googleapis.com/v0/b/new-eleven-app.appspot.com/o/assets%2Fimgs%2FelevenSemFundo.png?alt=media&token=f5cd4011-7d26-4bca-8852-268360aca99c" />
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/new-eleven-app.appspot.com/o/assets%2Fimgs%2FelevenSemFundo.png?alt=media&token=f5cd4011-7d26-4bca-8852-268360aca99c"
+                  alt="Home"
+                />
               </Link>
             </li>
           </ul>
           <ul>
-            <li>
-              <button onClick={() => changeTheme()}>
-                {theme === "light" ? "Modo Escuro" : "Modo Claro"}
-              </button>
+            <li className="theme-toggle">
+              <ReactSwitch
+                onChange={changeTheme}
+                checked={theme === "dark"}
+                height={17}
+              />
+              {/* <span>Modo Claro</span> */}
             </li>
             {buttons}
           </ul>

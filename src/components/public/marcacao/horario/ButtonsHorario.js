@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import MarcacaoContext from "../../../../contexts/MarcacaoContext";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import useGetData from "../../../../hooks/useGetData";
 import Loading from "../../Loading/Loading";
 
@@ -12,19 +12,14 @@ const ButtonsHorario = ({
   chave,
 }) => {
   const [lotado, setLotado] = useState(false);
+  const [horaPassada, setHoraPassada] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { marcacao, setMarcacao } = useContext(MarcacaoContext);
-  const { getData, data: horarios, loadingHorarios } = useGetData();
   const { getDataWhere, data: quadras, loadingQuadras } = useGetData();
   const {
     getDataWhere3,
     data: disponibilidadeHorario,
     loading: loadingDisponibilidadeHorario,
   } = useGetData();
-
-  useEffect(() => {
-    getData("horarios");
-  }, []);
 
   useEffect(() => {
     getDataWhere("quadras", "esportes", "array-contains", esporte);
@@ -43,6 +38,7 @@ const ButtonsHorario = ({
       "==",
       horario.id
     );
+    verificaHorarioPassado();
   }, [horario, esporte, tipoQuadra, dia]);
 
   useEffect(() => {
@@ -69,6 +65,19 @@ const ButtonsHorario = ({
     }
   };
 
+  const verificaHorarioPassado = () => {
+    let strDataMarcada = moment(`${dia.split("/").reverse().join("-")}`);
+    let strDataAtual = moment();
+    let horaQuadra = parseInt(horario.value);
+    let horaAtual = moment().toObject().hours;
+
+    if (strDataAtual.isSame(strDataMarcada, "day")) {
+      if (horaQuadra < horaAtual) {
+        setHoraPassada(true);
+      }
+    }
+  };
+
   return (
     <>
       {loading && <Loading type={`spin`} width={"30px"} />}
@@ -77,7 +86,7 @@ const ButtonsHorario = ({
           key={chave}
           onClick={(e) => handleChange(e, horario)}
           value={horario}
-          disabled={lotado}
+          disabled={lotado | horaPassada}
         >
           {lotado ? `Lotado` : `${horario.value}:00`}
         </button>
