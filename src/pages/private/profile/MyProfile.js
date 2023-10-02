@@ -60,10 +60,6 @@ export default function MyProfile() {
                 <Col lg="3">
                   <Sidebar>
                     <Menu>
-                      {/* <SubMenu label="Charts">
-                        <MenuItem> Pie charts </MenuItem>
-                        <MenuItem> Line charts </MenuItem>
-                      </SubMenu> */}
                       <MenuItem onClick={() => setPage("profile")}>
                         {" "}
                         Meu Perfil{" "}
@@ -72,22 +68,24 @@ export default function MyProfile() {
                         {" "}
                         Amigos{" "}
                       </MenuItem>
-                      <MenuItem onClick={() => setPage("email")}>
-                        {" "}
-                        Atualizar E-mail{" "}
-                      </MenuItem>
-                      <MenuItem onClick={() => setPage("senha")}>
-                        {" "}
-                        Atualizar Senha{" "}
-                      </MenuItem>
-                      <MenuItem onClick={() => setPage("telefone")}>
-                        {" "}
-                        Atualizar Celular{" "}
-                      </MenuItem>
-                      <MenuItem onClick={() => setPage("dados")}>
-                        {" "}
-                        Atualizar Dados{" "}
-                      </MenuItem>
+                      <SubMenu label="Atualizar">
+                        <MenuItem onClick={() => setPage("email")}>
+                          {" "}
+                          E-mail{" "}
+                        </MenuItem>
+                        <MenuItem onClick={() => setPage("senha")}>
+                          {" "}
+                          Senha{" "}
+                        </MenuItem>
+                        <MenuItem onClick={() => setPage("telefone")}>
+                          {" "}
+                          Celular{" "}
+                        </MenuItem>
+                        <MenuItem onClick={() => setPage("dados")}>
+                          {" "}
+                          Dados{" "}
+                        </MenuItem>
+                      </SubMenu>
                     </Menu>
                   </Sidebar>
                 </Col>
