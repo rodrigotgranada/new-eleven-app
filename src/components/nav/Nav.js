@@ -142,7 +142,9 @@ export const Nav = (props) => {
         </nav>
         {/* </nav> */}
         {/* </Container> */}
-        <SubNav admin={true} rule={currentUser?.usuario?.owner} />
+        {currentUser && (
+          <SubNav admin={true} rule={currentUser?.usuario?.owner} />
+        )}
       </>
     );
   } else {
@@ -176,7 +178,7 @@ export const Nav = (props) => {
         </nav>
         {/* </Container> */}
 
-        <SubNav admin={false} />
+        {currentUser && <SubNav admin={false} />}
       </>
     );
   }

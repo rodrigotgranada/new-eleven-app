@@ -1,50 +1,64 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Form, Button, Card, Alert, Container } from "react-bootstrap";
-// import { useAuth } from "../../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
+import ChangeCel from "./ChangeCel";
+import useAuthData from "../../../hooks/useAuthData";
+import { FormGroup, Input, Label } from "reactstrap";
+import useVerifyCelNumber from "../../../hooks/useVerifyCelNumber";
+import MaskedInputCel from "../../../components/public/formComponents/MaskedInputCel";
+import "../../../styles/public/changeCel.scss";
 
 export default function UpdateProfileCel() {
-  const emailRef = useRef();
   const telefoneRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
-  const {
-    currentUser,
-    updateUserPassword,
-    updateUserEmail,
-    updateTelefoneUser,
-  } = useAuth();
+  const { currentUser } = useAuth();
   const [error, setError] = useState("");
+  const [verify, setVerify] = useState("");
   const [loading, setLoading] = useState(false);
+  const {
+    verifyFunc,
+    checkCelFunc,
+    cancelChangeFunc,
+    changeCelFunc,
+    changeCelConcluidoFunc,
+  } = useVerifyCelNumber();
 
-  const navigate = useNavigate();
-
-  function handleSubmit(e) {
+  const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match");
+    const { id, value } = telefoneRef.current;
+    const teste = await checkCelFunc(onlyNumbers(value), currentUser.uid);
+    setError(teste);
+    handleMessageVerify();
+  };
+
+  const handleMessageVerify = async () => {
+    if (currentUser) {
+      const verificacao = await verifyFunc(currentUser?.uid);
+      setVerify(verificacao);
     }
+  };
 
-    const promises = [];
-    setLoading(true);
-    setError("");
+  const handleCancelChange = async () => {
+    await cancelChangeFunc(currentUser?.uid);
+    handleMessageVerify();
+  };
 
-    if (telefoneRef.current.value !== currentUser.usuario.telefone) {
-      promises.push(updateTelefoneUser(currentUser, telefoneRef.current.value));
+  const handleHandleGetCode = async (userId, newNumber) => {
+    const changed = await changeCelFunc(userId, newNumber);
+    if (changed) {
+      const concluido = await changeCelConcluidoFunc(currentUser?.uid);
+      if (concluido) {
+        handleMessageVerify();
+      }
     }
+  };
 
-    Promise.all(promises)
-      .then(() => {
-        navigate("/my-profile");
-      })
-      .catch((e) => {
-        setError("Failed to update account");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }
+  useEffect(() => {
+    if (currentUser) {
+      handleMessageVerify();
+    }
+  }, [currentUser]);
 
   return (
     <>
@@ -53,20 +67,41 @@ export default function UpdateProfileCel() {
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Atualizar Celular</h2>
-              {error && <Alert variant="danger">{error}</Alert>}
-              <Form onSubmit={handleSubmit}>
-                <Form.Group id="telefone">
-                  <Form.Label>Telefone</Form.Label>
-                  <Form.Control
-                    type="text"
-                    ref={telefoneRef}
-                    required
-                    defaultValue={currentUser?.usuario?.telefone}
+              {verify && (
+                <div>
+                  <ChangeCel
+                    user={currentUser}
+                    codeVerify={verify}
+                    handleHandleGetCode={handleHandleGetCode}
+                    handleCancelChange={handleCancelChange}
                   />
-                </Form.Group>
+                  {/* <button
+                    onClick={handleCancelChange}
+                    className="btn btn-danger"
+                  >
+                    Cancel
+                  </button> */}
+                </div>
+              )}
+              <Form onSubmit={handleSubmit}>
+                <FormGroup className="form-group-input" id="telefone">
+                  <Label>Telefone</Label>
+                  <MaskedInputCel
+                    type="telefone"
+                    id="telefone"
+                    placeholder="Telefone"
+                    reference={telefoneRef}
+                    required={true}
+                    setError={setError}
+                    error={error}
+                  />
+                  {error?.error && (
+                    <Alert variant="danger">{error?.error}</Alert>
+                  )}
+                </FormGroup>
 
                 <Button disabled={loading} className="w-100" type="submit">
-                  Atualizar
+                  Solicitar
                 </Button>
               </Form>
             </Card.Body>

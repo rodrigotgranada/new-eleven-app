@@ -12,41 +12,86 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import FileInput from "../../../components/public/formComponents/FileInput";
+import { toast } from "react-toastify";
+import MaskedInputDados from "../../../components/public/formComponents/MaskedInputDados";
+import useAuthData from "../../../hooks/useAuthData";
+import "../../../styles/public/changeCel.scss";
+import { FormGroup, Input, Label } from "reactstrap";
 
 export default function UpdateProfileDados() {
   const nameRef = useRef();
   const surnameRef = useRef();
   const docRef = useRef();
 
-  const {
-    currentUser,
-    updateUserPassword,
-    updateUserEmail,
-    updateTelefoneUser,
-  } = useAuth();
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [selectedImages, setSelectedImages] = useState(false);
-  const navigate = useNavigate();
+  const { currentUser, atualizaDados } = useAuth();
 
-  function handleSubmit(e) {
+  const [error, setError] = useState({
+    documentoE: null,
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [selectedImages, setSelectedImages] = useState(
+    currentUser?.usuario?.photoURL
+  );
+  const navigate = useNavigate();
+  const { loading: loadAuth, getDataWhere } = useAuthData();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const promises = [];
-    setLoading(true);
-    setError("");
+    const nameFinal = nameRef.current.value;
+    const surnameFinal = surnameRef.current.value;
+    const docFInal = onlyNumbers(docRef.current.value);
+    const picture = selectedImages;
+    let valida = null;
 
-    Promise.all(promises)
-      .then(() => {
-        navigate("/");
-      })
-      .catch((e) => {
-        setError("Failed to update account");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }
+    if (
+      onlyNumbers(docFInal) &&
+      onlyNumbers(docFInal) != onlyNumbers(currentUser?.usuario?.documento)
+    ) {
+      const verificacao = await getDataWhere(
+        "users",
+        "documento",
+        "==",
+        docFInal
+      );
+      console.log("verificacao", verificacao);
+
+      if (verificacao) {
+        let verify = { ...error };
+        verify[`documentoE`] = `Documento já existe`;
+        setError(verify);
+        valida = false;
+      } else {
+        let verify = { ...error };
+        verify[`documentoE`] = null;
+        setError(verify);
+        valida = true;
+      }
+    }
+    if (valida) {
+      const retorno = await atualizaDados(
+        currentUser,
+        nameFinal,
+        surnameFinal,
+        docFInal,
+        picture
+      );
+      console.log(retorno);
+
+      if (retorno) {
+        toast.success("Dados atualizados com sucesso!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        toast.error("Dados não atualizados! Tente novamente mais tarde", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    }
+  };
+
+  const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
 
   const handleChange = async () => {};
 
@@ -57,37 +102,59 @@ export default function UpdateProfileDados() {
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Atualizar dados</h2>
-              {error && <Alert variant="danger">{error}</Alert>}
+              {/* {error && <Alert variant="danger">{error}</Alert>} */}
               <Form onSubmit={handleSubmit}>
                 <Row>
                   <Col lg="6">
-                    <Form.Group id="name">
-                      <Form.Label>Nome</Form.Label>
-                      <Form.Control type="name" ref={nameRef} required />
-                    </Form.Group>
+                    <FormGroup className="form-group-input" id="name">
+                      <Label>Nome</Label>
+                      <Input
+                        type="name"
+                        innerRef={nameRef}
+                        defaultValue={currentUser?.usuario?.displayName}
+                        required
+                      />
+                    </FormGroup>
 
-                    <Form.Group id="surname">
-                      <Form.Label>Sobrenome</Form.Label>
-                      <Form.Control type="surname" ref={surnameRef} required />
-                    </Form.Group>
+                    <FormGroup className="form-group-input" id="surname">
+                      <Label>Sobrenome</Label>
+                      <Input
+                        type="surname"
+                        innerRef={surnameRef}
+                        defaultValue={currentUser?.usuario?.sobrenome}
+                        required
+                      />
+                    </FormGroup>
 
-                    <Form.Group id="doc">
-                      <Form.Label>Documento</Form.Label>
-                      <Form.Control
+                    <FormGroup className="form-group-input" id="doc">
+                      <Label>Documento</Label>
+                      <MaskedInputDados
+                        type="documento"
+                        id="documento"
+                        placeholder="Documento"
+                        reference={docRef}
+                        defaultValue={currentUser?.usuario?.documento}
+                        required={true}
+                        setError={setError}
+                        error={error}
+                        // onBlur={handleChange}
+                      />
+                      {/* <Form.Control
                         type="text"
                         id="documento"
                         ref={docRef}
                         required
+
                         onBlur={handleChange}
-                      />
-                      {error.documento && (
-                        <Alert variant="danger">{error.documento}</Alert>
+                      /> */}
+                      {error?.documentoE && (
+                        <Alert variant="danger">{error?.documentoE}</Alert>
                       )}
-                    </Form.Group>
+                    </FormGroup>
                   </Col>
 
                   <Col lg="6" className="col-picture-signup">
-                    <Form.Group>
+                    <FormGroup>
                       <FileInput
                         selectedImages={selectedImages}
                         setSelectedImages={setSelectedImages}
@@ -95,7 +162,7 @@ export default function UpdateProfileDados() {
                         rotulo={`Foto Perfil`}
                         tamanho={true}
                       />
-                    </Form.Group>
+                    </FormGroup>
                   </Col>
                 </Row>
                 <Row className="d-flex align-items-center justify-content-center row-button-signup">

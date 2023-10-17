@@ -1,20 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Alert,
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-} from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Form, FormGroup, Input, Label } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { Input, Label } from "reactstrap";
 import FileInput from "../../../components/public/formComponents/FileInput";
 import { useAuth } from "../../../contexts/AuthContext";
 import useAuthData from "../../../hooks/useAuthData";
 import "../../../styles/public/signup.scss";
 import { toast } from "react-toastify";
+import MaskedInput from "../../../components/public/formComponents/MaskedInput";
 
 export default function Signup() {
   const emailRef = useRef();
@@ -38,21 +31,8 @@ export default function Signup() {
   const navigate = useNavigate();
   const { loading: loadAuth, getDataWhere } = useAuthData();
 
-  useEffect(() => {
-    console.log(selectedImages);
-  }, [selectedImages]);
-
-  const handleRule = (e) => {
-    const { checked } = e.target;
-    setRule(checked);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-    //   return setError("Senhas diferentes");
-    // }
 
     try {
       setError("");
@@ -85,6 +65,7 @@ export default function Signup() {
   const handleChange = async (e) => {
     const { id, value } = e.target;
     console.log("id", id, "value", value);
+
     const verificacao = await getDataWhere("users", id, "==", value);
     console.log("verificacao", verificacao);
 
@@ -120,14 +101,16 @@ export default function Signup() {
   };
 
   const verificaSenhaTamanho = async () => {
-    if (passwordRef.current.value.length < 6) {
-      let password = { ...error };
-      password[`password`] = `Senha precisa ter o minimo de 6 caracteres`;
-      setError(password);
-    } else {
-      let password = { ...error };
-      password[`password`] = null;
-      setError(password);
+    if (passwordRef.current.value) {
+      if (passwordRef.current.value.length < 6) {
+        let password = { ...error };
+        password[`password`] = `Senha precisa ter o minimo de 6 caracteres`;
+        setError(password);
+      } else {
+        let password = { ...error };
+        password[`password`] = null;
+        setError(password);
+      }
     }
   };
 
@@ -140,97 +123,117 @@ export default function Signup() {
               <Form onSubmit={handleSubmit}>
                 <Row>
                   <Col lg="6">
-                    <h2 className="text-center mb-4">Novo usuário</h2>
+                    <h2 className="text-center mb-4">Cadastro</h2>
                     <Row>
                       <Col lg="6">
-                        <Form.Group id="name">
-                          <Form.Label>Nome</Form.Label>
-                          <Form.Control type="name" ref={nameRef} required />
-                        </Form.Group>
-                      </Col>
-                      <Col lg="6">
-                        <Form.Group id="surname">
-                          <Form.Label>Sobrenome</Form.Label>
-                          <Form.Control
-                            type="surname"
-                            ref={surnameRef}
+                        <FormGroup className="form-group-input" id="name">
+                          <Label>Nome</Label>
+                          <Input
+                            type="name"
+                            innerRef={nameRef}
+                            placeholder="Nome"
                             required
                           />
-                        </Form.Group>
+                        </FormGroup>
+                      </Col>
+                      <Col lg="6">
+                        <FormGroup className="form-group-input" id="surname">
+                          <Label>Sobrenome</Label>
+                          <Input
+                            type="surname"
+                            innerRef={surnameRef}
+                            placeholder="Sobrenome"
+                            required
+                          />
+                        </FormGroup>
                       </Col>
                     </Row>
                     <Row>
                       <Col lg="12">
-                        <Form.Group id="email">
-                          <Form.Label>Email</Form.Label>
-                          <Form.Control
+                        <FormGroup className="form-group-input" id="email">
+                          <Label>Email</Label>
+                          <Input
                             id="email"
                             type="email"
-                            ref={emailRef}
+                            innerRef={emailRef}
+                            placeholder="E-Mail"
                             required
                             onBlur={handleChange}
                           />
                           {error.email && (
                             <Alert variant="danger">{error.email}</Alert>
                           )}
-                        </Form.Group>
+                        </FormGroup>
                       </Col>
                     </Row>
                     <Row>
                       <Col lg="6">
-                        <Form.Group id="telefone">
-                          <Form.Label>Telefone / Whats</Form.Label>
-                          <Form.Control
+                        <FormGroup className="form-group-input" id="telefone">
+                          <Label>Telefone / Whats</Label>
+                          {/* <FormGroup ref={telefoneRef}> */}
+                          <MaskedInput
                             type="telefone"
                             id="telefone"
-                            ref={telefoneRef}
+                            placeholder="Telefone"
+                            reference={telefoneRef}
+                            required={true}
                             onBlur={handleChange}
-                            required
+                            setError={setError}
+                            error={error}
                           />
                           {error.telefone && (
                             <Alert variant="danger">{error.telefone}</Alert>
                           )}
-                        </Form.Group>
+                        </FormGroup>
                       </Col>
                       <Col lg="6">
-                        <Form.Group id="doc">
-                          <Form.Label>Documento</Form.Label>
-                          <Form.Control
-                            type="text"
+                        <FormGroup className="form-group-input" id="doc">
+                          <Label>CPF</Label>
+
+                          <MaskedInput
+                            type="documento"
                             id="documento"
-                            ref={docRef}
-                            required
+                            placeholder="CPF"
+                            reference={docRef}
+                            required={true}
                             onBlur={handleChange}
+                            setError={setError}
+                            error={error}
                           />
                           {error.documento && (
                             <Alert variant="danger">{error.documento}</Alert>
                           )}
-                        </Form.Group>
+                        </FormGroup>
                       </Col>
                     </Row>
 
                     <Row>
                       <Col lg="6">
-                        <Form.Group id="password">
-                          <Form.Label>Senha</Form.Label>
-                          <Form.Control
+                        <FormGroup className="form-group-input" id="password">
+                          <Label>Senha</Label>
+                          <Input
                             type="password"
-                            ref={passwordRef}
+                            placeholder="Senha"
+                            innerRef={passwordRef}
                             required
                             onBlur={verificaSenhaTamanho}
                           />
-                        </Form.Group>
+                        </FormGroup>
                       </Col>
                       <Col lg="6">
-                        <Form.Group id="password-confirm">
-                          <Form.Label>Confirmar Senha</Form.Label>
-                          <Form.Control
+                        <FormGroup
+                          className="form-group-input"
+                          id="password-confirm"
+                        >
+                          <Label>Confirmar Senha</Label>
+                          <Input
                             type="password"
-                            ref={passwordConfirmRef}
+                            placeholder="Confirmar Senha"
+                            innerRef={passwordConfirmRef}
                             required
                             onBlur={verificaSenhas}
                           />
-                        </Form.Group>
+                        </FormGroup>
                       </Col>
 
                       {error.password && (
@@ -241,7 +244,7 @@ export default function Signup() {
                     </Row>
                   </Col>
                   <Col lg="6" className="col-picture-signup">
-                    <Form.Group>
+                    <FormGroup>
                       <FileInput
                         selectedImages={selectedImages}
                         setSelectedImages={setSelectedImages}
@@ -249,21 +252,7 @@ export default function Signup() {
                         rotulo={`Foto Perfil`}
                         tamanho={true}
                       />
-                    </Form.Group>
-                    {/* {currentUser?.usuario?.owner && (
-                      <Form.Group>
-                        <Label check>
-                          <Input
-                            type="checkbox"
-                            name="rule"
-                            value={rule || false}
-                            // checked={true}
-                            onChange={(e) => handleRule(e)}
-                          />{" "}
-                          <strong>Admin?</strong>
-                        </Label>
-                      </Form.Group>
-                    )} */}
+                    </FormGroup>
                   </Col>
                 </Row>
                 <Row className="d-flex align-items-center justify-content-center row-button-signup">
@@ -279,7 +268,7 @@ export default function Signup() {
                       className="w-100"
                       type="submit"
                     >
-                      Cadastrar
+                      {loading ? "Carregando..." : "Cadastrar"}
                     </Button>
                   </Col>
                 </Row>

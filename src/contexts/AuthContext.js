@@ -7,6 +7,10 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
+  updatePassword,
+  updateEmail,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from "firebase/auth";
 import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -16,6 +20,7 @@ import { auth, db, storage } from "../firebase";
 import useLogs from "../hooks/useLogs";
 import useAuthData from "../hooks/useAuthData";
 import useWhatsappApi from "../hooks/useWhatsappApi";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext();
 
@@ -30,6 +35,7 @@ export function AuthProvider({ children }) {
   const [progress, setProgress] = useState(0);
   const [urls, setUrls] = useState([]);
   const { logUser } = useLogs();
+  const navigate = useNavigate();
   const { sendWelcome, sendConfirm, sendAgendamento, sendConfirmPT } =
     useWhatsappApi();
 
@@ -128,6 +134,8 @@ export function AuthProvider({ children }) {
     // return userCredential
   };
 
+  const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
+
   const signup2 = async (
     email,
     password,
@@ -138,12 +146,18 @@ export function AuthProvider({ children }) {
     images,
     rule
   ) => {
+    const meuEmail = email;
+    const meuPassword = password;
     try {
+      // console.log("entrei");
+      // console.log("email", email);
+      // console.log("password", password);
       const codAuth = Math.floor(Math.random() * 900000) + 100000;
-      await createUserWithEmailAndPassword(auth, email, password)
+      await createUserWithEmailAndPassword(auth, meuEmail, meuPassword)
         .then(async (usuario) => {
+          // console.log("entrei2");
           const user = usuario.user;
-          console.log(`userSignUp`, user);
+          // console.log(`userSignUp`, user);
           await sendEmailVerification(user);
           await updateProfile(user, {
             displayName: name,
@@ -153,8 +167,8 @@ export function AuthProvider({ children }) {
             uid: user.uid,
             displayName: name,
             sobrenome: surname,
-            documento: documento,
-            telefone: telefone,
+            documento: onlyNumbers(documento),
+            telefone: onlyNumbers(telefone),
             email,
             photoURL: images,
             rule: rule,
@@ -165,8 +179,8 @@ export function AuthProvider({ children }) {
           });
         })
         .then(async (user) => {
-          console.log("usss", user);
-          console.log("codAuth", codAuth);
+          // console.log("usss", user);
+          // console.log("codAuth", codAuth);
           await sendConfirmPT(telefone, codAuth);
         })
         .then(async () => await signOut(auth))
@@ -195,11 +209,11 @@ export function AuthProvider({ children }) {
     }
   };
 
-  function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min);
-  }
+  // function getRandomInt(min, max) {
+  //   min = Math.ceil(min);
+  //   max = Math.floor(max);
+  //   return Math.floor(Math.random() * (max - min) + min);
+  // }
 
   const login = async (email, password) => {
     const validacao = await signInWithEmailAndPassword(auth, email, password);
@@ -216,12 +230,52 @@ export function AuthProvider({ children }) {
     return sendPasswordResetEmail(auth, email);
   };
 
-  const updateEmail = async (usuario, email) => {
-    return updateEmail(usuario, email);
+  const updateUserEmail = async (usuario, email, password) => {
+    const credential = EmailAuthProvider.credential(
+      auth.currentUser.email,
+      password
+    );
+
+    reauthenticateWithCredential(auth.currentUser, credential)
+      .then((teste) => {
+        updateEmail(auth.currentUser, email).then(async (dados, dados2) => {
+          const docRef = doc(db, "users", auth.currentUser.uid);
+          const snap = await updateDoc(docRef, { email: email }).then(
+            async (e) => {
+              const colletionRef = doc(db, "users", auth.currentUser.uid);
+              const docSnap = await getDoc(colletionRef);
+              const userFull = { ...user };
+              userFull.usuario = docSnap.data();
+              setCurrentUser(userFull);
+              toast.success("E-mail atualizado com sucesso");
+              return docSnap.data();
+            }
+          );
+        });
+      })
+      .catch((error) => {
+        toast.error("Senha Incorreta");
+      });
   };
 
-  const updatePassword = async (usuario, password) => {
-    return updatePassword(usuario, password);
+  const updateUserPassword = async (oldPassword, password) => {
+    try {
+      const credential = EmailAuthProvider.credential(
+        auth.currentUser.email,
+        oldPassword
+      );
+
+      reauthenticateWithCredential(auth.currentUser, credential)
+        .then((teste) => {
+          updatePassword(auth.currentUser, password).then((user) => {
+            toast.success("Senha atualizada com sucesso");
+            navigate("/");
+          });
+        })
+        .catch((err) => toast.error("Senha Incorreta"));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const verifyUser = () => {
@@ -231,29 +285,29 @@ export function AuthProvider({ children }) {
     return verify;
   };
 
-  const compareStatus = (authStatus, userStatus) => {
-    return authStatus ? (authStatus != userStatus ? true : false) : false;
-  };
+  // const compareStatus = (authStatus, userStatus) => {
+  //   return authStatus ? (authStatus != userStatus ? true : false) : false;
+  // };
 
-  const atualizaStatus = async (id, status) => {
-    try {
-      const docRef = doc(db, "users", id);
-      const snap = await updateDoc(docRef, { checked: status }).then(
-        async (e) => {
-          const colletionRef = doc(db, "users", id);
-          const docSnap = await getDoc(colletionRef);
-          const userFull = { ...user };
-          userFull.usuario = docSnap.data();
-          setCurrentUser(userFull);
-          return docSnap.data();
-        }
-      );
+  // const atualizaStatus = async (id, status) => {
+  //   try {
+  //     const docRef = doc(db, "users", id);
+  //     const snap = await updateDoc(docRef, { checked: status }).then(
+  //       async (e) => {
+  //         const colletionRef = doc(db, "users", id);
+  //         const docSnap = await getDoc(colletionRef);
+  //         const userFull = { ...user };
+  //         userFull.usuario = docSnap.data();
+  //         setCurrentUser(userFull);
+  //         return docSnap.data();
+  //       }
+  //     );
 
-      return snap;
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+  //     return snap;
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //   }
+  // };
 
   const updateTelefoneUser = async (usuario, telefone) => {
     try {
@@ -274,32 +328,32 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // const buscaUsuario = async (collectionName, id) => {
-  //   try {
-  //     const meuUsuario = await getDataId(collectionName, id);
-  //     console.log("meu Usuario", meuUsuario);
-  //     return meuUsuario;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const atualizaDados = async (usuario, nome, sobrenome, documento, foto) => {
+    try {
+      const docRef = doc(db, "users", usuario.uid);
+      const snap = await updateDoc(docRef, {
+        displayName: nome,
+        sobrenome: sobrenome,
+        documento: documento,
+        photoURL: foto,
+      }).then(async (e, f) => {
+        await updateProfile(auth.currentUser, {
+          displayName: nome,
+        }).then(async (e) => {
+          const colletionRef = doc(db, "users", usuario.uid);
+          const docSnap = await getDoc(colletionRef);
+          const userFull = { ...usuario };
+          userFull.usuario = docSnap.data();
+          setCurrentUser(userFull);
+        });
+      });
 
-  // useEffect(() => {
-  //   if (user) {
-  //     console.log("userrrr", user);
-  //   }
-  // }, [user]);
-
-  // const onAuthStateChange = () => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       console.log("usssser", user);
-  //       setCurrentUser(user);
-  //       buscaUsuario("users", user.uid);
-  //       setLoading(false);
-  //     }
-  //   });
-  // };
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -318,40 +372,20 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  // useEffect(() => {
-
-  // setUser(user);
-  // const atualiza = compareStatus(user.emailVerified, meuUsuario?.checked);
-  // const userFull = { ...user };
-  // if (atualiza) {
-  //   console.log("atualiza?", atualiza);
-  //   const novoUsuario = await atualizaStatus(
-  //     user.uid,
-  //     user.emailVerified
-  //   );
-  //   userFull.usuario = novoUsuario;
-  //   logUser("app", "add", userFull);
-  // } else {
-  //   userFull.usuario = meuUsuario;
-  // }
-  // // console.log("meuUsuario2", meuUsuario);
-  // setCurrentUser(userFull);
-
-  // console.log("uns", unsubscribe);
-  // }, []);
-
   const value = {
+    setCurrentUser,
     currentUser,
     login,
     signup,
     signup2,
     logout,
     resetPassword,
-    updateEmail,
-    updatePassword,
+    updateUserEmail,
+    updateUserPassword,
     updateTelefoneUser,
     verifyUser,
     atualizaVerificado,
+    atualizaDados,
   };
 
   return (
