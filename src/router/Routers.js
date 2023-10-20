@@ -15,7 +15,7 @@ import Signup from "../pages/public/auth/Signup";
 import Page404 from "../pages/public/error/Page404";
 import Home from "../pages/public/home/Home";
 import CadMarcacao from "../pages/public/marcacao/CadMarcacao";
-import MeusAgendamentos from "../pages/public/marcacao/MeusAgendamentos";
+import MeusAgendamentos from "../pages/private/marcacao/MeusAgendamentos";
 import AdminRoute from "./AdminRoute";
 import OwnerRoute from "./OwnerRoute";
 import PrivateRoute from "./PrivateRoute";
