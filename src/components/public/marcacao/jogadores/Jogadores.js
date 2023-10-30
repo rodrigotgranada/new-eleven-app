@@ -37,6 +37,7 @@ const Invited = ({ usuario, marcacao, setMarcacao }) => {
       name: usuario?.displayName,
       telefone: usuario?.telefone,
       id: usuario?.uid ? usuario?.uid : uuidv4(),
+      pago: false,
     },
   ]);
 
@@ -54,6 +55,7 @@ const Invited = ({ usuario, marcacao, setMarcacao }) => {
       name: "",
       telefone: "",
       id: uuidv4(),
+      pago: null,
     });
     setInvitedPlayers(_invitedPlayers);
   };

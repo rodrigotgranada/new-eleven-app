@@ -17,6 +17,7 @@ const SubNav = ({ admin, rule }) => {
     : (admin__nav = [
         { path: "marcar-quadra", display: "Marcar Quadra" },
         { path: "meus-agendamentos", display: "Meus Agendamentos" },
+        { path: "minhas-transferencias", display: "Minhas transferencias" },
       ]);
 
   return (

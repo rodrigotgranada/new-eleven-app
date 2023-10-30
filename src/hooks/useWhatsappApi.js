@@ -57,7 +57,7 @@ const useWhatsappApi = () => {
 
   const sendConfirmPT = async (number, code) => {
     console.log(number, code);
-    var confirm = false;
+    let confirm = false;
     const header = {
       headers: {
         Authorization: `Bearer EAAyOgO7GEEABOyQWVTNbfptFyafurRmEfvrsR8ZCtM5ercGnRdpOZBICIn3hEhR8ZBNqR87P5hRxe4C7FSSdiyI1IieB3Gb3X5s99BeT74v5ZA4n6zjT9jdWanx4akc1a8l4MROZCaQKWaGTJb1aZBE8VJDSrA8RuxoYEAjtvkUBLuZCt6EvO58dmxRbqGHyyCT`,
@@ -99,7 +99,7 @@ const useWhatsappApi = () => {
       },
     };
 
-    await axios
+    const config = await axios
       .post(
         "https://graph.facebook.com/v17.0/119012777970637/messages",
         body,
@@ -107,16 +107,14 @@ const useWhatsappApi = () => {
       )
       .then((res) => {
         console.log("msg enviada", res);
-        confirm = true;
-        return confirm;
+        return true;
       })
       .catch((err) => {
         console.log("ERRO", err);
-        confirm = false;
-        return confirm;
+        return false;
       });
 
-    return confirm;
+    return config;
   };
 
   // const sendConfirm = (number, name, code) => {

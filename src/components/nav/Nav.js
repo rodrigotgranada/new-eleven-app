@@ -8,6 +8,8 @@ import useGetData from "../../hooks/useGetData";
 import ReactSwitch from "react-switch";
 import "../../styles/public/nav.scss";
 import SubNav from "./SubNav";
+import { Switch } from "@mui/material";
+import { BsFillMoonFill, BsSun } from "react-icons/bs";
 
 export const Nav = (props) => {
   const [error, setError] = useState("");
@@ -165,11 +167,18 @@ export const Nav = (props) => {
           </ul>
           <ul>
             <li className="theme-toggle">
-              <ReactSwitch
+              <BsSun />
+              <Switch
+                color="primary"
+                checked={theme === "dark"}
+                onChange={changeTheme}
+              />
+              <BsFillMoonFill />
+              {/* <ReactSwitch
                 onChange={changeTheme}
                 checked={theme === "dark"}
                 height={17}
-              />
+              /> */}
               {/* <span>Modo Claro</span> */}
             </li>
             {buttons}

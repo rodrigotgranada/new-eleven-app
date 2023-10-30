@@ -6,6 +6,7 @@
   margin: 2rem 0;
   width: 15rem;
   padding: 1rem 3rem;
+  cursor: pointer;
 
   p {
     margin: 0 auto;
@@ -15,4 +16,9 @@
     margin: 0 auto;
     padding-left: 1.8em;
   }
+}
+
+.card-with-transfer {
+  border: 2px solid #edd31b !important;
+  background-color: #fbf3bcab !important;
 }

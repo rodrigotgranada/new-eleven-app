@@ -4,18 +4,35 @@ import useGetData from "../../../hooks/useGetData";
 import Loading from "../Loading/Loading";
 import MinhaMarcacao from "../modal/MinhaMarcacao";
 import { useState } from "react";
+import useTransferAgendamento from "../../../hooks/useTransferAgendamento";
 
 const CardAgendamento = ({ marcacao, chave, ...props }) => {
   const { getDataId: getHorario, data: hora, loadingHorario } = useGetData();
   const { getDataId: getEsporte, data: esporte, loadingEsporte } = useGetData();
   const { getDataId: getQuadra, data: quadra, loadingQuadra } = useGetData();
+  const { checkTransfer } = useTransferAgendamento();
   const [modalOpen, setModalOpen] = useState(false);
+  const [haveTransfer, setHaveTransfer] = useState(false);
 
+  const data = marcacao;
   useEffect(() => {
-    getHorario("horarios", marcacao?.dataHorario);
-    getEsporte("modalidades", marcacao?.esporte);
-    getQuadra("quadras", marcacao?.quadra);
-  }, []);
+    if (marcacao) {
+      getHorario("horarios", marcacao?.dataHorario);
+      getEsporte("modalidades", marcacao?.esporte);
+      getQuadra("quadras", marcacao?.quadra);
+      verifyTransfer();
+    }
+  }, [marcacao]);
+
+  const verifyTransfer = async () => {
+    const checked = await checkTransfer(marcacao?.codLocacao);
+    if (checked && checked.error) {
+      setHaveTransfer(true);
+    } else {
+      setHaveTransfer(false);
+    }
+    // console.log("checked", checked);
+  };
 
   return (
     <>
@@ -24,17 +41,15 @@ const CardAgendamento = ({ marcacao, chave, ...props }) => {
       )}
 
       {modalOpen && (
-        <>
-          <MinhaMarcacao
-            title={`Agendamento ${marcacao?.codLocacao}`}
-            isOpen={modalOpen}
-            setIsOpen={setModalOpen}
-            marcacao={marcacao}
-            horario={hora}
-            esporte={esporte}
-            quadra={quadra}
-          />
-        </>
+        <MinhaMarcacao
+          title={`Agendamento ${marcacao?.codLocacao}`}
+          isOpen={modalOpen}
+          setIsOpen={setModalOpen}
+          marcacao={modalOpen ? data : null}
+          horario={hora}
+          esporte={esporte}
+          quadra={quadra}
+        />
       )}
       {marcacao &&
         Object.keys(hora).length > 0 &&
@@ -42,7 +57,9 @@ const CardAgendamento = ({ marcacao, chave, ...props }) => {
         Object.keys(quadra).length > 0 && (
           <Card
             key={chave}
-            className="card-agendamento"
+            className={`card-agendamento ${
+              haveTransfer ? "card-with-transfer" : null
+            }`}
             onClick={() => {
               setModalOpen(true);
             }}
@@ -53,8 +70,8 @@ const CardAgendamento = ({ marcacao, chave, ...props }) => {
               <p>Hora: {`${hora?.value}:00`}</p>
               <p>Esporte: {esporte?.display}</p>
               <p>Quadra: {quadra?.name}</p>
-              {/*<p>Jogadores:</p>
-               <ol>
+              {/* <p>Jogadores:</p>
+              <ol>
                 {marcacao?.jogadores &&
                   marcacao?.jogadores.map((jogador, index) => {
                     return <li key={index}>{jogador?.name}</li>;

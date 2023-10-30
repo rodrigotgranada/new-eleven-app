@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
-import { Container, Row } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import { Col, Container, Label, Row } from "reactstrap";
 import Loading from "../../../components/public/Loading/Loading";
 import CardAgendamento from "../../../components/public/meusAgendamentos/CardAgendamento";
 import { useAuth } from "../../../contexts/AuthContext";
 import useGetData from "../../../hooks/useGetData";
 import "../../../styles/public/meusAgendamentos.scss";
+import { FormSelect } from "react-bootstrap";
 
 const MeusAgendamentos = () => {
+  const [filteredAgendamentos, setFilteredAgendamentos] = useState();
   const { currentUser } = useAuth();
   const {
     getDataWhere: getMinhasMarcacoes,
@@ -20,45 +22,98 @@ const MeusAgendamentos = () => {
     loadingMinhasMarcacoes2,
   } = useGetData();
 
+  const {
+    getDataOrderBy: getModalidades,
+    data: modalidades,
+    loading: carregaModalidades,
+  } = useGetData();
+
   // useEffect(() => {
   //   console.log("minhasMarcacoes2", minhasMarcacoes2);
   // }, [minhasMarcacoes2]);
 
   useEffect(() => {
+    Object.keys(minhasMarcacoes2).length > 0 &&
+      setFilteredAgendamentos(minhasMarcacoes2);
+  }, [minhasMarcacoes2]);
+
+  useEffect(() => {
     // console.log("currentUser", currentUser);
     if (currentUser) {
-      // getMinhasMarcacoes("agenda", "owner", "==", currentUser?.uid);
+      getModalidades("modalidades", "display", "asc");
       getMinhasMarcacoes2(
         "agenda",
         "user",
         "==",
         currentUser?.uid,
-        "dataDia",
+        "codLocacao",
         "desc",
         20
       );
     }
   }, [currentUser]);
 
+  const handleSearch = (filter) => {
+    console.log("filter", filter);
+    if (filter != "all") {
+      const filtered = minhasMarcacoes2.filter((child) => {
+        if (child?.esporte?.includes(filter)) {
+          return child;
+        }
+      });
+      setFilteredAgendamentos(filtered);
+    } else {
+      setFilteredAgendamentos(minhasMarcacoes2);
+    }
+  };
+
   return (
     <>
-      <Container>
-        <Row className="row-meus-agendamentos">
-          {loadingMinhasMarcacoes2 && <Loading type={`spin`} width={"30px"} />}
-          {minhasMarcacoes2 &&
-            minhasMarcacoes2.length > 0 &&
-            minhasMarcacoes2.map((minhaMarcacao, index) => {
-              console.log(minhaMarcacao);
-              return (
-                <CardAgendamento
-                  key={index}
-                  marcacao={minhaMarcacao}
-                  chave={index}
-                />
-              );
-            })}
-        </Row>
-      </Container>
+      <section>
+        <Container>
+          <Col lg="4">
+            <Label>Filtro</Label>
+            <FormSelect
+              className="select-filter"
+              onChange={(e) => {
+                handleSearch(e.target.value);
+              }}
+            >
+              <option value="all">Todos</option>
+              {modalidades &&
+                modalidades.map((modalidade, index) => {
+                  return (
+                    <option key={index} value={modalidade.id}>
+                      {modalidade.display}
+                    </option>
+                  );
+                })}
+            </FormSelect>
+          </Col>
+        </Container>
+      </section>
+      <section>
+        <Container>
+          <Row className="row-meus-agendamentos">
+            {loadingMinhasMarcacoes2 && (
+              <Loading type={`spin`} width={"30px"} />
+            )}
+            {console.log("MMMM", filteredAgendamentos)}
+            {filteredAgendamentos &&
+              filteredAgendamentos.length > 0 &&
+              filteredAgendamentos.map((minhaMarcacao, index) => {
+                console.log(minhaMarcacao);
+                return (
+                  <CardAgendamento
+                    key={index}
+                    marcacao={minhaMarcacao}
+                    chave={index}
+                  />
+                );
+              })}
+          </Row>
+        </Container>
+      </section>
     </>
   );
 };

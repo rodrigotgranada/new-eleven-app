@@ -116,19 +116,6 @@ const Quadras = () => {
                 })}
             </FormSelect>
           </Col>
-          {/* <select
-            onChange={(e) => {
-              handleSearch(e.target.value);
-            }}
-          >
-            <option value="all">Todos</option>
-            {modalidades &&
-              modalidades.map((modalidade, index) => {
-                return (
-                  <option value={modalidade.id}>{modalidade.display}</option>
-                );
-              })}
-          </select> */}
         </Container>
       </section>
       <section>

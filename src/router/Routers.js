@@ -20,6 +20,7 @@ import AdminRoute from "./AdminRoute";
 import OwnerRoute from "./OwnerRoute";
 import PrivateRoute from "./PrivateRoute";
 import RegisterRoute from "./RegisterRoute";
+import MinhasTransferencias from "../pages/private/marcacao/MinhasTransferencias";
 
 const Routers = () => {
   const { currentUser } = useAuth();
@@ -38,7 +39,10 @@ const Routers = () => {
       <Route path="/*" element={<PrivateRoute currentUser={currentUser} />}>
         <Route path="marcar-quadra" element={<CadMarcacao />} />
         <Route path="meus-agendamentos" element={<MeusAgendamentos />} />
-        {/* <Route path="update-profile" element={<UpdateProfile />} /> */}
+        <Route
+          path="minhas-transferencias"
+          element={<MinhasTransferencias />}
+        />
       </Route>
       {/* Admin */}
       <Route path="/*" element={<AdminRoute currentUser={currentUser} />}>

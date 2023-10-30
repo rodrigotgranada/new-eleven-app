@@ -12,3 +12,45 @@
   //   width: 10rem;
   // }
 }
+
+.form_jogaores_modal {
+  // display: block;
+  width: 100%;
+  .form__group_modal {
+    display: flex;
+    justify-content: start;
+    width: inherit;
+    gap: 0 0.3rem;
+    // .modal_row {
+    //   gap: 0 0.1rem;
+    // }
+    .modal_col {
+      margin: 0;
+      padding: 0;
+    }
+
+    .col-btn-plus {
+      display: flex;
+      gap: 0 0.3rem;
+      button {
+        margin: 0;
+        padding: 0;
+        width: 2rem;
+      }
+    }
+
+    .btn-modal {
+      border-radius: 25%;
+    }
+  }
+  .btn-save-modal {
+    display: flex;
+    justify-content: end;
+  }
+}
+
+.btns-save-modal-transfer {
+  justify-content: end;
+  gap: 0.3rem;
+  margin: 0 0.2rem 0 0 !important;
+}

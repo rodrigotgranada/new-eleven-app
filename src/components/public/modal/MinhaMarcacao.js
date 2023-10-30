@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -11,6 +11,9 @@ import {
   Row,
 } from "reactstrap";
 import "../../../styles/public/minhaMarcacaoModal.scss";
+import ListPlayers2 from "../formComponents/ListPlayers2";
+import TransferirMarcacao from "./TransferirMarcacao";
+import CancelAgendamento from "./CancelAgendamento";
 
 const MinhaMarcacao = ({
   title,
@@ -21,13 +24,17 @@ const MinhaMarcacao = ({
   esporte,
   quadra,
 }) => {
+  const [modalTransfer, setModalTransfer] = useState(false);
+  const [modalCancel, setModalCancel] = useState(false);
   const handleCLose = () => {
     setIsOpen(false);
   };
 
+  // var dados = marcacao?.jogadores;
+
   return (
     <>
-      {console.log("marcacao", marcacao)}
+      {/* {console.log("marcacaoDados", dados)} */}
       <Modal
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
@@ -50,67 +57,57 @@ const MinhaMarcacao = ({
             </div>
           </div>
         </ModalHeader>
-
-        <ModalBody>
-          <Row>
-            <Col lg="6">
-              <h3>{`Agendamento`}</h3>
-              <p>Hora: {`${horario?.value}:00`}</p>
-              <p>Esporte: {esporte?.display}</p>
-              <p>Quadra: {quadra?.name}</p>
-            </Col>
-            <Col lg="6">
-              <h3>{`Jogadores`}</h3>
-              <ol>
-                {marcacao?.jogadores.map((jogador, index) => {
-                  return (
-                    <div className="list-players">
-                      <input
-                        type="text"
-                        defaultValue={jogador?.name}
-                        key={index}
-                      />
-                      <input
-                        type="text"
-                        defaultValue={jogador?.telefone}
-                        key={index}
-                      />
-                      <button>+</button>
-                      <button>-</button>
-                    </div>
-                  );
-                })}
-              </ol>
-              <div className="btn-save-players">
-                <Button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={() => {
-                    console.log("Salvo");
-                  }}
-                >
-                  Salvar
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </ModalBody>
+        {marcacao && (
+          <ModalBody>
+            <Row>
+              <Col lg="5">
+                <h3>{`Agendamento`}</h3>
+                <p>Data: {marcacao?.dataDia}</p>
+                <p>Hora: {`${horario?.value}:00`}</p>
+                <p>Esporte: {esporte?.display}</p>
+                <p>Quadra: {quadra?.name}</p>
+              </Col>
+              <Col lg="7">
+                <h3>{`Jogadores`}</h3>
+                <ListPlayers2 isOpen={isOpen} agendaID={marcacao?.id} />
+              </Col>
+            </Row>
+          </ModalBody>
+        )}
 
         <ModalFooter>
+          {modalCancel && (
+            <CancelAgendamento
+              title={`Cancelamento...`}
+              isOpen={modalCancel}
+              setIsOpen={setModalCancel}
+              agendaID={marcacao?.id}
+              horaAgenda={`${horario?.value}:00`}
+            />
+          )}
           <Button
             type="button"
             className="btn btn-danger"
             onClick={() => {
-              handleCLose();
+              setModalCancel(!modalCancel);
             }}
           >
             Cancelar Agendamento
           </Button>
+          {modalTransfer && (
+            <TransferirMarcacao
+              title={`Transferir marcação: ${marcacao?.codLocacao} para:`}
+              isOpen={modalTransfer}
+              setIsOpen={setModalTransfer}
+              agendaID={marcacao?.id}
+              codLocacao={marcacao?.codLocacao}
+            />
+          )}
           <Button
             type="button"
             className="btn btn-warning"
             onClick={() => {
-              handleCLose();
+              setModalTransfer(!modalTransfer);
             }}
           >
             Transferir
