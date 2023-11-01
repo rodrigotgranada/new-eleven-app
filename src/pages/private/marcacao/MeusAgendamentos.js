@@ -10,11 +10,17 @@ import { FormSelect } from "react-bootstrap";
 const MeusAgendamentos = () => {
   const [filteredAgendamentos, setFilteredAgendamentos] = useState();
   const { currentUser } = useAuth();
-  const {
-    getDataWhere: getMinhasMarcacoes,
-    data: minhasMarcacoes,
-    loadingMinhasMarcacoes,
-  } = useGetData();
+  // const {
+  //   getDataWhere: getMinhasMarcacoes,
+  //   data: minhasMarcacoes,
+  //   loadingMinhasMarcacoes,
+  // } = useGetData();
+
+  // const {
+  //   getDataWhereSnap: getMinhasTransferencias,
+  //   data: minhasTransferencias,
+  //   loadingMinhasTransferencias,
+  // } = useGetData();
 
   const {
     getDataWhereOrderByLimit: getMinhasMarcacoes2,
@@ -32,6 +38,15 @@ const MeusAgendamentos = () => {
   //   console.log("minhasMarcacoes2", minhasMarcacoes2);
   // }, [minhasMarcacoes2]);
 
+  // useEffect(() => {
+  //   getMinhasTransferencias(
+  //     "codTemp_transferAgenda",
+  //     "userOrigem",
+  //     "==",
+  //     currentUser?.uid
+  //   );
+  // }, [minhasTransferencias]);
+
   useEffect(() => {
     Object.keys(minhasMarcacoes2).length > 0 &&
       setFilteredAgendamentos(minhasMarcacoes2);
@@ -41,6 +56,12 @@ const MeusAgendamentos = () => {
     // console.log("currentUser", currentUser);
     if (currentUser) {
       getModalidades("modalidades", "display", "asc");
+      // getMinhasTransferencias(
+      //   "codTemp_transferAgenda",
+      //   "userOrigem",
+      //   "==",
+      //   currentUser?.uid
+      // );
       getMinhasMarcacoes2(
         "agenda",
         "user",

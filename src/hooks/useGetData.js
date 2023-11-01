@@ -85,6 +85,21 @@ const useGetData = () => {
     });
   };
 
+  const getDataWhereSnap = async (collectionName, campo, type, valor) => {
+    const q = query(collection(db, collectionName), where(campo, type, valor));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const cities = [];
+      querySnapshot.forEach((doc) => {
+        cities.push(doc.data().name);
+      });
+      console.log("Current cities in CA: ", cities.join(", "));
+      setData(cities);
+      setLoading(false);
+      return cities;
+      // console.log("Current cities in CA: ", cities.join(", "));
+    });
+  };
+
   const getDataWhere = async (collectionName, campo, type, valor) => {
     const colletionRef = collection(db, collectionName);
     const q = query(colletionRef, or(where(campo.toLowerCase(), type, valor)));
@@ -217,6 +232,36 @@ const useGetData = () => {
     });
   };
 
+  const getDataWhereOrderByLimit2 = async (
+    collectionName,
+    campo,
+    type,
+    valor,
+    orderCampo,
+    order,
+    quantidade
+  ) => {
+    const colletionRef = collection(db, collectionName);
+    const q = query(
+      colletionRef,
+      where(campo.toLowerCase(), type, valor),
+      orderBy(orderCampo, order ? order.toLowerCase() : "asc"),
+      limit(quantidade ? quantidade : 10000)
+    );
+
+    await onSnapshot(q, (querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push({ ...doc.data(), id: doc.id });
+      });
+
+      setData(items);
+
+      setLoading(false);
+      return items;
+    });
+  };
+
   const getDataAgenda = async (
     collectionName,
     campo1,
@@ -254,7 +299,9 @@ const useGetData = () => {
     getDataWhere4,
     getDataOrderBy2,
     getDataWhereOrderByLimit,
+    getDataWhereOrderByLimit2,
     getDataId,
+    getDataWhereSnap,
     getDataWhere,
     getData,
     getDataOrderBy,

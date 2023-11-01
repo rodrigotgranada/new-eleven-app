@@ -84,13 +84,15 @@ const useTransferAgendamento = () => {
     codLocacao,
     userOrigem,
     userDestino,
+    agendaID,
     jogadores
   ) => {
-    console.log(codLocacao, userOrigem, userDestino, jogadores);
+    console.log(codLocacao, userOrigem, userDestino, agendaID, jogadores);
     try {
       const codAuth = Math.floor(Math.random() * 900000) + 100000;
       const docRef = collection(db, "codTemp_transferAgenda");
       await addDoc(docRef, {
+        locacaoID: agendaID,
         codLocacao: codLocacao,
         userOrigem: userOrigem?.uid,
         userDestino: userDestino?.uid,
@@ -105,6 +107,15 @@ const useTransferAgendamento = () => {
       }).then(async (e) => {
         console.log("e", e?.id);
         if (e?.id) {
+          try {
+            const userRef = doc(db, "agenda", agendaID);
+            await updateDoc(userRef, {
+              transfer_id: e?.id,
+            });
+            console.log("successoooo");
+          } catch (err) {
+            console.log(err);
+          }
           toast.success("Transferencia solicitada!", {
             position: toast.POSITION.TOP_CENTER,
           });

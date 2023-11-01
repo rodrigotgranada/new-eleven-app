@@ -116,6 +116,7 @@ const TransferirMarcacao = ({
         codLocacao,
         currentUser,
         selectPlayer,
+        agendaID,
         jogador
       );
       console.log(verify2);
