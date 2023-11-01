@@ -25,12 +25,17 @@ const CardAgendamento = ({ marcacao, chave, ...props }) => {
   }, [marcacao]);
 
   const verifyTransfer = async () => {
-    const checked = await checkTransfer(marcacao?.codLocacao);
-    if (checked && checked.error) {
-      setHaveTransfer(true);
+    if (marcacao?.transfer_id) {
+      const checked = await checkTransfer(marcacao?.transfer_id);
+      if (checked && checked.error) {
+        setHaveTransfer(true);
+      } else {
+        setHaveTransfer(false);
+      }
     } else {
       setHaveTransfer(false);
     }
+
     // console.log("checked", checked);
   };
 
@@ -58,7 +63,7 @@ const CardAgendamento = ({ marcacao, chave, ...props }) => {
           <Card
             key={chave}
             className={`card-agendamento ${
-              haveTransfer ? "card-with-transfer" : null
+              marcacao?.transfer_id ? "card-with-transfer" : null
             }`}
             onClick={() => {
               setModalOpen(true);

@@ -30,6 +30,7 @@ const TransferirMarcacao = ({
   setIsOpen,
   agendaID,
   codLocacao,
+  transferID,
 }) => {
   // const {
   //   getData: getUsuarios,
@@ -58,7 +59,19 @@ const TransferirMarcacao = ({
   // let jogador = false;
 
   const handleVerify = async () => {
-    const ver = await checkTransfer(codLocacao);
+    if (transferID) {
+      const ver = await checkTransfer(codLocacao, transferID);
+      // console.log(ver);
+      if (ver?.error) {
+        // console.log(ver);
+        setErrorSolicitacao(ver);
+      } else {
+        setErrorSolicitacao(null);
+      }
+    } else {
+      setErrorSolicitacao(null);
+    }
+    const ver = await checkTransfer(codLocacao, transferID);
     // console.log(ver);
     if (ver?.error) {
       // console.log(ver);

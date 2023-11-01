@@ -83,6 +83,7 @@ const MinhaMarcacao = ({
               setIsOpen={setModalCancel}
               agendaID={marcacao?.id}
               horaAgenda={`${horario?.value}:00`}
+              transferID={marcacao?.transfer_id}
             />
           )}
           <Button
@@ -101,6 +102,7 @@ const MinhaMarcacao = ({
               setIsOpen={setModalTransfer}
               agendaID={marcacao?.id}
               codLocacao={marcacao?.codLocacao}
+              transferID={marcacao?.transfer_id}
             />
           )}
           <Button

@@ -25,8 +25,16 @@ const useTransferAgendamento = () => {
   const [loading, setLoading] = useState(true);
   const { sendConfirmPT } = useWhatsappApi();
 
-  const checkTransfer = async (codLocacao) => {
+  const checkTransfer = async (codLocacao, agendaID) => {
+    console.log("agendaID", agendaID);
     try {
+      const colletionRef = doc(db, "codTemp_transferAgenda", agendaID);
+      const docSnap = await getDoc(colletionRef);
+
+      console.log("naaaaaaapppp", docSnap.data());
+      // setLoading(false);
+      // return docSnap.data();
+
       const colletionRef1 = collection(db, "codTemp_transferAgenda");
       const q1 = query(colletionRef1, where("codLocacao", "==", codLocacao));
 

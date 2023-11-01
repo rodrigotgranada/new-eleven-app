@@ -22,7 +22,7 @@ const CancelAgendamento = ({
   setIsOpen,
   agendaID,
   horaAgenda,
-  handleConfirm,
+  transferID,
 }) => {
   const [agenda, setAgenda] = useState(null);
   const [transfer, setTransfer] = useState(null);
@@ -58,7 +58,10 @@ const CancelAgendamento = ({
       );
 
       setIsValidCancel(isWithinRange);
-      const vTransfer = await checkTransfer(agendamento.codLocacao);
+      const vTransfer = await checkTransfer(
+        agendamento.codLocacao,
+        agendamento.id
+      );
       console.log("vT", vTransfer);
       setTransfer(vTransfer?.error);
     }
