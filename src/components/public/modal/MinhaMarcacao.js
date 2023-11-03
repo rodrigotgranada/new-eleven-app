@@ -107,6 +107,7 @@ const MinhaMarcacao = ({
               agendaID={marcacao?.id}
               codLocacao={marcacao?.codLocacao}
               transferID={marcacao?.transfer_id}
+              marcacao={marcacao}
             />
           )}
           <Button

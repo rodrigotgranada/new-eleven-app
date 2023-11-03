@@ -133,6 +133,34 @@ const useGetData = () => {
     });
   };
 
+  const getDataWhere2 = async (
+    collectionName,
+    campo1,
+    type1,
+    valor1,
+    campo2,
+    type2,
+    valor2
+  ) => {
+    const colletionRef = collection(db, collectionName);
+    const q = query(
+      colletionRef,
+      where(campo1, type1, valor1),
+      where(campo2, type2, valor2)
+    );
+
+    await onSnapshot(q, (querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push({ ...doc.data(), id: doc.id });
+      });
+
+      setData(items);
+      setLoading(false);
+      return items;
+    });
+  };
+
   const getDataWhere3 = async (
     collectionName,
     campo1,
@@ -299,6 +327,7 @@ const useGetData = () => {
   return {
     getAllUsers,
     getDataWhereId,
+    getDataWhere2,
     getDataWhere3,
     getDataWhere4,
     getDataOrderBy2,

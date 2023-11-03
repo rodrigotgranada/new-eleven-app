@@ -31,6 +31,7 @@ const TransferirMarcacao = ({
   agendaID,
   codLocacao,
   transferID,
+  marcacao,
 }) => {
   // const {
   //   getData: getUsuarios,
@@ -121,7 +122,8 @@ const TransferirMarcacao = ({
           currentUser,
           selectPlayer,
           agendaID,
-          jogador
+          jogador,
+          marcacao
         );
         console.log(verify2);
         handleVerify();
@@ -134,7 +136,8 @@ const TransferirMarcacao = ({
         currentUser,
         selectPlayer,
         agendaID,
-        jogador
+        jogador,
+        marcacao
       );
       // console.log("VERRIFY2", verify2);
       handleVerify(verify2);

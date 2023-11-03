@@ -126,9 +126,17 @@ const useTransferAgendamento = () => {
     userOrigem,
     userDestino,
     agendaID,
-    jogadores
+    jogadores,
+    marcacao
   ) => {
-    console.log(codLocacao, userOrigem, userDestino, agendaID, jogadores);
+    console.log(
+      codLocacao,
+      userOrigem,
+      userDestino,
+      agendaID,
+      jogadores,
+      marcacao
+    );
     try {
       const codAuth = Math.floor(Math.random() * 900000) + 100000;
       const docRef = collection(db, "codTemp_transferAgenda");
@@ -141,9 +149,7 @@ const useTransferAgendamento = () => {
         code: codAuth,
         status: "pendente",
         destinoCel: userDestino?.telefone,
-        validate: moment(new Date())
-          .add(1, "hours")
-          .format("DD/MM/YYYY HH:mm:ss"),
+        validate: marcacao?.dataDia,
         jogadores: jogadores,
       }).then(async (e) => {
         console.log("e", e?.id);
