@@ -7,6 +7,7 @@ import "../../../../styles/public/confirmacao.scss";
 import CancelMarcacao from "./Buttons/CancelMarcacao";
 import ConfirmMarcacao from "./Buttons/ConfirmMarcacao";
 import Loading from "../../Loading/Loading";
+import moment from "moment";
 
 const Confirmacao = () => {
   const { marcacao, setMarcacao } = useContext(MarcacaoContext);
@@ -61,7 +62,13 @@ const Confirmacao = () => {
       {marcacao && quadraEscolhida && esporteEscolhido && horarioEscolhido && (
         <div>
           <h1>
-            {`${usuario?.displayName}, confirma a marcação da quadra ${quadraEscolhida?.name}, de ${esporteEscolhido?.display}, no dia ${marcacao.dataDia} no horário das ${horarioEscolhido.value}:00 ??`}
+            {`${usuario?.displayName}, confirma a marcação da quadra ${
+              quadraEscolhida?.name
+            }, de ${esporteEscolhido?.display}, no dia ${moment(
+              marcacao.dataDia
+            ).format("DD/MM/YYY")} no horário das ${
+              horarioEscolhido.value
+            }:00 ??`}
           </h1>
           <div className="buttons-confirm-diag">
             <ConfirmMarcacao

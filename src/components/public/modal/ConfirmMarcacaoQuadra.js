@@ -77,7 +77,7 @@ const ConfirmMarcacaoQuadra = ({
 
         let protocolo = { ...marcacao };
         protocolo.codLocacao = protocol;
-        protocolo.createAt = moment(new Date()).format("DD/MM/YYYY");
+        protocolo.createAt = moment(new Date()).format("YYYY-MM-DD");
         protocolo.status = "aberto";
 
         addMarcacao(protocolo);

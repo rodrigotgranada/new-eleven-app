@@ -31,12 +31,12 @@ const Calendario = () => {
   }
 
   const onChange = (date) => {
-    console.log(date);
+    // console.log(date);
     let formatedDate = moment(date).format("DD/MM/YYYY");
     let formatedDate2 = moment(date).format("YYYY-MM-DD");
-    console.log("formatedDate2", formatedDate2);
-    let formatedDate3 = moment(formatedDate2).format("DD/MM/YYYY");
-    console.log("formatedDate3", formatedDate3);
+    // console.log("formatedDate2", formatedDate2);
+    // let formatedDate3 = moment(formatedDate2).format("DD/MM/YYYY");
+    // console.log("formatedDate3", formatedDate3);
     setStartDate(date);
     let dataFinal = { ...marcacao };
     // const dataT = { date };
@@ -46,7 +46,7 @@ const Calendario = () => {
   };
 
   let max_date = new Date(); // today!
-  let x = 40;
+  let x = 15;
   max_date.setDate(max_date.getDate() + x);
   let min_date = new Date();
 
