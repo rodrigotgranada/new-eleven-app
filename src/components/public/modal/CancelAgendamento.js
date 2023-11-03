@@ -58,12 +58,14 @@ const CancelAgendamento = ({
       );
 
       setIsValidCancel(isWithinRange);
-      const vTransfer = await checkTransfer(
-        agendamento.codLocacao,
-        agendamento.id
-      );
-      console.log("vT", vTransfer);
-      setTransfer(vTransfer?.error);
+      if (agendamento?.transfer_id) {
+        const vTransfer = await checkTransfer(
+          // agendamento.codLocacao,
+          agendamento?.transfer_id
+        );
+        console.log("vT", vTransfer);
+        setTransfer(vTransfer?.error);
+      }
     }
   };
 

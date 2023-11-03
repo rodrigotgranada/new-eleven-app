@@ -25,34 +25,24 @@ const useTransferAgendamento = () => {
   const [loading, setLoading] = useState(true);
   const { sendConfirmPT } = useWhatsappApi();
 
-  const checkTransfer = async (codLocacao, agendaID) => {
-    console.log("agendaID", agendaID);
+  const checkTransfer = async (transferID) => {
+    console.log("agendaID", transferID);
     try {
-      const colletionRef = doc(db, "codTemp_transferAgenda", agendaID);
-      const docSnap = await getDoc(colletionRef);
-
-      console.log("naaaaaaapppp", docSnap.data());
-      // setLoading(false);
-      // return docSnap.data();
-
-      const colletionRef1 = collection(db, "codTemp_transferAgenda");
-      const q1 = query(colletionRef1, where("codLocacao", "==", codLocacao));
-
-      const querySnapshot1 = await getDocs(q1);
       let resultado = null;
-      querySnapshot1.forEach((doc) => {
-        resultado = { ...doc.data(), id: doc.id };
-      });
+      const colletionRef = doc(db, "codTemp_transferAgenda", transferID);
+      const docSnap = await getDoc(colletionRef);
+      resultado = docSnap.data();
       console.log(resultado);
+
       if (resultado) {
         let verify = { ...data };
         verify[`data`] = {
           code: resultado.code,
-          id: resultado.id,
+          locacao: resultado.locacaoID,
+          id: transferID,
           telefone: resultado.destinoCel,
         };
         verify[`error`] = "Transferencia já existe";
-        // verify[`id`] = resultado.id;
         setData(verify);
         return verify;
       } else {
@@ -61,27 +51,70 @@ const useTransferAgendamento = () => {
         setData(verify);
         return verify;
       }
+      // setLoading(false);
+      // return docSnap.data();
+
+      // const colletionRef1 = collection(db, "codTemp_transferAgenda");
+      // const q1 = query(colletionRef1, where("codLocacao", "==", codLocacao));
+
+      // const querySnapshot1 = await getDocs(q1);
+      // let resultado = null;
+      // querySnapshot1.forEach((doc) => {
+      //   resultado = { ...doc.data(), id: doc.id };
+      // });
+      // console.log(resultado);
+      // if (resultado) {
+      //   let verify = { ...data };
+      //   verify[`data`] = {
+      //     code: resultado.code,
+      //     id: resultado.id,
+      //     telefone: resultado.destinoCel,
+      //   };
+      //   verify[`error`] = "Transferencia já existe";
+      //   // verify[`id`] = resultado.id;
+      //   setData(verify);
+      //   return verify;
+      // } else {
+      //   let verify = { ...data };
+      //   verify[`error`] = null;
+      //   setData(verify);
+      //   return verify;
+      // }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const cancelTransfer = async (codLocacao) => {
+  const cancelTransfer = async (transferID) => {
     try {
-      const item = await checkTransfer(codLocacao);
+      const item = await checkTransfer(transferID);
       console.log("teste", item);
-      try {
-        await deleteDoc(doc(db, "codTemp_transferAgenda", item?.data?.id)).then(
-          async (e) => await checkTransfer(codLocacao)
-        );
-        // toast.success("Troca cancelada com sucesso!");
-        toast.success("Transferencia cancelada com sucesso!", {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        return true;
-      } catch (err) {
-        console.log(err);
-        return false;
+      if (item && item.data) {
+        console.log("ID", item?.data?.locacao);
+        try {
+          await deleteDoc(doc(db, "codTemp_transferAgenda", transferID)).then(
+            async (e) => {
+              try {
+                const userRef = doc(db, "agenda", item?.data?.locacao);
+                await updateDoc(userRef, {
+                  transfer_id: null,
+                }).then(async (e) => await checkTransfer(transferID));
+                console.log("successoooo");
+                return e?.id;
+              } catch (err) {
+                console.log(err);
+              }
+            }
+          );
+          // toast.success("Troca cancelada com sucesso!");
+          toast.success("Transferencia cancelada com sucesso!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          return true;
+        } catch (err) {
+          console.log(err);
+          return false;
+        }
       }
     } catch (err) {
       console.log(err);
@@ -99,7 +132,7 @@ const useTransferAgendamento = () => {
     try {
       const codAuth = Math.floor(Math.random() * 900000) + 100000;
       const docRef = collection(db, "codTemp_transferAgenda");
-      await addDoc(docRef, {
+      const cadastro = await addDoc(docRef, {
         locacaoID: agendaID,
         codLocacao: codLocacao,
         userOrigem: userOrigem?.uid,
@@ -139,12 +172,15 @@ const useTransferAgendamento = () => {
               position: toast.POSITION.TOP_CENTER,
             });
           }
+          return e?.id;
         } else {
           toast.error("Transferencia não solicitada!", {
             position: toast.POSITION.TOP_CENTER,
           });
         }
       });
+      return cadastro;
+      // console.log("cadastro", cadastro);
     } catch (error) {
       console.log(error);
       toast.error(error.message);

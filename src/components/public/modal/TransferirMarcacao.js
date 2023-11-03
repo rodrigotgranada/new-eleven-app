@@ -58,9 +58,10 @@ const TransferirMarcacao = ({
 
   // let jogador = false;
 
-  const handleVerify = async () => {
-    if (transferID) {
-      const ver = await checkTransfer(codLocacao, transferID);
+  const handleVerify = async (verifyID) => {
+    console.log("entreui");
+    if (transferID || verifyID) {
+      const ver = await checkTransfer(transferID || verifyID);
       // console.log(ver);
       if (ver?.error) {
         // console.log(ver);
@@ -68,14 +69,6 @@ const TransferirMarcacao = ({
       } else {
         setErrorSolicitacao(null);
       }
-    } else {
-      setErrorSolicitacao(null);
-    }
-    const ver = await checkTransfer(codLocacao, transferID);
-    // console.log(ver);
-    if (ver?.error) {
-      // console.log(ver);
-      setErrorSolicitacao(ver);
     } else {
       setErrorSolicitacao(null);
     }
@@ -119,12 +112,23 @@ const TransferirMarcacao = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("evento", e);
-    const verify = await checkTransfer(codLocacao);
-
-    console.log(verify);
-
-    if (!verify.error) {
+    if (transferID) {
+      const verify = await checkTransfer(transferID);
+      console.log(verify);
+      if (!verify.error) {
+        const verify2 = await createTransfer(
+          codLocacao,
+          currentUser,
+          selectPlayer,
+          agendaID,
+          jogador
+        );
+        console.log(verify2);
+        handleVerify();
+      } else {
+        setErrorSolicitacao(verify);
+      }
+    } else {
       const verify2 = await createTransfer(
         codLocacao,
         currentUser,
@@ -132,19 +136,14 @@ const TransferirMarcacao = ({
         agendaID,
         jogador
       );
-      console.log(verify2);
-      handleVerify();
-      // setErrorSolicitacao(null);
-    } else {
-      setErrorSolicitacao(verify);
+      // console.log("VERRIFY2", verify2);
+      handleVerify(verify2);
     }
-    // const { value } = e.target;
-    // console.log("valor", value);
   };
 
   const handleCancel = async () => {
-    const verify = await cancelTransfer(codLocacao);
-    console.log(verify);
+    const verify = await cancelTransfer(transferID);
+    console.log("AQUI", verify);
     handleVerify();
   };
 
