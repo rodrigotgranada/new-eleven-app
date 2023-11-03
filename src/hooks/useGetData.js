@@ -148,17 +148,16 @@ const useGetData = () => {
       where(campo1, type1, valor1),
       where(campo2, type2, valor2)
     );
-
+    const items = [];
     await onSnapshot(q, (querySnapshot) => {
-      const items = [];
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
       });
-
+      console.log("items", items);
       setData(items);
       setLoading(false);
-      return items;
     });
+    return items;
   };
 
   const getDataWhere3 = async (

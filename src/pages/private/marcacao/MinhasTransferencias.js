@@ -4,6 +4,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { Container, Row } from "reactstrap";
 import Loading from "../../../components/public/Loading/Loading";
 import { useEffect } from "react";
+import moment from "moment";
 
 const MinhasTransferencias = () => {
   const [filteredAgendamentos, setFilteredAgendamentos] = useState();
@@ -23,7 +24,20 @@ const MinhasTransferencias = () => {
   }, [currentUser]);
 
   const handleGetData = async () => {
-    console.log(currentUser);
+    const dataAtual = moment(new Date()).format("YYYY-MM-DD");
+    console.log("dataAtual", dataAtual);
+    console.log("meuUsuario", currentUser);
+    const VAgendamento = await getMinhasTransferencias(
+      "codTemp_transferAgenda",
+      "userDestino",
+      "==",
+      currentUser?.uid,
+      "validate",
+      ">=",
+      dataAtual
+    );
+    console.log("VAgendamento", VAgendamento);
+    console.log("meuUsuario", currentUser);
   };
 
   return (
