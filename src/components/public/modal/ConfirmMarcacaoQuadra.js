@@ -68,7 +68,10 @@ const ConfirmMarcacaoQuadra = ({
           marcacao.esporte
         );
         const quadra = await getQuadraEscolhida("quadras", marcacao.quadra);
-        const data = marcacao?.dataDia.split("/");
+        let formatedDate3 = moment(marcacao?.dataDia).format("DD/MM/YYYY");
+        console.log("formatedDate3Confirm", formatedDate3);
+        const data = formatedDate3.split("/");
+        // const data = marcacao?.dataDia.split("/");
         const anoFinal = data[2].slice(-2);
         const protocol = `${anoFinal}${data[1]}${data[0]}${hora?.value}${quadra?.numero}`;
 

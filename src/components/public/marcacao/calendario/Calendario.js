@@ -33,11 +33,14 @@ const Calendario = () => {
   const onChange = (date) => {
     console.log(date);
     let formatedDate = moment(date).format("DD/MM/YYYY");
-    console.log(formatedDate);
+    let formatedDate2 = moment(date).format("YYYY-MM-DD");
+    console.log("formatedDate2", formatedDate2);
+    let formatedDate3 = moment(formatedDate2).format("DD/MM/YYYY");
+    console.log("formatedDate3", formatedDate3);
     setStartDate(date);
     let dataFinal = { ...marcacao };
     // const dataT = { date };
-    dataFinal.dataDia = formatedDate;
+    dataFinal.dataDia = formatedDate2;
     dataFinal.step = dataFinal.step + 1;
     setMarcacao(dataFinal);
   };

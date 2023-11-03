@@ -59,10 +59,7 @@ const CancelAgendamento = ({
 
       setIsValidCancel(isWithinRange);
       if (agendamento?.transfer_id) {
-        const vTransfer = await checkTransfer(
-          // agendamento.codLocacao,
-          agendamento?.transfer_id
-        );
+        const vTransfer = await checkTransfer(agendamento?.transfer_id);
         console.log("vT", vTransfer);
         setTransfer(vTransfer?.error);
       }
