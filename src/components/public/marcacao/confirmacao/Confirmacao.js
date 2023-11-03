@@ -66,7 +66,7 @@ const Confirmacao = () => {
               quadraEscolhida?.name
             }, de ${esporteEscolhido?.display}, no dia ${moment(
               marcacao.dataDia
-            ).format("DD/MM/YYY")} no horário das ${
+            ).format("DD/MM/YYYY")} no horário das ${
               horarioEscolhido.value
             }:00 ??`}
           </h1>
@@ -94,7 +94,15 @@ const Confirmacao = () => {
                     {jogador?.telefone && (
                       <ReactWhatsapp
                         number={`55${jogador?.telefone}`}
-                        message={`Oi ${jogador?.name}, o ${usuario?.displayName} marcou a quadra ${quadraEscolhida?.name}, de ${esporteEscolhido?.display}, no dia ${marcacao.dataDia} no horário das ${horarioEscolhido.value}:00 e marcou você.  `}
+                        message={`Oi ${jogador?.name}, o ${
+                          usuario?.displayName
+                        } marcou a quadra ${quadraEscolhida?.name}, de ${
+                          esporteEscolhido?.display
+                        }, no dia ${moment(marcacao.dataDia).format(
+                          "DD/MM/YYYY"
+                        )} no horário das ${
+                          horarioEscolhido.value
+                        }:00 e marcou você.  `}
                       >
                         <MdOutlineWhatsapp /> {jogador?.telefone}
                       </ReactWhatsapp>

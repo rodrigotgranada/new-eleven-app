@@ -5,6 +5,7 @@ import Loading from "../Loading/Loading";
 import MinhaMarcacao from "../modal/MinhaMarcacao";
 import { useState } from "react";
 import useTransferAgendamento from "../../../hooks/useTransferAgendamento";
+import moment from "moment";
 
 const CardAgendamento = ({ marcacao, chave, ...props }) => {
   const { getDataId: getHorario, data: hora, loadingHorario } = useGetData();
@@ -39,6 +40,10 @@ const CardAgendamento = ({ marcacao, chave, ...props }) => {
     // console.log("checked", checked);
   };
 
+  const formataData = (data) => {
+    return moment(data).format("DD/MM/YYYY");
+  };
+
   return (
     <>
       {loadingEsporte && loadingHorario && loadingQuadra && (
@@ -71,7 +76,7 @@ const CardAgendamento = ({ marcacao, chave, ...props }) => {
           >
             <div>
               <p>Código: {marcacao?.codLocacao}</p>
-              <p>Data: {marcacao?.dataDia}</p>
+              <p>Data: {formataData(marcacao?.dataDia)}</p>
               <p>Hora: {`${hora?.value}:00`}</p>
               <p>Esporte: {esporte?.display}</p>
               <p>Quadra: {quadra?.name}</p>

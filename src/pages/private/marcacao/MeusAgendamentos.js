@@ -22,8 +22,14 @@ const MeusAgendamentos = () => {
   //   loadingMinhasTransferencias,
   // } = useGetData();
 
+  // const {
+  //   getDataWhereOrderByLimit: getMinhasMarcacoes2,
+  //   data: minhasMarcacoes2,
+  //   loadingMinhasMarcacoes2,
+  // } = useGetData();
+
   const {
-    getDataWhereOrderByLimit: getMinhasMarcacoes2,
+    getDataWhereOrderByLimit2: getMinhasMarcacoes3,
     data: minhasMarcacoes2,
     loadingMinhasMarcacoes2,
   } = useGetData();
@@ -53,21 +59,26 @@ const MeusAgendamentos = () => {
   }, [minhasMarcacoes2]);
 
   useEffect(() => {
-    // console.log("currentUser", currentUser);
     if (currentUser) {
       getModalidades("modalidades", "display", "asc");
-      // getMinhasTransferencias(
-      //   "codTemp_transferAgenda",
-      //   "userOrigem",
+      // getMinhasMarcacoes2(
+      //   "agenda",
+      //   "user",
       //   "==",
-      //   currentUser?.uid
+      //   currentUser?.uid,
+      //   "codLocacao",
+      //   "desc",
+      //   20
       // );
-      getMinhasMarcacoes2(
+      getMinhasMarcacoes3(
         "agenda",
         "user",
         "==",
         currentUser?.uid,
-        "codLocacao",
+        "dataDia",
+        ">=",
+        "2023-11-15",
+        "dataDia",
         "desc",
         20
       );

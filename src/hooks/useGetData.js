@@ -237,6 +237,9 @@ const useGetData = () => {
     campo,
     type,
     valor,
+    campo1,
+    type1,
+    valor1,
     orderCampo,
     order,
     quantidade
@@ -244,7 +247,8 @@ const useGetData = () => {
     const colletionRef = collection(db, collectionName);
     const q = query(
       colletionRef,
-      where(campo.toLowerCase(), type, valor),
+      where(campo, type, valor),
+      where(campo1, type1, valor1),
       orderBy(orderCampo, order ? order.toLowerCase() : "asc"),
       limit(quantidade ? quantidade : 10000)
     );

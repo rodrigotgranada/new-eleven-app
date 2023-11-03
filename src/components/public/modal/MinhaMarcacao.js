@@ -14,6 +14,7 @@ import "../../../styles/public/minhaMarcacaoModal.scss";
 import ListPlayers2 from "../formComponents/ListPlayers2";
 import TransferirMarcacao from "./TransferirMarcacao";
 import CancelAgendamento from "./CancelAgendamento";
+import moment from "moment";
 
 const MinhaMarcacao = ({
   title,
@@ -30,6 +31,9 @@ const MinhaMarcacao = ({
     setIsOpen(false);
   };
 
+  const formataData = (data) => {
+    return moment(data).format("DD/MM/YYYY");
+  };
   // var dados = marcacao?.jogadores;
 
   return (
@@ -62,7 +66,7 @@ const MinhaMarcacao = ({
             <Row>
               <Col lg="5">
                 <h3>{`Agendamento`}</h3>
-                <p>Data: {marcacao?.dataDia}</p>
+                <p>Data: {formataData(marcacao?.dataDia)}</p>
                 <p>Hora: {`${horario?.value}:00`}</p>
                 <p>Esporte: {esporte?.display}</p>
                 <p>Quadra: {quadra?.name}</p>
