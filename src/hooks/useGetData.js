@@ -172,6 +172,7 @@ const useGetData = () => {
     type3,
     valor3
   ) => {
+    console.log("loading", loading);
     const colletionRef = collection(db, collectionName);
     const q = query(
       colletionRef,
@@ -179,17 +180,16 @@ const useGetData = () => {
       where(campo2, type2, valor2),
       where(campo3, type3, valor3)
     );
-
+    const items = [];
     await onSnapshot(q, (querySnapshot) => {
-      const items = [];
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
       });
 
       setData(items);
       setLoading(false);
-      return items;
     });
+    return items;
   };
 
   const getDataWhere4 = async (

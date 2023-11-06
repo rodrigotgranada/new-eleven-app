@@ -5,19 +5,21 @@ import { Container, Row } from "reactstrap";
 import Loading from "../../../components/public/Loading/Loading";
 import { useEffect } from "react";
 import moment from "moment";
+import CardTransferencia from "../../../components/public/minhasTransferencias/CardTransferencia";
 
 const MinhasTransferencias = () => {
-  const [filteredAgendamentos, setFilteredAgendamentos] = useState();
+  const [filteredAgendamentos, setFilteredAgendamentos] = useState([]);
   const { currentUser } = useAuth();
 
   const {
     getDataWhereOrderByLimit: getMinhasMarcacoes,
-    getDataWhere2: getMinhasTransferencias,
+    getDataWhere3: getMinhasTransferencias,
     data: minhasMarcacoes2,
-    loadingMinhasMarcacoes2,
+    loading: loadingMinhasMarcacoes2,
   } = useGetData();
 
   useEffect(() => {
+    console.log("loadingMinhasMarcacoes2", loadingMinhasMarcacoes2);
     if (currentUser) {
       handleGetData();
     }
@@ -25,8 +27,8 @@ const MinhasTransferencias = () => {
 
   const handleGetData = async () => {
     const dataAtual = moment(new Date()).format("YYYY-MM-DD");
-    console.log("dataAtual", dataAtual);
-    console.log("meuUsuario", currentUser);
+    // console.log("dataAtual", dataAtual);
+    console.log("loadingANTES", loadingMinhasMarcacoes2);
     const VAgendamento = await getMinhasTransferencias(
       "codTemp_transferAgenda",
       "userDestino",
@@ -34,10 +36,15 @@ const MinhasTransferencias = () => {
       currentUser?.uid,
       "validate",
       ">=",
-      dataAtual
+      dataAtual,
+      "status",
+      "==",
+      "pendente"
     );
     console.log("VAgendamento", VAgendamento);
     console.log("meuUsuario", currentUser);
+
+    setFilteredAgendamentos(VAgendamento);
   };
 
   return (
@@ -48,6 +55,22 @@ const MinhasTransferencias = () => {
             {loadingMinhasMarcacoes2 && (
               <Loading type={`spin`} width={"30px"} />
             )}
+            {console.log(filteredAgendamentos.length)}
+            {filteredAgendamentos && filteredAgendamentos.length === 0 && (
+              <p>Não há transferencias</p>
+            )}
+            {filteredAgendamentos &&
+              filteredAgendamentos.length > 0 &&
+              filteredAgendamentos.map((minhaTransferencia, index) => {
+                console.log("individual", minhaTransferencia);
+                return (
+                  <CardTransferencia
+                    key={index}
+                    transferencia={minhaTransferencia}
+                    chave={index}
+                  />
+                );
+              })}
           </Row>
         </Container>
       </section>
