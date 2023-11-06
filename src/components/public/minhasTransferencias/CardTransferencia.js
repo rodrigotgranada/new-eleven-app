@@ -6,6 +6,7 @@ import MinhaMarcacao from "../modal/MinhaMarcacao";
 import { useState } from "react";
 import useTransferAgendamento from "../../../hooks/useTransferAgendamento";
 import moment from "moment";
+import MinhaTransferencia from "../modal/MinhaTransferencia";
 
 const CardTransferencia = ({ transferencia, chave, ...props }) => {
   console.log("trans", transferencia, chave);
@@ -19,6 +20,7 @@ const CardTransferencia = ({ transferencia, chave, ...props }) => {
   } = useGetData();
   const { checkTransfer } = useTransferAgendamento();
   const [modalOpen, setModalOpen] = useState(false);
+  const [marc, setMarc] = useState(null);
   const [haveTransfer, setHaveTransfer] = useState(false);
 
   const data = transferencia;
@@ -33,19 +35,13 @@ const CardTransferencia = ({ transferencia, chave, ...props }) => {
   }, [transferencia]);
 
   const handleGetQuadraInfos = async () => {
-    const agendamento = await getAgendamento(
-      "agenda",
-      transferencia?.locacaoID
-    );
-    console.log("agendamento", agendamento);
-    if (agendamento) {
-      const hora = await getHorario("horarios", agendamento?.dataHorario);
-      const modalidade = await getEsporte("modalidades", agendamento?.esporte);
-      const quadra = await getQuadra("quadras", agendamento?.quadra);
-      // verifyTransfer();
-      console.log("hora", hora);
-      console.log("modalidade", modalidade);
-      console.log("quadra", quadra);
+    const marcacaoX = await getAgendamento("agenda", transferencia?.locacaoID);
+    console.log("marcacaoX", marcacaoX);
+    if (marcacaoX) {
+      // setMarc(marcacaoX);
+      await getHorario("horarios", marcacaoX?.dataHorario);
+      await getEsporte("modalidades", marcacaoX?.esporte);
+      await getQuadra("quadras", marcacaoX?.quadra);
     }
   };
 
@@ -75,11 +71,12 @@ const CardTransferencia = ({ transferencia, chave, ...props }) => {
       )}
 
       {modalOpen && (
-        <MinhaMarcacao
+        <MinhaTransferencia
           title={`Agendamento ${transferencia?.codLocacao}`}
           isOpen={modalOpen}
           setIsOpen={setModalOpen}
-          marcacao={modalOpen ? data : null}
+          transferencia={modalOpen ? data : null}
+          agendamento={agendamento}
           horario={hora}
           esporte={esporte}
           quadra={quadra}
