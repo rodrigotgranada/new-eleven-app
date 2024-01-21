@@ -8,6 +8,7 @@ const SubNav = ({ admin, rule }) => {
   admin
     ? (admin__nav = [
         { path: "admin/home", display: "Home" },
+        { path: "admin/agenda", display: "Agenda", rule: false },
         { path: "admin/permanentes", display: "Permanentes", rule: false },
         { path: "admin/bloqueios", display: "Bloqueios", rule: false },
         { path: "admin/usuarios", display: "Usuários", rule: true },

@@ -8,4 +8,6 @@ export let marcacaoTemplate = {
   jogadores: [{}],
   permanente: false,
   permanente_id: "",
+  bloqueio: false,
+  bloqueio_id: "",
 };

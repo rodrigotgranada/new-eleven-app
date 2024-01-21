@@ -13,13 +13,16 @@ import {
   ModalHeader,
   Row,
 } from "reactstrap";
-import useGetData from "../../../hooks/useGetData";
-import useTransferAgendamento from "../../../hooks/useTransferAgendamento";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../firebase";
 
-const CancelAgendamento = ({
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import useGetData from "../../../../hooks/useGetData";
+import useTransferAgendamento from "../../../../hooks/useTransferAgendamento";
+import { db } from "../../../../firebase";
+
+const AdminCancelAgendamento = ({
   title,
+  agendamentoOpen,
+  setAgendamentoOpen,
   isOpen,
   setIsOpen,
   agendaID,
@@ -44,6 +47,9 @@ const CancelAgendamento = ({
     } else {
       handleVerifyAgenda();
     }
+    return () => {
+      setAgenda(null);
+    };
   }, [isOpen]);
 
   const handleVerifyAgenda = async () => {
@@ -52,35 +58,11 @@ const CancelAgendamento = ({
     setAgenda(agendamento);
 
     if (agendamento) {
-      const currentTime = moment();
-      const isWithinRange = isTimeValid(
-        currentTime,
-        agendamento.dataDia,
-        horaAgenda
-      );
-      setIsValidCancel(isWithinRange);
       if (agendamento?.transfer_id) {
         const vTransfer = await checkTransfer(agendamento?.transfer_id);
-        console.log("vT", vTransfer);
         setTransfer(vTransfer?.error);
       }
     }
-  };
-
-  const isTimeValid = (currentTime, dayTime, hourTime) => {
-    console.log(currentTime, dayTime, hourTime);
-    const horaMarcada = moment(`${dayTime} ${hourTime}`, "YYYY-MM-DD HH:mm");
-    const horaValida = moment(
-      `${dayTime} ${hourTime}`,
-      "YYYY-MM-DD HH:mm"
-    ).subtract(24, "hours");
-
-    const validade = moment(horaValida, "DD/MM/YYYY HH:mm");
-    // console.log("validade", validade);
-
-    const isValid = currentTime.isSameOrBefore(validade); // true
-    // console.log("AindaPodeCancelar?", isValid);
-    return isValid;
   };
 
   const navigate = useNavigate();
@@ -89,19 +71,18 @@ const CancelAgendamento = ({
   };
 
   const handleConfirmar = async () => {
-    navigate("/");
-    setIsOpen(false);
-
     try {
       const docRef = doc(db, "agenda", agendaID);
       await updateDoc(docRef, {
-        user: "123",
+        user: "agendamentoCancelado",
         // dataDia: "2022-01-01",
       }).then(async (e) => {
         try {
           const docRef = doc(db, "agenda", agendaID);
           await deleteDoc(docRef).then((e) => {
             toast.success(`Agendamento Cancelado!!`);
+            setIsOpen(false);
+            setAgendamentoOpen(false);
           });
         } catch (error) {
           toast.error(error.message);
@@ -110,10 +91,6 @@ const CancelAgendamento = ({
     } catch (error) {
       toast.error(error.message);
     }
-
-    // toast.error(`Agendamento ${agendaID} cancelado`, {
-    //   position: toast.POSITION.TOP_CENTER,
-    // });
   };
 
   return (
@@ -144,37 +121,32 @@ const CancelAgendamento = ({
         <ModalBody>
           <Row>
             <Col lg="12">
-              {isValidCancel ? (
-                <>
-                  <p>{`Deseja cancelar o agendamento ${agendaID} ?`}</p>
-                  {transfer && (
-                    <p>
-                      Existe uma transferencia para esse agendamento, cancelar
-                      mesmo assim?
-                    </p>
-                  )}
-                </>
-              ) : (
+              <>
                 <p>
-                  Não pode cancelar agendamento com menos de 24 horas de
-                  antecedencia, contate um administrador!!
+                  {agenda &&
+                    `Deseja cancelar o agendamento ${agenda.codLocacao} ?`}
                 </p>
-              )}
+                {transfer && (
+                  <p>
+                    Existe uma transferencia para esse agendamento, cancelar
+                    mesmo assim?
+                  </p>
+                )}
+              </>
             </Col>
           </Row>
         </ModalBody>
         <ModalFooter>
-          {isValidCancel && (
-            <Button
-              type="button"
-              className="btn btn-success"
-              onClick={() => {
-                handleConfirmar();
-              }}
-            >
-              Sim
-            </Button>
-          )}
+          <Button
+            type="button"
+            className="btn btn-success"
+            onClick={() => {
+              handleConfirmar();
+            }}
+          >
+            Sim
+          </Button>
+
           <Button
             type="button"
             className="btn btn-danger"
@@ -182,7 +154,7 @@ const CancelAgendamento = ({
               handleCLose();
             }}
           >
-            {isValidCancel ? "Não" : "Sair"}
+            Não
           </Button>
         </ModalFooter>
       </Modal>
@@ -190,4 +162,4 @@ const CancelAgendamento = ({
   );
 };
 
-export default CancelAgendamento;
+export default AdminCancelAgendamento;

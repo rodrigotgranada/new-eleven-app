@@ -109,7 +109,7 @@ const useGetData = () => {
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
       });
-
+      // console.log("items", items);
       setData(items);
       setLoading(false);
       return items;
@@ -126,7 +126,7 @@ const useGetData = () => {
         console.log("querySnapshot", doc.data());
         items.push({ ...doc.data(), id: doc.id });
       });
-
+      console.log("items", items);
       setData(items);
       setLoading(false);
       return items;
@@ -172,7 +172,7 @@ const useGetData = () => {
     type3,
     valor3
   ) => {
-    console.log("loading", loading);
+    // console.log("loading", loading);
     const colletionRef = collection(db, collectionName);
     const q = query(
       colletionRef,
@@ -323,6 +323,117 @@ const useGetData = () => {
     return items;
   };
 
+  const getDataSnapAtt = async (
+    collectionName,
+    campo1,
+    type1,
+    valor1,
+    campo2,
+    type2,
+    valor2,
+    campo3,
+    type3,
+    valor3
+  ) => {
+    // console.log(
+    //   "SNAP",
+    //   collectionName,
+    //   campo1,
+    //   type1,
+    //   valor1,
+    //   campo2,
+    //   type2,
+    //   valor2,
+    //   campo3,
+    //   type3,
+    //   valor3
+    // );
+
+    const colRef = collection(db, collectionName);
+    const q = query(
+      colRef,
+      where(campo1, type1, valor1),
+      where(campo2, type2, valor2)
+      // where(campo3, type3, valor3)
+    );
+    //real time update
+    const items = [];
+    const unsb = onSnapshot(q, (querySnapshot) => {
+      console.log("onsnap", querySnapshot.docs);
+      querySnapshot.docs.forEach((doc) => {
+        items.push(doc.data());
+        console.log("DATA", doc.data());
+      });
+    });
+    setLoading(false);
+    setData(items);
+    return items;
+    // onSnapshot(
+    //   colRef,
+    //   where(campo1, type1, valor1),
+    //   where(campo2, type2, valor2),
+    //   // where(campo3, type3, valor3),
+    //   (snapshot) => {
+    //     // let items = {};
+    //     snapshot.docs.forEach((doc) => {
+    //       // setTestData((prev) => [...prev, doc.data()])
+    //       console.log("onsnapshot", doc.data());
+    //       // items = doc.data();
+    //       // console.log("items", items);
+    //       // if (Object.keys(items).length > 0) {
+    //       //   setData(items);
+    //       // }
+    //     });
+    //   }
+    // );
+  };
+
+  const getDataSnapAttButtonAgenda = async (
+    collectionName,
+    campo1,
+    type1,
+    valor1,
+    campo2,
+    type2,
+    valor2,
+    campo3,
+    type3,
+    valor3
+  ) => {
+    console.log(
+      "PESQUISA",
+      collectionName,
+      campo1,
+      type1,
+      valor1,
+      campo2,
+      type2,
+      valor2,
+      campo3,
+      type3,
+      valor3
+    );
+    const colRef = collection(db, collectionName);
+    const q = query(
+      colRef,
+      where(campo1, type1, valor1),
+      where(campo2, type2, valor2),
+      where(campo3, type3, valor3)
+    );
+    //real time update
+    const items = [];
+    const unsb = onSnapshot(q, (querySnapshot) => {
+      console.log("onsnap", querySnapshot.docs);
+      querySnapshot.docs.forEach((doc) => {
+        items.push(doc.data());
+        console.log("DATA", doc.data());
+      });
+    });
+    setLoading(false);
+    setData(items);
+    return items;
+  };
+
   return {
     getAllUsers,
     getDataWhereId,
@@ -338,6 +449,8 @@ const useGetData = () => {
     getData,
     getDataOrderBy,
     getDataAgenda,
+    getDataSnapAtt,
+    getDataSnapAttButtonAgenda,
     data,
     loading,
   };

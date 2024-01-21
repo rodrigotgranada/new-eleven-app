@@ -21,6 +21,7 @@ import OwnerRoute from "./OwnerRoute";
 import PrivateRoute from "./PrivateRoute";
 import RegisterRoute from "./RegisterRoute";
 import MinhasTransferencias from "../pages/private/marcacao/MinhasTransferencias";
+import Agenda from "../pages/admin/agenda/Agenda";
 
 const Routers = () => {
   const { currentUser } = useAuth();
@@ -48,6 +49,7 @@ const Routers = () => {
       <Route path="/*" element={<AdminRoute currentUser={currentUser} />}>
         <Route path="admin/" element={<Navigate to="home" />} />
         <Route path="admin/home" element={<AdminHome />} />
+        <Route path="admin/agenda" element={<Agenda />} />
         <Route path="admin/permanentes" element={<Permanentes />} />
         <Route path="admin/bloqueios" element={<Bloqueios />} />
       </Route>

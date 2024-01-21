@@ -1,0 +1,43 @@
+@import "./../themes/theme";
+
+.agenda-main {
+  .agenda-filtro {
+    .agenda-button {
+      @include themed() {
+        background-color: t("text");
+      }
+    }
+
+    .datePickerNav2 {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .section-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .bloco-horarios {
+    .btn-horarios {
+      width: -webkit-fill-available;
+      border: 1px solid rgb(133, 133, 133);
+    }
+
+    .btn-bloq {
+      border: 1px solid red !important;
+      background-color: lightcoral !important;
+    }
+
+    .btn-marc {
+      border: 1px solid #ff5200;
+      background-color: burlywood;
+    }
+
+    .btn-permanente {
+      border: 1px solid #1a670c !important;
+      background-color: forestgreen !important;
+    }
+  }
+}

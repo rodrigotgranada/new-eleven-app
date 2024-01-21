@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useGetData from "../../../hooks/useGetData";
 import { useAuth } from "../../../contexts/AuthContext";
-import { Container, Row } from "reactstrap";
+import { Col, Container, Label, Row } from "reactstrap";
 import Loading from "../../../components/public/Loading/Loading";
 import { useEffect } from "react";
 import moment from "moment";
@@ -12,24 +12,41 @@ const MinhasTransferencias = () => {
   const { currentUser } = useAuth();
 
   const {
-    getDataWhereOrderByLimit: getMinhasMarcacoes,
+    // getDataWhereOrderByLimit: getMinhasMarcacoes,
+    // getDataSnapAtt: getSnap,
     getDataWhere3: getMinhasTransferencias,
     data: minhasMarcacoes2,
     loading: loadingMinhasMarcacoes2,
   } = useGetData();
 
   useEffect(() => {
-    console.log("loadingMinhasMarcacoes2", loadingMinhasMarcacoes2);
     if (currentUser) {
       handleGetData();
+      // getMinhasTransferencias(
+      //   "codTemp_transferAgenda",
+      //   "userDestino",
+      //   "==",
+      //   currentUser?.uid,
+      //   "validate",
+      //   ">=",
+      //   dataAtual,
+      //   "status",
+      //   "==",
+      //   "pendente"
+      // );
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    if (minhasMarcacoes2) {
+      console.log("minhasMarcacoes2", minhasMarcacoes2);
+      setFilteredAgendamentos(minhasMarcacoes2);
+    }
+  }, [minhasMarcacoes2]);
+
   const handleGetData = async () => {
     const dataAtual = moment(new Date()).format("YYYY-MM-DD");
-    // console.log("dataAtual", dataAtual);
-    console.log("loadingANTES", loadingMinhasMarcacoes2);
-    const VAgendamento = await getMinhasTransferencias(
+    getMinhasTransferencias(
       "codTemp_transferAgenda",
       "userDestino",
       "==",
@@ -41,29 +58,45 @@ const MinhasTransferencias = () => {
       "==",
       "pendente"
     );
-    console.log("VAgendamento", VAgendamento);
-    console.log("meuUsuario", currentUser);
 
-    setFilteredAgendamentos(VAgendamento);
+    // console.log("dadosSnap", dadosSnap);
+
+    // setFilteredAgendamentos(dadosSnap);
   };
 
   return (
     <>
       <section>
         <Container>
+          <Col lg="4">
+            <button
+              type={"button"}
+              className="btn btn-warning"
+              onClick={() => handleGetData()}
+            >
+              Recarregar
+            </button>
+          </Col>
+        </Container>
+      </section>
+      <section>
+        <Container>
           <Row className="row-meus-agendamentos">
             {loadingMinhasMarcacoes2 && (
               <Loading type={`spin`} width={"30px"} />
             )}
-            {console.log(filteredAgendamentos.length)}
-            {filteredAgendamentos && filteredAgendamentos.length === 0 && (
-              <p>Não há transferencias</p>
+            {console.log(
+              "Transfer",
+              filteredAgendamentos.length,
+              filteredAgendamentos
             )}
+            {!filteredAgendamentos && <p>Não há transferencias</p>}
             {filteredAgendamentos &&
-              filteredAgendamentos.length > 0 &&
               filteredAgendamentos.map((minhaTransferencia, index) => {
                 console.log("individual", minhaTransferencia);
+                console.log("index", index);
                 return (
+                  // <p key={index}>TEste</p>
                   <CardTransferencia
                     key={index}
                     transferencia={minhaTransferencia}

@@ -14,6 +14,9 @@ import {
 import ListPlayers2 from "../formComponents/ListPlayers2";
 import VerificationInput from "react-verification-input";
 import { BiTennisBall } from "react-icons/bi";
+import { useAuth } from "../../../contexts/AuthContext";
+import useTransferAgendamento from "../../../hooks/useTransferAgendamento";
+import CancelAgendamento from "./CancelAgendamento";
 
 const MinhaTransferencia = ({
   title,
@@ -25,9 +28,27 @@ const MinhaTransferencia = ({
   esporte,
   quadra,
 }) => {
+  const { currentUser } = useAuth();
+  const { checkTransfer, cancelTransfer, acceptTransfer } =
+    useTransferAgendamento();
+  const [modalCancel, setModalCancel] = useState(false);
   console.log("transferencia", transferencia, "agendamento", agendamento);
+
+  const playerPadrao = {
+    name: currentUser?.usuario?.displayName,
+    id: currentUser?.usuario?.uid,
+    telefone: currentUser?.usuario?.telefone,
+    pago: false,
+  };
+
   const handleCLose = () => {
     setIsOpen(false);
+  };
+
+  const handleCancel = async () => {
+    const verify = await cancelTransfer(transferencia?.id);
+    console.log("AQUI", verify);
+    handleVerify();
   };
 
   const formataData = (data) => {
@@ -35,16 +56,26 @@ const MinhaTransferencia = ({
   };
 
   const handleVerify = async (codigo) => {
-    // console.log("current", codeVerify);
-    // const userCode = await getDataId("users", user.uid);
     const codeAuth = transferencia.code;
     console.log("codigo usuario", parseInt(codeAuth));
     console.log("codigo digitado", parseInt(codigo));
 
     if (parseInt(codigo) === parseInt(codeAuth)) {
-      console.log("codigo valido");
+      const valida = await checkTransfer(transferencia.id);
+      if (valida?.error) {
+        const accepted = await acceptTransfer(transferencia);
+        toast.success("Código Válido", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        toast.error("Transferencia Cancelada", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
     } else {
-      console.log("codigo invalido");
+      toast.error("Código inválido", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
   return (
@@ -81,22 +112,17 @@ const MinhaTransferencia = ({
                 <p>Esporte: {esporte?.display}</p>
                 <p>Quadra: {quadra?.name}</p>
               </Col>
-              <Col lg="3">
-                {console.log(transferencia?.jogadores)}
-                {transferencia?.jogadores == false && (
-                  <>
-                    <h4>{`Jogadores`}</h4>
-                    {agendamento &&
-                      agendamento?.jogadores.map((jogador, index) => {
-                        return <p key={index}>{jogador.name}</p>;
-                      })}
-                    {/* <ListPlayers2
-                      isOpen={isOpen}
-                      agendaID={transferencia?.locacaoID}
-                    /> */}
-                  </>
-                )}
-              </Col>
+
+              {console.log(transferencia?.jogadores)}
+              {transferencia?.jogadores && (
+                <Col lg="3">
+                  <h4>{`Jogadores`}</h4>
+                  {agendamento &&
+                    agendamento?.jogadores.map((jogador, index) => {
+                      return <p key={index}>{jogador.name}</p>;
+                    })}
+                </Col>
+              )}
               <Col lg="3">
                 <h4>{`Código transferencia`}</h4>
                 <VerificationInput
@@ -119,26 +145,16 @@ const MinhaTransferencia = ({
         )}
 
         <ModalFooter>
-          {/* {modalCancel && (
-            <CancelAgendamento
-              title={`Cancelamento...`}
-              isOpen={modalCancel}
-              setIsOpen={setModalCancel}
-              agendaID={marcacao?.id}
-              horaAgenda={`${horario?.value}:00`}
-              transferID={marcacao?.transfer_id}
-            />
-          )}
           <Button
             type="button"
             className="btn btn-danger"
             onClick={() => {
-              setModalCancel(!modalCancel);
+              handleCancel();
             }}
           >
-            Cancelar Agendamento
+            Cancelar Transferencia
           </Button>
-          {modalTransfer && (
+          {/* {modalTransfer && (
             <TransferirMarcacao
               title={`Transferir marcação: ${marcacao?.codLocacao} para:`}
               isOpen={modalTransfer}

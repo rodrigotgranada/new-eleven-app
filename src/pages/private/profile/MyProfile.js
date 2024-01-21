@@ -113,6 +113,9 @@ export default function MyProfile() {
                       <br />
                       <strong>Email:</strong> {currentUser?.email}
                       <br />
+                      <strong>Telefone:</strong>{" "}
+                      {currentUser?.usuario?.telefone}
+                      <br />
                       <strong>Verificado:</strong>{" "}
                       {currentUser?.usuario?.checked ? "Sim" : "Não"}
                       <br />

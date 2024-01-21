@@ -26,7 +26,7 @@ const useTransferAgendamento = () => {
   const { sendConfirmPT } = useWhatsappApi();
 
   const checkTransfer = async (transferID) => {
-    console.log("agendaID", transferID);
+    console.log("TransferID", transferID);
     try {
       let resultado = null;
       const colletionRef = doc(db, "codTemp_transferAgenda", transferID);
@@ -51,35 +51,6 @@ const useTransferAgendamento = () => {
         setData(verify);
         return verify;
       }
-      // setLoading(false);
-      // return docSnap.data();
-
-      // const colletionRef1 = collection(db, "codTemp_transferAgenda");
-      // const q1 = query(colletionRef1, where("codLocacao", "==", codLocacao));
-
-      // const querySnapshot1 = await getDocs(q1);
-      // let resultado = null;
-      // querySnapshot1.forEach((doc) => {
-      //   resultado = { ...doc.data(), id: doc.id };
-      // });
-      // console.log(resultado);
-      // if (resultado) {
-      //   let verify = { ...data };
-      //   verify[`data`] = {
-      //     code: resultado.code,
-      //     id: resultado.id,
-      //     telefone: resultado.destinoCel,
-      //   };
-      //   verify[`error`] = "Transferencia já existe";
-      //   // verify[`id`] = resultado.id;
-      //   setData(verify);
-      //   return verify;
-      // } else {
-      //   let verify = { ...data };
-      //   verify[`error`] = null;
-      //   setData(verify);
-      //   return verify;
-      // }
     } catch (err) {
       console.log(err);
     }
@@ -193,10 +164,64 @@ const useTransferAgendamento = () => {
     }
   };
 
+  const acceptTransfer = async (transfer, players) => {
+    console.log("ACCEPTtransfer", transfer);
+    try {
+      const userRef = doc(db, "agenda", transfer?.locacaoID);
+      await updateDoc(userRef, {
+        transfer_id: null,
+        permanente: false,
+        permanente_id: "",
+        user: transfer?.userDestino,
+      }).then(async (e) => {
+        await cancelTransfer(transfer?.id);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const adminCheckAgenda = async (agendaID) => {
+    try {
+      let resultado = null;
+      const colletionRef = doc(db, "agenda", agendaID);
+      const docSnap = await getDoc(colletionRef);
+      resultado = docSnap.data();
+      // console.log(resultado);
+      setLoading(false);
+      return resultado;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const adminTransfer = async (agenda, selUser, jogadores) => {
+    const agendamento = await adminCheckAgenda(agenda?.id);
+    console.log(agendamento);
+    if (agendamento) {
+      try {
+        const userRef = doc(db, "agenda", agenda?.id);
+        return await updateDoc(userRef, {
+          transfer_id: null,
+          permanente: false,
+          permanente_id: "",
+          user: selUser?.uid,
+        }).then(async (e) => {
+          agenda?.transfer_id && (await cancelTransfer(agenda?.transfer_id));
+          return true;
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      return false;
+    }
+  };
+
   return {
     checkTransfer,
     createTransfer,
     cancelTransfer,
+    acceptTransfer,
+    adminTransfer,
     data,
     loading,
   };
