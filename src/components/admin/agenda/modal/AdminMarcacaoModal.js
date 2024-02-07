@@ -37,15 +37,25 @@ const AdminMarcacaoModal = ({ title, isOpen, setIsOpen, data, ...props }) => {
   const [modalBloquear, setModalBloquear] = useState(false);
   const [modalDesbloquear, setModalDesbloquear] = useState(false);
   useEffect(() => {
+    getInfos();
+  }, [isOpen]);
+
+  useEffect(() => {
+    getInfos();
+  }, [data]);
+
+  const getInfos = async () => {
     if (isOpen) {
       console.log("DATAMODAL", data);
       if (!data.new) {
         getHorario("horarios", data?.dataHorario);
-        getEsporte("modalidades", data?.esporte);
         getQuadra("quadras", data?.quadra);
+        if (!data.singleMarc) {
+          getEsporte("modalidades", data?.esporte);
+        }
       }
     }
-  }, [isOpen]);
+  };
 
   const handleCLose = () => {
     setIsOpen(false);
@@ -65,6 +75,15 @@ const AdminMarcacaoModal = ({ title, isOpen, setIsOpen, data, ...props }) => {
       />
     </>
   );
+
+  const showEsporte = () => {
+    if (!data.singleMarc && !data.bloqueio) {
+      return <p>Esporte: {esporte?.display}</p>;
+    }
+    // if (!data.bloqueio) {
+    //   return <p>Esporte: {esporte?.display}</p>;
+    // }
+  };
   const bodyEdit = (
     <>
       {loadingEsporte && loadingHorario && loadingQuadra && (
@@ -75,7 +94,7 @@ const AdminMarcacaoModal = ({ title, isOpen, setIsOpen, data, ...props }) => {
           <h3>{`Agendamento`}</h3>
           <p>Data: {formataData(data?.dataDia)}</p>
           <p>Hora: {`${hora?.value}:00`}</p>
-          {!data.bloqueio && <p>Esporte: {esporte?.display}</p>}
+          {showEsporte()}
           <p>Quadra: {quadra?.name}</p>
         </Col>
         <Col lg="7">

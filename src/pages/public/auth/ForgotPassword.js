@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
+import "./../../../styles/public/forgot.scss";
 
 export default function ForgotPassword() {
   const emailRef = useRef();
@@ -28,7 +29,7 @@ export default function ForgotPassword() {
 
   return (
     <>
-      <Container className="d-flex align-items-center justify-content-center">
+      <Container className="d-flex align-items-center justify-content-center card-edit">
         <div className="w-100" style={{ maxWidth: "400px" }}>
           <Card>
             <Card.Body>
@@ -40,7 +41,11 @@ export default function ForgotPassword() {
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" ref={emailRef} required />
                 </Form.Group>
-                <Button disabled={loading} className="w-100" type="submit">
+                <Button
+                  disabled={loading}
+                  className="w-100  btn-login"
+                  type="submit"
+                >
                   Enviar Email
                 </Button>
               </Form>

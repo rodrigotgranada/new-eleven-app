@@ -50,8 +50,8 @@ const FileInput = ({
               alt="upload"
               id="imageid"
               style={{
-                width: tamanho ? "17rem" : false,
-                height: tamanho ? "9rem" : false,
+                width: tamanho ? "10rem" : false,
+                height: tamanho ? "10rem" : false,
               }}
               // width={tamanho ? "25rem" : false}
               // height={tamanho ? 130 : false}

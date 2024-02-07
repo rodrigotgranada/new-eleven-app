@@ -3,7 +3,7 @@ import InputMask from "react-input-mask";
 
 const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
 
-const MaskedInput = ({
+const MaskedInputSignup = ({
   type,
   id,
   placeholder,
@@ -64,4 +64,4 @@ const MaskedInput = ({
   );
 };
 
-export default MaskedInput;
+export default MaskedInputSignup;

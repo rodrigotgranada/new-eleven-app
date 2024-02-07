@@ -7,7 +7,7 @@ import ButtonHorarioAgenda from "./ButtonHorarioAgenda";
 import { useContext } from "react";
 import AgendaContext from "../../../contexts/AgendaContext";
 
-const ListHorarios = ({ dataClick, quadraClick }) => {
+const ListHorarios = ({ dataClick, quadraClick, type }) => {
   // console.log("hora", dataClick, quadraClick);
   const { currentUser } = useAuth();
   const { agendaDate, setAgendaDate } = useContext(AgendaContext);
@@ -42,6 +42,7 @@ const ListHorarios = ({ dataClick, quadraClick }) => {
                   horario={horario}
                   dataClick={dataClick}
                   quadraClick={quadraClick}
+                  type={type}
                 />
               </div>
             );

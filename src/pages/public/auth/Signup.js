@@ -8,6 +8,7 @@ import useAuthData from "../../../hooks/useAuthData";
 import "../../../styles/public/signup.scss";
 import { toast } from "react-toastify";
 import MaskedInput from "../../../components/public/formComponents/MaskedInput";
+import MaskedInputSignup from "../../../components/public/formComponents/MaskedInputSignup";
 
 export default function Signup() {
   const emailRef = useRef();
@@ -116,7 +117,7 @@ export default function Signup() {
 
   return (
     <>
-      <Container className="d-flex align-items-center justify-content-center gap-3">
+      <Container className="d-flex align-items-center justify-content-center card-edit">
         <Col lg="12">
           <Card className="card-signup">
             <Card.Body>
@@ -171,13 +172,13 @@ export default function Signup() {
                         <FormGroup className="form-group-input" id="telefone">
                           <Label>Telefone / Whats</Label>
                           {/* <FormGroup ref={telefoneRef}> */}
-                          <MaskedInput
+                          <MaskedInputSignup
                             type="telefone"
                             id="telefone"
                             placeholder="Telefone"
                             reference={telefoneRef}
                             required={true}
-                            onBlur={handleChange}
+                            onChange={handleChange}
                             setError={setError}
                             error={error}
                           />
@@ -190,13 +191,13 @@ export default function Signup() {
                         <FormGroup className="form-group-input" id="doc">
                           <Label>CPF</Label>
 
-                          <MaskedInput
+                          <MaskedInputSignup
                             type="documento"
                             id="documento"
                             placeholder="CPF"
                             reference={docRef}
                             required={true}
-                            onBlur={handleChange}
+                            onChange={handleChange}
                             setError={setError}
                             error={error}
                           />

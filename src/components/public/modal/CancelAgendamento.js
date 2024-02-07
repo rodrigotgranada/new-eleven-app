@@ -95,7 +95,7 @@ const CancelAgendamento = ({
     try {
       const docRef = doc(db, "agenda", agendaID);
       await updateDoc(docRef, {
-        user: "123",
+        user: "agendamentoCancelado",
         // dataDia: "2022-01-01",
       }).then(async (e) => {
         try {

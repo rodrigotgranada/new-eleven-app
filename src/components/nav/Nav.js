@@ -128,8 +128,16 @@ export const Nav = (props) => {
             <li>
               <Link to="/">
                 <img
-                  src="https://firebasestorage.googleapis.com/v0/b/new-eleven-app.appspot.com/o/assets%2Fimgs%2FelevenSemFundo.png?alt=media&token=f5cd4011-7d26-4bca-8852-268360aca99c"
+                  src="https://firebasestorage.googleapis.com/v0/b/eleven-bb625.appspot.com/o/logos%2FelevenSemFundo.png?alt=media&token=68701f64-0ab9-4808-bb88-00174a8c8439"
                   alt="Home"
+                  className="logo-eleven-full"
+                />
+                <img
+                  src={
+                    "https://firebasestorage.googleapis.com/v0/b/eleven-bb625.appspot.com/o/logos%2FLogoElevenSemFundo.png?alt=media&token=4fb9b640-217a-4bf5-9de9-481cd053c0b1"
+                  }
+                  alt="Home"
+                  className="logo-eleven-mini"
                 />
               </Link>
             </li>
@@ -159,8 +167,16 @@ export const Nav = (props) => {
             <li>
               <Link to="/">
                 <img
-                  src="https://firebasestorage.googleapis.com/v0/b/new-eleven-app.appspot.com/o/assets%2Fimgs%2FelevenSemFundo.png?alt=media&token=f5cd4011-7d26-4bca-8852-268360aca99c"
+                  src="https://firebasestorage.googleapis.com/v0/b/eleven-bb625.appspot.com/o/logos%2FelevenSemFundo.png?alt=media&token=68701f64-0ab9-4808-bb88-00174a8c8439"
                   alt="Home"
+                  className="logo-eleven-full"
+                />
+                <img
+                  src={
+                    "https://firebasestorage.googleapis.com/v0/b/eleven-bb625.appspot.com/o/logos%2FLogoElevenSemFundo.png?alt=media&token=4fb9b640-217a-4bf5-9de9-481cd053c0b1"
+                  }
+                  alt="Home"
+                  className="logo-eleven-mini"
                 />
               </Link>
             </li>

@@ -12,7 +12,7 @@ import { useContext } from "react";
 import AgendaContext from "../../../contexts/AgendaContext";
 import AdminMarcacaoModal from "./modal/AdminMarcacaoModal";
 
-const ButtonHorarioAgenda = ({ horario, dataClick, quadraClick }) => {
+const ButtonHorarioAgenda = ({ horario, dataClick, quadraClick, type }) => {
   const { currentUser } = useAuth();
   const { agendaDate, setAgendaDate } = useContext(AgendaContext);
   const [ModalOpen, setModalOpen] = useState(false);
@@ -27,6 +27,17 @@ const ButtonHorarioAgenda = ({ horario, dataClick, quadraClick }) => {
   const [data, setData] = useState(null);
   const [nome, setNome] = useState(null);
   const [bloqueio, setBloqueio] = useState(false);
+  useEffect(() => {
+    // console.log("DATA-NEW", data);
+    // console.log("DATA-TYPE", type);
+    if (!data) {
+      setNome(null);
+      setData(null);
+      setBloqueio(null);
+      teste();
+    }
+    // teste();
+  }, [data]);
   useEffect(() => {
     // if ((agendaDate, horario, quadraClick)) {
     teste();
@@ -128,24 +139,25 @@ const ButtonHorarioAgenda = ({ horario, dataClick, quadraClick }) => {
                   dataDia: moment(agendaDate).format("YYYY-MM-DD"),
                   dataHorario: horario.id,
                   quadra: quadraClick.id,
+                  type: type.id,
                 }
           }
           // tipoQuadra={id}
         />
       )}
-      {console.log("DATABTN", data)}
+
       <button
         className={`btn btn-light btn-horarios ${data ? "btn-marc" : ""} ${
           data?.permanente ? "btn-permanente" : ""
         } ${data?.bloqueio && "btn-bloq"}`}
         onClick={() => setModalOpen(true)}
       >
-        {/* {console.log("block", agendaDate, bloqueio)} */}
-        {/* {data && bloqueio ? `Bloqueado` : horario.value} */}
         {data && bloqueio
           ? `Bloqueado`
           : nome
           ? `${nome.displayName} ${nome.sobrenome}`
+          : data?.singleMarc
+          ? data?.jogadores[0].name
           : horario.value}
       </button>
     </>

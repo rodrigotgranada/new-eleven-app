@@ -47,7 +47,7 @@ const TiposQuadras = ({ dia, type }) => {
               <span>
                 {quadra.numero} ({quadra.name}){" "}
               </span>{" "}
-              <ListHorarios dataClick={dia} quadraClick={quadra} />
+              <ListHorarios dataClick={dia} quadraClick={quadra} type={type} />
             </div>
           );
         })}

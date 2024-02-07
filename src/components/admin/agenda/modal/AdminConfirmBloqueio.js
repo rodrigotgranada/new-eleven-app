@@ -102,7 +102,7 @@ const AdminConfirmBloqueio = ({
       quadra: dados.quadra,
       status: "BLOQUEADO",
       step: 5,
-      tipoQuadra: "",
+      tipoQuadra: dados.type,
       user: "BLOQUEADO",
     };
 

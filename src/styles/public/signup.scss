@@ -33,3 +33,9 @@
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .card-edit {
+    padding: 0 !important;
+  }
+}

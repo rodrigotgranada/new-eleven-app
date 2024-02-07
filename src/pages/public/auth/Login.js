@@ -3,6 +3,7 @@ import { Alert, Button, Card, Container, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../contexts/AuthContext";
+import "./../../../styles/public/login.scss";
 
 export default function Login() {
   const emailRef = useRef();
@@ -48,7 +49,7 @@ export default function Login() {
 
   return (
     <>
-      <Container className="d-flex align-items-center justify-content-center">
+      <Container className="d-flex align-items-center justify-content-center card-edit">
         <div className="w-100" style={{ maxWidth: "400px" }}>
           <Card>
             <Card.Body>
@@ -63,7 +64,11 @@ export default function Login() {
                   <Form.Label>Senha</Form.Label>
                   <Form.Control type="password" ref={passwordRef} required />
                 </Form.Group>
-                <Button disabled={loading} className="w-100" type="submit">
+                <Button
+                  disabled={loading}
+                  className="w-100 btn-login"
+                  type="submit"
+                >
                   Entrar
                 </Button>
               </Form>

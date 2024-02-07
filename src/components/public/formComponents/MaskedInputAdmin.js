@@ -3,13 +3,13 @@ import InputMask from "react-input-mask";
 
 const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
 
-const MaskedInput = ({
+const MaskedInputAdmin = ({
   type,
   id,
   placeholder,
   reference,
   required,
-  onChange,
+  // onBlur,
   setError,
   error,
 }) => {
@@ -22,7 +22,7 @@ const MaskedInput = ({
         id: id,
       },
     };
-    onChange(valores);
+    // onBlur(valores);
     return valores;
   };
 
@@ -33,15 +33,15 @@ const MaskedInput = ({
     if (id === "telefone" && valor && valor < 11) {
       verify[`${id}`] = `Telefone inválido`;
     }
-    // if (id === "telefone" && valor && valor === 11) {
-    //   verify[`${id}`] = null;
-    // }
+    if (id === "telefone" && valor && valor === 11) {
+      verify[`${id}`] = null;
+    }
     if (id === "documento" && valor && valor < 11) {
       verify[`${id}`] = `CPF inválido`;
     }
-    // if (id === "documento" && valor && valor === 11) {
-    //   verify[`${id}`] = null;
-    // }
+    if (id === "documento" && valor && valor === 11) {
+      verify[`${id}`] = null;
+    }
     setError(verify);
   };
   return (
@@ -64,4 +64,4 @@ const MaskedInput = ({
   );
 };
 
-export default MaskedInput;
+export default MaskedInputAdmin;
