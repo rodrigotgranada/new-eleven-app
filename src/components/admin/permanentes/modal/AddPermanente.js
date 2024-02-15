@@ -54,20 +54,24 @@ const AddPermanente = ({ title, isOpen, setIsOpen }) => {
     getUsers("users");
     getHorarios("horarios", "value", "asc");
     return () => {
-      setPermanente({
-        user: "",
-        dataInicio: "",
-        dataFim: "",
-        diaSemana: "",
-        quadra: "",
-        hora: "",
-        tipoQuadra: "",
-        uid: "",
-      });
+      handleResetPermanente();
     };
   }, []);
   const handleCLose = () => {
     setIsOpen(false);
+  };
+
+  const handleResetPermanente = () => {
+    setPermanente({
+      user: "",
+      dataInicio: "",
+      dataFim: "",
+      diaSemana: "",
+      quadra: "",
+      hora: "",
+      tipoQuadra: "",
+      uid: "",
+    });
   };
 
   const handleAddPermanente = async () => {
@@ -88,6 +92,9 @@ const AddPermanente = ({ title, isOpen, setIsOpen }) => {
   const handleChange = async (e) => {
     let usuario = { ...permanente };
     usuario.user = e ? e.id : null;
+    if (!e) {
+      return handleResetPermanente();
+    }
     setPermanente(usuario);
   };
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
