@@ -45,6 +45,7 @@ const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
 
   useEffect(() => {
     if (isOpen) {
+      console.log(tipoQuadra);
       getTiposQuadra("tiposQuadra", tipoQuadra);
       getQuadras("quadras", "type", "==", tipoQuadra);
       getModalidades("modalidades", "type", "==", tipoQuadra);
@@ -77,10 +78,11 @@ const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
     e.preventDefault();
     try {
       const docRef = collection(db, "quadras");
+
       await addDoc(docRef, {
         name: novaQuadra,
         numero: numQuadra,
-        type: tiposQuadra ? tiposQuadra[0].id : "",
+        type: tipoQuadra,
         foto: selectedImage ? selectedImage : fotoPadrao[0]?.quadraPadrao,
         esportes: modalidade,
       }).then((e) => {
@@ -103,6 +105,7 @@ const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
         body.push(e.id);
       }
     }
+    console.log("EEEE", body);
     setModalidade(body);
   };
 
@@ -133,9 +136,9 @@ const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
           </div>
         </div>
       </ModalHeader>
-      {console.log("carregaTiposQuadra", carregaTiposQuadra)}
+      {/* {console.log("carregaTiposQuadra", carregaTiposQuadra)} */}
       {carregaTiposQuadra && <p>Carregando...</p>}
-      {console.log("tiposQuadra[0]", tiposQuadra)}
+      {/* {console.log("tiposQuadra[0]", tiposQuadra)} */}
       {!carregaTiposQuadra && tiposQuadra && (
         <ModalBody>
           <Row>
@@ -171,11 +174,9 @@ const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
                     options={modalidades}
                     getOptionLabel={(option) => option.display}
                     getOptionValue={(option) => option.id}
-                    value={modalidade}
+                    // value={modalidade ? modalidade : null}
                     // onChange={(item) => setEstado(item?.uf)}
-                    onChange={(e, item) => {
-                      return handleUpdateContext(e);
-                    }}
+                    onChange={handleUpdateContext}
                     isSearchable
                     required
                     closeMenuOnSelect={true}
