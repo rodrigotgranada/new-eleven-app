@@ -32,8 +32,10 @@ const StartDate = () => {
 
   const handleStartDia = (dia) => {
     const editedDay = moment(dia).format("YYYY-MM-DD");
+    const lastDay = moment(editedDay).add(52, "w").format("YYYY-MM-DD");
     let start = { ...permanente };
     start.dataInicio = editedDay;
+    start.dataFim = lastDay;
     setPermanente(start);
   };
 
@@ -49,13 +51,16 @@ const StartDate = () => {
     </button>
   ));
 
+  const dateInicio = new Date();
+  const newDateInicio = dateInicio.setDate(dateInicio.getDate() + 8);
+
   return (
     <DatePicker
       // selected={startDate}
       onChange={(date) => handleStartDia(date)}
       filterDate={isWeekday}
       locale="ptBR"
-      minDate={new Date()}
+      minDate={newDateInicio}
       customInput={<ExampleCustomInput />}
       dateFormat="dd/MM/yyyy"
       // inline

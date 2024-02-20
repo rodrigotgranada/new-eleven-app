@@ -22,6 +22,7 @@ import PrivateRoute from "./PrivateRoute";
 import RegisterRoute from "./RegisterRoute";
 import MinhasTransferencias from "../pages/private/marcacao/MinhasTransferencias";
 import Agenda from "../pages/admin/agenda/Agenda";
+import Churrasqueiras from "../pages/admin/churrasqueiras/Churrasqueiras";
 
 const Routers = () => {
   const { currentUser } = useAuth();
@@ -47,11 +48,13 @@ const Routers = () => {
       </Route>
       {/* Admin */}
       <Route path="/*" element={<AdminRoute currentUser={currentUser} />}>
-        <Route path="admin/" element={<Navigate to="home" />} />
-        <Route path="admin/home" element={<AdminHome />} />
+        <Route path="admin/" element={<Navigate to="agenda" />} />
+        {/* <Route path="admin/home" element={<AdminHome />} /> */}
+        <Route path="admin/home" element={<Navigate to="agenda" />} />
         <Route path="admin/agenda" element={<Agenda />} />
         <Route path="admin/permanentes" element={<Permanentes />} />
-        <Route path="admin/bloqueios" element={<Bloqueios />} />
+        <Route path="admin/churrasqueiras" element={<Churrasqueiras />} />
+        {/* <Route path="admin/bloqueios" element={<Bloqueios />} /> */}
       </Route>
       <Route path="/*" element={<OwnerRoute currentUser={currentUser} />}>
         <Route path="admin/logs" element={<Logs />} />

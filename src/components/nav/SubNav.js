@@ -7,10 +7,15 @@ const SubNav = ({ admin, rule }) => {
   let admin__nav;
   admin
     ? (admin__nav = [
-        { path: "admin/home", display: "Home" },
+        // { path: "admin/home", display: "Home" },
         { path: "admin/agenda", display: "Agenda", rule: false },
+        {
+          path: "admin/churrasqueiras",
+          display: "Churrasqueiras",
+          rule: false,
+        },
         { path: "admin/permanentes", display: "Permanentes", rule: false },
-        { path: "admin/bloqueios", display: "Bloqueios", rule: false },
+        // { path: "admin/bloqueios", display: "Bloqueios", rule: false },
         { path: "admin/usuarios", display: "Usuários", rule: true },
         { path: "admin/quadras", display: "Quadras", rule: true },
         { path: "admin/logs", display: "Logs", rule: true },

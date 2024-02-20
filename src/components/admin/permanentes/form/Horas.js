@@ -12,29 +12,28 @@ const Horas = ({ dia }) => {
     loading: carregaHorarios,
   } = useGetData();
   useEffect(() => {
-    if (permanente) {
-      // console.log("recarreguei");
-      getHorarios("horarios", "value", "asc");
-    }
-  }, [permanente]);
+    getHorarios("horarios", "value", "asc");
+  }, []);
 
   return (
     <>
-      <Row>
-        {horarios &&
-          horarios.map((horario, index) => {
-            return (
-              <div key={index}>
-                <ButtonsHoras
-                  horario={horario}
-                  // dataClick={dataClick}
-                  // quadraClick={quadraClick}
-                  // type={type}
-                />
-              </div>
-            );
-          })}
-      </Row>
+      {/* <Row> */}
+      {horarios &&
+        horarios.map((horario, index) => {
+          return (
+            // <div >
+            <ButtonsHoras
+              key={index}
+              horario={horario}
+              index={index}
+              // dataClick={dataClick}
+              // quadraClick={quadraClick}
+              // type={type}
+            />
+            // </div>
+          );
+        })}
+      {/* </Row> */}
     </>
   );
 };

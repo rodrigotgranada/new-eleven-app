@@ -6,18 +6,20 @@ import { db } from "../../../firebase";
 import "./deleteQuadra.scss";
 
 const DeleteQuadra = ({ isOpen, setIsOpen, quadra, id, closePrevious }) => {
+  console.log(isOpen, quadra);
   const handleClose = () => {
     setIsOpen(false);
   };
 
   const handleDeleteItem = async () => {
     try {
-      const docRef = doc(db, "quadras", id);
-      await deleteDoc(docRef).then((e) => {
-        setIsOpen(false);
-        closePrevious(false);
-        toast.success(`Quadra ${quadra?.name} excluida com sucesso!!`);
-      });
+      const docRef = doc(db, "quadras", quadra.id);
+      console.log("docRef", docRef);
+      // await deleteDoc(docRef).then((e) => {
+      //   setIsOpen(false);
+      //   closePrevious(false);
+      //   toast.success(`Quadra ${quadra?.name} excluida com sucesso!!`);
+      // });
     } catch (error) {
       toast.error(error.message);
     }

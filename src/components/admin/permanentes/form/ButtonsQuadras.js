@@ -8,10 +8,14 @@ const ButtonsQuadras = ({ quadra, reservada }) => {
     let per = { ...permanente };
     if (per.quadra === quadra.id) {
       per.quadra = "";
+      per.esporte = "";
+      per.dataInicio = "";
       setPermanente(per);
       return;
     } else {
       per.quadra = quadra.id;
+      per.esporte = "";
+      per.dataInicio = "";
       setPermanente(per);
     }
   };

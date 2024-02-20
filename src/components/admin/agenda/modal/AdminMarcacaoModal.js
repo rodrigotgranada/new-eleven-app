@@ -50,8 +50,8 @@ const AdminMarcacaoModal = ({ title, isOpen, setIsOpen, data, ...props }) => {
       if (!data.new) {
         getHorario("horarios", data?.dataHorario);
         getQuadra("quadras", data?.quadra);
+        getEsporte("modalidades", data?.esporte);
         if (!data.singleMarc) {
-          getEsporte("modalidades", data?.esporte);
         }
       }
     }
@@ -77,7 +77,8 @@ const AdminMarcacaoModal = ({ title, isOpen, setIsOpen, data, ...props }) => {
   );
 
   const showEsporte = () => {
-    if (!data.singleMarc && !data.bloqueio) {
+    if (!data.bloqueio) {
+      console.log("entrei aqui", esporte);
       return <p>Esporte: {esporte?.display}</p>;
     }
     // if (!data.bloqueio) {

@@ -7,3 +7,22 @@
 .btn-active {
   background-color: orangered !important;
 }
+
+.row-main-add-permanentes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  width: 100%;
+  gap: 0.5rem;
+  .btns-permanentes-menu {
+    // margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid black;
+  }
+}

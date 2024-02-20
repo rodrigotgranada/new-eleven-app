@@ -29,18 +29,6 @@ const firebaseConfig = {
   measurementId: "G-QRJDR3CX0J",
 };
 
-// ------------------ DEVELOPMENT ------------------
-
-// const app = firebase.initializeApp({
-//   apiKey: "AIzaSyCpEt8dLR_UNd4BjuYUe_RdV0wtMSJv4a8",
-//   authDomain: "safrasecifras-cdef2.firebaseapp.com",
-//   projectId: "safrasecifras-cdef2",
-//   storageBucket: "safrasecifras-cdef2.appspot.com",
-//   messagingSenderId: "849362127346",
-//   appId: "1:849362127346:web:a1c4aad43acaffdb25c36b",
-//   measurementId: "G-CHMM2RDW41"
-// })
-
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);

@@ -14,9 +14,10 @@ const ButtonsDias = ({ dia, index, tipoQuadra }) => {
   const handleDia = (dia) => {
     let dias = { ...permanente };
     dias.diaSemana = dia;
-    dias.hora = null;
-    dias.quadra = null;
-    dias.dataInicio = null;
+    dias.hora = "";
+    dias.quadra = "";
+    dias.esporte = "";
+    dias.dataInicio = "";
     setPermanente(dias);
   };
 

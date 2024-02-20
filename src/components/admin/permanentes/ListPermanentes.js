@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AddPermanente from "./modal/AddPermanente";
+import Content from "./table/Content";
 
 const ListPermanentes = () => {
   const [ModalOpen, setModalOpen] = useState(false);
@@ -22,7 +23,9 @@ const ListPermanentes = () => {
         </button>
       </section>
 
-      <section className="body-permanente"></section>
+      <section className="body-permanente">
+        <Content />
+      </section>
 
       <section className="buttons-permanente">
         <button className="btn btn-primary" onClick={() => setModalOpen(true)}>

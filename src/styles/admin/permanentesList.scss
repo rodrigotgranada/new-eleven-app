@@ -1,0 +1,45 @@
+@use "./variables" as v;
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid v.$table_border_color;
+}
+th {
+  font-weight: bold;
+  border: 1px solid v.$table_border_color;
+  width: 25%;
+}
+th,
+td {
+  text-align: left;
+  padding: 6px;
+  border: 1px solid v.$table_border_color;
+  width: 25%;
+}
+
+thead > tr,
+tbody > tr:nth-child(even),
+tfoot {
+  background-color: v.$table_bg_line_color;
+}
+tfoot {
+  td {
+    padding: 0;
+  }
+}
+
+.table-header {
+  text-align: center;
+  input,
+  select {
+    width: 98%;
+    padding: 0.41rem;
+    border: 1px solid v.$table_input_line_color;
+    border-radius: 3px;
+  }
+
+  select.winner {
+    text-align: center;
+  }
+}

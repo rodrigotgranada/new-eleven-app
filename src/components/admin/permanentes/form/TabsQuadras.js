@@ -22,6 +22,7 @@ import Dias from "./Dias";
 import PermanenteContext from "../../../../contexts/PermanenteContext";
 import Quadras from "./Quadras";
 import StartDate from "./StartDate";
+import Esportes from "./Esportes";
 
 const TabsQuadras = ({ tiposQuadras }) => {
   useEffect(() => {
@@ -34,16 +35,16 @@ const TabsQuadras = ({ tiposQuadras }) => {
   useEffect(() => {
     let dias = { ...permanente };
     dias.tipoQuadra = currentActiveTab;
-
-    dias.hora = null;
-
-    dias.quadra = null;
+    dias.hora = "";
+    dias.quadra = "";
+    dias.esporte = "";
+    dias.dataInicio = "";
     setPermanente(dias);
   }, [currentActiveTab]);
 
-  useEffect(() => {
-    return () => {};
-  }, [permanente]);
+  // useEffect(() => {
+  //   return () => {};
+  // }, [permanente]);
 
   const toggle = (tab) => {
     if (currentActiveTab !== tab) {
@@ -72,27 +73,32 @@ const TabsQuadras = ({ tiposQuadras }) => {
         {tiposQuadras.map((tipo, index) => {
           return (
             <TabPane tabId={tipo.id} key={index}>
-              <Row>
-                <Col sm="6">
+              {/* {tipo.display} */}
+              <Row className={`row-main-add-permanentes`}>
+                <Col sm="12" className={`btns-permanentes-menu`}>
                   <Dias esporte={tipo.id} />
                 </Col>
 
                 {permanente.diaSemana && (
-                  <Col sm="6">
+                  <Col sm="12" className={`btns-permanentes-menu`}>
                     <Horas />
                   </Col>
                 )}
                 {permanente.hora && (
-                  <Col sm="12">
+                  <Col sm="12" className={`btns-permanentes-menu`}>
                     <Quadras />
                   </Col>
                 )}
                 {permanente.quadra && (
-                  <Col sm="3">
+                  <Col sm="12" className={`btns-permanentes-menu`}>
+                    <Esportes />
+                  </Col>
+                )}
+                {permanente.esporte && (
+                  <Col sm="12" className={`btns-permanentes-menu`}>
                     <StartDate />
                   </Col>
                 )}
-                {/* </Col> */}
               </Row>
             </TabPane>
           );

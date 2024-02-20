@@ -1,5 +1,6 @@
 import {
   collection,
+  deleteDoc,
   doc,
   documentId,
   getDoc,
@@ -9,6 +10,7 @@ import {
   or,
   orderBy,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { useState } from "react";
@@ -29,10 +31,13 @@ const useGetData = () => {
 
   const getData = async (collectionName) => {
     const collectionRef = collection(db, collectionName);
+    const itens = [];
     await onSnapshot(collectionRef, (snapshot) => {
+      itens.push(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       setData(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       setLoading(false);
     });
+    return itens;
   };
 
   const getDataId = async (collectionName, id) => {
@@ -52,6 +57,29 @@ const useGetData = () => {
     );
 
     await onSnapshot(q, (querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push({ ...doc.data(), id: doc.id });
+      });
+      setData(items);
+      setLoading(false);
+    });
+  };
+
+  const getDataOrderByTeste = async (collectionName, campo, order) => {
+    const colletionRef = collection(db, collectionName);
+    const q = query(
+      colletionRef,
+      orderBy(campo, order ? order.toLowerCase() : "asc")
+    );
+
+    await onSnapshot(q, (querySnapshot) => {
+      querySnapshot.docChanges().forEach((change) => {
+        if (change.type === "removed") {
+          console.log("removed", change.doc.data());
+        }
+      });
+
       const items = [];
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
@@ -116,21 +144,49 @@ const useGetData = () => {
     });
   };
 
-  const getDataWhereId = async (collectionName, type, valor) => {
-    console.log("valor", valor);
+  const getDataWhereSimple = async (collectionName, campo, type, valor) => {
     const colletionRef = collection(db, collectionName);
-    const q = query(colletionRef, where(documentId(), type, valor));
+    const q = query(colletionRef, or(where(campo, type, valor)));
+
     await onSnapshot(q, (querySnapshot) => {
       const items = [];
       querySnapshot.forEach((doc) => {
-        console.log("querySnapshot", doc.data());
         items.push({ ...doc.data(), id: doc.id });
       });
-      console.log("items", items);
+      // console.log("items", items);
       setData(items);
       setLoading(false);
       return items;
     });
+  };
+
+  const getDataWhereQuadra = async (collectionName, campo, type, valor) => {
+    const colletionRef = collection(db, collectionName);
+    const q = query(colletionRef, or(where(campo.toLowerCase(), type, valor)));
+    const items = [];
+    await onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        items.push({ ...doc.data(), id: doc.id });
+      });
+      // console.log("items", items);
+    });
+    setData(items);
+    setLoading(false);
+    return items;
+  };
+
+  const getDataWhereId = async (collectionName, type, valor) => {
+    const colletionRef = collection(db, collectionName);
+    const q = query(colletionRef, where(documentId(), type, valor));
+    const items = [];
+    await onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        items.push({ ...doc.data(), id: doc.id });
+      });
+    });
+    setData(items);
+    setLoading(false);
+    return items;
   };
 
   const getDataWhere2 = async (
@@ -215,18 +271,17 @@ const useGetData = () => {
       where(campo3, type3, valor3),
       where(campo4, type4, valor4)
     );
-
+    const items = [];
     await onSnapshot(q, (querySnapshot) => {
-      const items = [];
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
       });
 
       // console.log("getDataWhere4", items);
-      setData(items);
-      setLoading(false);
-      return items;
     });
+    setData(items);
+    setLoading(false);
+    return items;
   };
 
   const getDataWhereOrderByLimit = async (
@@ -245,18 +300,16 @@ const useGetData = () => {
       orderBy(orderCampo, order ? order.toLowerCase() : "asc"),
       limit(quantidade ? quantidade : 10000)
     );
-
+    const items = [];
     await onSnapshot(q, (querySnapshot) => {
-      const items = [];
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
       });
-
-      setData(items);
-
-      setLoading(false);
-      return items;
     });
+    setData(items);
+
+    setLoading(false);
+    return items;
   };
 
   const getDataWhereOrderByLimit2 = async (
@@ -434,6 +487,46 @@ const useGetData = () => {
     return items;
   };
 
+  const deletePermanente = async (id) => {
+    let retorno = "";
+    const colletionRef = collection(db, "agenda");
+    const q = query(colletionRef, where("permanente_id", "==", id));
+    try {
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot?.empty) {
+        retorno = false;
+      } else {
+        querySnapshot.forEach(async (doc) => {
+          const ref = doc.ref;
+          await updateDoc(ref, {
+            user: "agendamentoCancelado",
+          }).then((e) => {
+            deleteDoc(ref).then((e) => {
+              console.log(`Agendamento excluido com sucesso!!`);
+            });
+          });
+        });
+        setLoading(false);
+        retorno = true;
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      retorno = false;
+    }
+
+    if (retorno) {
+      const docRef = doc(db, "permanentes", id);
+
+      await deleteDoc(docRef).then((e) => {
+        console.log(`Permanente excluido com sucesso!!`);
+      });
+    }
+
+    console.log("retorno", retorno);
+    return retorno;
+  };
+
   return {
     getAllUsers,
     getDataWhereId,
@@ -446,11 +539,15 @@ const useGetData = () => {
     getDataId,
     getDataWhereSnap,
     getDataWhere,
+    getDataWhereSimple,
+    getDataWhereQuadra,
     getData,
     getDataOrderBy,
+    getDataOrderByTeste,
     getDataAgenda,
     getDataSnapAtt,
     getDataSnapAttButtonAgenda,
+    deletePermanente,
     data,
     loading,
   };

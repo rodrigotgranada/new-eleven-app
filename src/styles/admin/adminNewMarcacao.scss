@@ -1,3 +1,10 @@
 .nav-item {
   cursor: pointer;
 }
+
+.row-esportes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 1rem;
+}

@@ -35,7 +35,6 @@ const ListHorarios = ({ dataClick, quadraClick, type }) => {
       <div className="bloco-horarios">
         {horarios &&
           horarios.map((horario, index) => {
-            console.log(horario);
             return (
               <div key={index}>
                 <ButtonHorarioAgenda

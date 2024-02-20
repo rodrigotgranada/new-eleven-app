@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import PermanenteContext from "../../../../contexts/PermanenteContext";
 import Loading from "../../../public/Loading/Loading";
 
-const ButtonsHoras = ({ horario }) => {
+const ButtonsHoras = ({ horario, index }) => {
   const { permanente, setPermanente } = useContext(PermanenteContext);
   const {
     getDataWhere3,
@@ -66,7 +66,9 @@ const ButtonsHoras = ({ horario }) => {
   const handleHora = (hora) => {
     let per = { ...permanente };
     per.hora = hora;
-    per.quadra = null;
+    per.quadra = "";
+    per.esporte = "";
+    per.dataInicio = "";
     setPermanente(per);
   };
 
@@ -75,6 +77,7 @@ const ButtonsHoras = ({ horario }) => {
       {loading && <Loading type={`spin`} width={"30px"} />}
       {!loading && (
         <button
+          key={index}
           type="button"
           className={`btn btn-secondary ${
             permanente.hora === horario.id ? "btn-active" : ""

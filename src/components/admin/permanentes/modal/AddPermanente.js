@@ -23,12 +23,14 @@ import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import PermanenteContext from "../../../../contexts/PermanenteContext";
 import Loading from "../../../public/Loading/Loading";
 import AgendaPermanente from "../form/AgendaPermanente";
+import ConfirmAddPermanente from "./ConfirmAddPermanente";
 registerLocale("ptBR", ptBR);
 const AddPermanente = ({ title, isOpen, setIsOpen }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedHora, setSelectedHora] = useState(null);
   const [selectedQuadra, setSelectedQuadra] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [modalConfirm, setModalConfirm] = useState(false);
   const [error, setError] = useState({
     name: null,
     telefone: null,
@@ -39,6 +41,12 @@ const AddPermanente = ({ title, isOpen, setIsOpen }) => {
   const { permanente, setPermanente } = useContext(PermanenteContext);
   const [permanenteStartDate, setPermanenteStartDate] = useState(new Date());
   const [btnDiabled, setBtnDisabled] = useState(true);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const {
+    getDataWhere4: getTiposQuadras,
+    data: tiposQuadras,
+    loading: loadingWhere4,
+  } = useGetData();
   const {
     getDataOrderBy: getHorarios,
     data: horarios,
@@ -74,10 +82,6 @@ const AddPermanente = ({ title, isOpen, setIsOpen }) => {
     });
   };
 
-  const handleAddPermanente = async () => {
-    console.log("salva");
-  };
-
   useEffect(() => {
     permanente.diaSemana &&
     permanente.dataInicio &&
@@ -93,38 +97,14 @@ const AddPermanente = ({ title, isOpen, setIsOpen }) => {
     let usuario = { ...permanente };
     usuario.user = e ? e.id : null;
     if (!e) {
+      setSelectedUser(null);
       return handleResetPermanente();
+    } else {
+      setSelectedUser(e);
     }
     setPermanente(usuario);
   };
-  const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
-    <button
-      type={"button"}
-      className="btn btn-primary agenda-button"
-      onClick={onClick}
-      ref={ref}
-    >
-      {value}
-    </button>
-  ));
 
-  const semana = [
-    "Domingo",
-    "Segunda",
-    "Terça",
-    "Quarta",
-    "Quinta",
-    "Sexta",
-    "Sábado",
-  ];
-
-  const handleDate = (dia) => {
-    setSelectedDate(dia);
-  };
-
-  const handleHora = (horario) => {
-    setSelectedHora(horario?.id);
-  };
   return (
     <>
       <Modal
@@ -163,6 +143,7 @@ const AddPermanente = ({ title, isOpen, setIsOpen }) => {
                 getOptionLabel={(option) =>
                   `${option.displayName} ${option.sobrenome} - (${option.telefone})`
                 }
+                value={selectedUser || ""}
                 getOptionValue={(option) => option.id}
                 onChange={handleChange}
                 placeholder={"Selecione um usuário"}
@@ -182,10 +163,24 @@ const AddPermanente = ({ title, isOpen, setIsOpen }) => {
           </Row>
         </ModalBody>
         <ModalFooter>
+          {modalConfirm && (
+            <ConfirmAddPermanente
+              isOpen={modalConfirm}
+              setIsOpen={setModalConfirm}
+              selectedUser={selectedUser}
+              title={`Confirmar permanente para ${selectedUser?.displayName}`}
+              dados={permanente}
+              handleResetPermanente={handleResetPermanente}
+              setSelectedUser={setSelectedUser}
+              oldOpen={isOpen}
+              oldSetIsOpen={setIsOpen}
+            />
+          )}
+
           <Button
             type="button"
             color="primary"
-            onClick={() => handleAddPermanente()}
+            onClick={() => setModalConfirm(true)}
             disabled={btnDiabled}
           >
             Salvar

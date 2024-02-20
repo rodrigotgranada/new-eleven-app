@@ -9,6 +9,7 @@ import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { FormSelect } from "react-bootstrap";
 import TiposQuadras from "./TiposQuadras";
 import AgendaContext from "../../../contexts/AgendaContext";
+import moment from "moment";
 
 const ListDates = () => {
   const { currentUser } = useAuth();
@@ -22,21 +23,64 @@ const ListDates = () => {
     data: horarios,
     loading: carregaHorarios,
   } = useGetData();
+
+  const {
+    getDataWhereSimple: getMarcacoes,
+    data: marcacoes,
+    loading: carregaMarcacoes,
+  } = useGetData();
   const [startDate, setStartDate] = useState(new Date());
   const [modalidadeFilter, setmodalidadeFilter] = useState("all");
   const { agendaDate, setAgendaDate } = useContext(AgendaContext);
+  const [count, setCount] = useState({
+    blocked: 0,
+    perm: 0,
+    avulso: 0,
+    total: 0,
+  });
 
   useEffect(() => {
-    console.log("startDate", startDate);
+    // console.log("startDate", startDate);
   }, [startDate]);
 
   useEffect(() => {
     if (currentUser) {
-      console.log("currentUser", currentUser);
+      // console.log("currentUser", currentUser);
       getTiposQuadra("tiposQuadra", "display", "asc");
       getHorarios("horarios", "value", "asc");
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    // console.log("DIA", moment(agendaDate).format("YYYY-MM-DD"));
+    getMarcacoes(
+      "agenda",
+      "dataDia",
+      "==",
+      moment(agendaDate).format("YYYY-MM-DD")
+    );
+  }, [agendaDate]);
+
+  useEffect(() => {
+    // console.log("marcacoes", marcacoes);
+    let blocked = marcacoes.filter(function (el) {
+      return el.bloqueio === true;
+    });
+    let perm = marcacoes.filter(function (el) {
+      return el.permanente === true;
+    });
+    let avulso = marcacoes.filter(function (el) {
+      return el.singleMarc === true;
+    });
+    let total = marcacoes.length;
+
+    let counter = { ...count };
+    counter.blocked = blocked.length;
+    counter.perm = perm.length;
+    counter.avulso = avulso.length;
+    counter.total = total;
+    setCount(counter);
+  }, [marcacoes]);
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <button
@@ -61,6 +105,7 @@ const ListDates = () => {
           onChange={(date) => setAgendaDate(date)}
           customInput={<ExampleCustomInput />}
           dateFormat="dd/MM/yyyy"
+          locale="ptBR"
           // inline
           showDisabledMonthNavigation
           renderCustomHeader={({
@@ -126,6 +171,10 @@ const ListDates = () => {
               );
             })}
         </FormSelect>
+        <p>
+          {" "}
+          {`Bloqueados: ${count.blocked} - Permanentes: ${count.perm} - Avulsos: ${count.avulso} - Total: ${count.total}`}
+        </p>
       </section>
       {tiposQuadra &&
         tiposQuadra.map((tipoQuadra, index) => {

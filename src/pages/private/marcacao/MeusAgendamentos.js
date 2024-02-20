@@ -79,8 +79,8 @@ const MeusAgendamentos = () => {
         ">=",
         "2023-11-15",
         "dataDia",
-        "desc",
-        20
+        "asc",
+        30
       );
     }
   }, [currentUser]);

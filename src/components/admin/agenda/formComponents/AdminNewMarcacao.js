@@ -45,9 +45,9 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
     loadingHorario,
   } = useGetData();
   const {
-    getDataId: getEsporteEscolhido,
-    data: esporteEscolhido,
-    loadingEsporte,
+    getDataWhereId: getEsportes,
+    data: esportes,
+    loading: carregaEsportes,
   } = useGetData();
   const {
     getDataId: getQuadraEscolhida,
@@ -60,6 +60,7 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
     name: null,
     telefone: null,
     selectedPlayer: null,
+    selectedEsporteB: null,
   });
   const [currentActiveTab, setCurrentActiveTab] = useState("1");
   const [selectedPlayer, setSelectedPlayer] = useState(null);
@@ -67,11 +68,29 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
   const nameRef = useRef();
   const surnameRef = useRef();
   const telefoneRef = useRef();
+  const [selectedEsporte, setSelectedEsporte] = useState(null);
 
   useEffect(() => {
     getUsers("users");
+    getQuadraEscolhida("quadras", dados?.quadra);
     return () => {};
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(quadraEscolhida).length > 0) {
+      if (quadraEscolhida?.esportes?.length == 1) {
+        setSelectedEsporte(quadraEscolhida?.esportes[0]);
+      } else {
+        getEsportes("modalidades", "in", quadraEscolhida?.esportes);
+      }
+    }
+
+    return () => {};
+  }, [quadraEscolhida]);
+
+  useEffect(() => {
+    console.log("esportes", esportes.length);
+  }, [esportes]);
 
   console.log("agendaID", dados);
 
@@ -104,19 +123,10 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
   const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
   const handleSaveInfo = async (e) => {
     const hora = await getHorarioEscolhido("horarios", dados?.dataHorario);
-
-    const quadra = await getQuadraEscolhida("quadras", dados?.quadra);
     let formatedDate3 = moment(dados?.dataDia).format("DD/MM/YYYY");
-    console.log("formatedDate3Confirm", formatedDate3);
     const dataF = formatedDate3.split("/");
-    //  const data = marcacao?.dataDia.split("/");
     const anoFinal = dataF[2].slice(-2);
-    const protocol = `${anoFinal}${dataF[1]}${dataF[0]}${hora?.value}${quadra?.numero}`;
-
-    console.log("hora", hora);
-    console.log("quadra", quadra);
-
-    console.log("protocol", protocol);
+    const protocol = `${anoFinal}${dataF[1]}${dataF[0]}${hora?.value}${quadraEscolhida?.numero}`;
     if (currentActiveTab === "1") {
       let verify = { ...error };
       if (!nameRef?.current?.value || nameRef?.current?.value.length < 1) {
@@ -137,12 +147,15 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
       ) {
         verify[`${"telefone"}`] = null;
       }
+      if (!selectedEsporte) {
+        verify[`${"selectedEsporteB"}`] = `Escolha um esporte`;
+      }
+      if (selectedEsporte) {
+        verify[`${"selectedEsporteB"}`] = null;
+      }
       setError(verify);
 
-      if (!verify.name && !verify.telefone) {
-        console.log("NOME", nameRef?.current?.value);
-        console.log("TELEFONE", onlyNumbers(telefoneRef?.current?.value));
-        console.log("SALVO");
+      if (!verify.name && !verify.telefone && selectedEsporte) {
         const resposta = await getMarcacao(
           "agenda",
           "dataDia",
@@ -160,6 +173,7 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
         defaultMarc.dataDia = dados.dataDia;
         defaultMarc.dataHorario = dados.dataHorario;
         defaultMarc.quadra = dados.quadra;
+        defaultMarc.esporte = selectedEsporte;
         defaultMarc.jogadores[0] = {
           id: uuidv4(),
           name: nameRef?.current?.value,
@@ -170,10 +184,7 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
 
         if (!resposta) {
           addMarcacao(defaultMarc);
-          // oldSetIsOpen(false);
-          // setIsOpen(false);
         }
-        // console.log("defaultMarc", defaultMarc);
       }
     } else {
       console.log(selectedPlayer);
@@ -184,7 +195,53 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
       } else {
         verify[`${"selectedPlayer"}`] = `Selecione um cliente`;
       }
+      if (!selectedEsporte) {
+        verify[`${"selectedEsporteB"}`] = `Escolha um esporte`;
+      }
+      if (selectedEsporte) {
+        verify[`${"selectedEsporteB"}`] = null;
+      }
       setError(verify);
+      if (
+        !verify.selectedPlayer &&
+        !verify.selectedEsporteB &&
+        selectedEsporte
+      ) {
+        const resposta = await getMarcacao(
+          "agenda",
+          "dataDia",
+          "==",
+          dados.dataDia,
+          "quadra",
+          "==",
+          dados.quadra,
+          "dataHorario",
+          "==",
+          dados.dataHorario
+        );
+
+        let MeuUser = users.filter(function (el) {
+          return el.id === selectedPlayer.id;
+        });
+        if (MeuUser.length > 0) {
+          defaultMarc.codLocacao = protocol;
+          defaultMarc.createAt = moment(new Date()).format("YYYY-MM-DD");
+          defaultMarc.dataDia = dados.dataDia;
+          defaultMarc.dataHorario = dados.dataHorario;
+          defaultMarc.quadra = dados.quadra;
+          defaultMarc.esporte = selectedEsporte;
+          defaultMarc.jogadores[0] = {
+            id: MeuUser[0].id,
+            name: MeuUser[0].displayName,
+            pago: false,
+            telefone: onlyNumbers(MeuUser[0].telefone),
+          };
+          defaultMarc.user = MeuUser[0].id;
+        }
+        if (!resposta) {
+          addMarcacao(defaultMarc);
+        }
+      }
     }
   };
 
@@ -192,7 +249,6 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
     try {
       const docRef = collection(db, "agenda");
       await addDoc(docRef, dados).then((e) => {
-        // setConfirmed(true);
         toast.success(`Marcação confirmada`, {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -202,17 +258,19 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
     }
   };
 
-  const handleVerifySave = () => {
-    if (currentActiveTab === "1") {
-      return true;
+  const handleEsporte = (esporte) => {
+    if (esporte?.id === selectedEsporte) {
+      setSelectedEsporte(null);
+    } else {
+      setSelectedEsporte(esporte?.id);
     }
-    return true;
   };
 
   return (
     <>
-      {loadingUsers && <Loading type={`spin`} width={"30px"} />}
-      {users && (
+      {loadingUsers ||
+        (loadingQuadra && <Loading type={`spin`} width={"30px"} />)}
+      {users && Object.keys(quadraEscolhida).length > 0 && (
         <>
           <ModalBody>
             <div>
@@ -277,6 +335,41 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
                             )}
                           </FormGroup>
                         </Col>
+                        {esportes && esportes?.length > 1 && (
+                          <>
+                            <Col lg="12">
+                              <FormGroup
+                                className="form-group-input"
+                                id="esporte"
+                              >
+                                <Label>Esporte</Label>
+                                <div className="row-esportes">
+                                  {esportes?.map((esporte, index) => {
+                                    return (
+                                      <button
+                                        type="button"
+                                        className={`btn btn-primary ${
+                                          selectedEsporte === esporte.id &&
+                                          `btn-active`
+                                        }`}
+                                        key={index}
+                                        value={esporte.id}
+                                        onClick={() => handleEsporte(esporte)}
+                                      >
+                                        {esporte.display}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                                {error.selectedEsporteB && (
+                                  <Alert variant="danger">
+                                    {error.selectedEsporteB}
+                                  </Alert>
+                                )}
+                              </FormGroup>
+                            </Col>
+                          </>
+                        )}
                       </Row>
                     </Col>
                   </Row>
@@ -303,6 +396,38 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
                         <Alert variant="danger">{error.selectedPlayer}</Alert>
                       )}
                     </Col>
+                    {esportes && esportes?.length > 1 && (
+                      <>
+                        <Col lg="12">
+                          <FormGroup className="form-group-input" id="esporte">
+                            <Label>Esporte</Label>
+                            <div className="row-esportes">
+                              {esportes?.map((esporte, index) => {
+                                return (
+                                  <button
+                                    type="button"
+                                    className={`btn btn-primary ${
+                                      selectedEsporte === esporte.id &&
+                                      `btn-active`
+                                    }`}
+                                    key={index}
+                                    value={esporte.id}
+                                    onClick={() => handleEsporte(esporte)}
+                                  >
+                                    {esporte.display}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                            {error.selectedEsporteB && (
+                              <Alert variant="danger">
+                                {error.selectedEsporteB}
+                              </Alert>
+                            )}
+                          </FormGroup>
+                        </Col>
+                      </>
+                    )}
                   </Row>
                 </TabPane>
               </TabContent>

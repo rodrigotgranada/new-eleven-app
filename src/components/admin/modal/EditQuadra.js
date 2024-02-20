@@ -27,6 +27,7 @@ const EditQuadra = ({ isOpen, setIsOpen, editarQuadra, ...props }) => {
   const [tipoQuadra, setTipoQuadra] = useState();
   const [modalidade, setModalidade] = useState();
   const [selectedImage, setSelectedImage] = useState();
+  const [modalDelete, setModalDelete] = useState(false);
 
   const {
     getData: getImagemPadrao,
@@ -224,6 +225,23 @@ const EditQuadra = ({ isOpen, setIsOpen, editarQuadra, ...props }) => {
                 }}
               >
                 Fechar
+              </Button>
+
+              {modalDelete && (
+                <DeleteQuadra
+                  isOpen={modalDelete}
+                  setIsOpen={setModalDelete}
+                  quadra={estaQuadra}
+                />
+              )}
+              <Button
+                className="btn btn-secondary"
+                type="button"
+                onClick={() => {
+                  setModalDelete(true);
+                }}
+              >
+                Delete
               </Button>
             </ModalFooter>
           </>

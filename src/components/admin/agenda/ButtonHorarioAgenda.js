@@ -62,8 +62,6 @@ const ButtonHorarioAgenda = ({ horario, dataClick, quadraClick, type }) => {
       "==",
       quadraClick.id
     );
-
-    console.log("minhaPesquisa", minhaPesquisa);
   };
 
   const handleGetAgenda = async (
@@ -105,11 +103,6 @@ const ButtonHorarioAgenda = ({ horario, dataClick, quadraClick, type }) => {
     });
     setLoading(false);
   };
-
-  // useEffect(() => {
-  //   console.log("DATA", data);
-  //   console.log("NOME", nome);
-  // }, [data, nome]);
 
   const getNome = async (user) => {
     const nomeUser = await getDataId("users", user);

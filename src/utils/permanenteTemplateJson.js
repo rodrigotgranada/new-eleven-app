@@ -4,7 +4,7 @@ export let permanenteTemplate = {
   dataFim: "",
   diaSemana: "",
   quadra: "",
+  esporte: "",
   hora: "",
   tipoQuadra: "",
-  uid: "",
 };

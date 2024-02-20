@@ -46,7 +46,7 @@ const Calendario = () => {
   };
 
   let max_date = new Date(); // today!
-  let x = 15;
+  let x = 7;
   max_date.setDate(max_date.getDate() + x);
   let min_date = new Date();
 

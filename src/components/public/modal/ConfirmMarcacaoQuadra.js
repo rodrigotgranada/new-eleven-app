@@ -69,7 +69,7 @@ const ConfirmMarcacaoQuadra = ({
         );
         const quadra = await getQuadraEscolhida("quadras", marcacao.quadra);
         let formatedDate3 = moment(marcacao?.dataDia).format("DD/MM/YYYY");
-        console.log("formatedDate3Confirm", formatedDate3);
+        // console.log("formatedDate3Confirm", formatedDate3);
         const data = formatedDate3.split("/");
         // const data = marcacao?.dataDia.split("/");
         const anoFinal = data[2].slice(-2);
@@ -77,6 +77,7 @@ const ConfirmMarcacaoQuadra = ({
 
         let protocolo = { ...marcacao };
         protocolo.codLocacao = protocol;
+        protocolo.singleMarc = true;
         protocolo.createAt = moment(new Date()).format("YYYY-MM-DD");
         protocolo.status = "aberto";
 
