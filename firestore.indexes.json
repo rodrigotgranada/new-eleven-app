@@ -159,6 +159,298 @@
       ]
     },
     {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "acao",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "acao",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "acao",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "espaco",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "acao",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "espaco",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tipo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "acao",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tipo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "espaco",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "espaco",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "espaco",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tipo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "espaco",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tipo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "hora",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tipo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tipo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "log_agenda",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "dataDia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tipo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "quadras",
       "queryScope": "COLLECTION",
       "fields": [

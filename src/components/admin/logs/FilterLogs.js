@@ -66,7 +66,7 @@ const FilterLogs = () => {
     // console.log("PESQUISA", filtro);
     const resultado = await getDataWhereOrderBy4(
       "log_agenda",
-      { campo: "createdAt", direcao: "asc" },
+      { campo: "createdAt", direcao: "desc" },
       filtro.tipo ? { campo: "tipo", tipo: "==", valor: filtro.tipo } : null,
       filtro.dia ? { campo: "dataDia", tipo: "==", valor: filtro.dia } : null,
       filtro.espaco

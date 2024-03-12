@@ -29,6 +29,13 @@ const SelectTipoQuadra = ({ handleSelected, filtro, setFiltro }) => {
     } else {
       getQuadras("quadras", "type", "==", value);
     }
+    const filter = { ...filtro };
+
+    filter.espaco = "";
+    filter.hora = "";
+    filter.acao = "";
+
+    setFiltro(filter);
   };
 
   return (
@@ -56,7 +63,7 @@ const SelectTipoQuadra = ({ handleSelected, filtro, setFiltro }) => {
           </FormGroup>
 
           {loadQuadras && <Loading type={`spin`} width={"30px"} />}
-          {quadras.length > 0 && (
+          {quadras && quadras.length > 0 && (
             <>
               <FormGroup>
                 <Label for="tipo">Quadra</Label>
@@ -65,6 +72,7 @@ const SelectTipoQuadra = ({ handleSelected, filtro, setFiltro }) => {
                   name="espaco"
                   type="select"
                   onChange={handleSelected}
+                  value={filtro.espaco}
                 >
                   <option value="all">Todos</option>
                   {quadras.map((tipo, index) => {
