@@ -37,6 +37,7 @@ const useGetData = () => {
       setData(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       setLoading(false);
     });
+
     return itens;
   };
 
@@ -54,6 +55,29 @@ const useGetData = () => {
     const q = query(
       colletionRef,
       orderBy(campo.toLowerCase(), order ? order.toLowerCase() : "asc")
+    );
+
+    await onSnapshot(q, (querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push({ ...doc.data(), id: doc.id });
+      });
+      setData(items);
+      setLoading(false);
+    });
+  };
+
+  const getDataOrderByLogs = async (
+    collectionName,
+    campo,
+    order,
+    quantidade
+  ) => {
+    const colletionRef = collection(db, collectionName);
+    const q = query(
+      colletionRef,
+      orderBy(campo, order ? order.toLowerCase() : "asc"),
+      limit(quantidade ? quantidade : 100)
     );
 
     await onSnapshot(q, (querySnapshot) => {
@@ -388,20 +412,6 @@ const useGetData = () => {
     type3,
     valor3
   ) => {
-    // console.log(
-    //   "SNAP",
-    //   collectionName,
-    //   campo1,
-    //   type1,
-    //   valor1,
-    //   campo2,
-    //   type2,
-    //   valor2,
-    //   campo3,
-    //   type3,
-    //   valor3
-    // );
-
     const colRef = collection(db, collectionName);
     const q = query(
       colRef,
@@ -421,24 +431,6 @@ const useGetData = () => {
     setLoading(false);
     setData(items);
     return items;
-    // onSnapshot(
-    //   colRef,
-    //   where(campo1, type1, valor1),
-    //   where(campo2, type2, valor2),
-    //   // where(campo3, type3, valor3),
-    //   (snapshot) => {
-    //     // let items = {};
-    //     snapshot.docs.forEach((doc) => {
-    //       // setTestData((prev) => [...prev, doc.data()])
-    //       console.log("onsnapshot", doc.data());
-    //       // items = doc.data();
-    //       // console.log("items", items);
-    //       // if (Object.keys(items).length > 0) {
-    //       //   setData(items);
-    //       // }
-    //     });
-    //   }
-    // );
   };
 
   const getDataSnapAttButtonAgenda = async (
@@ -453,19 +445,6 @@ const useGetData = () => {
     type3,
     valor3
   ) => {
-    console.log(
-      "PESQUISA",
-      collectionName,
-      campo1,
-      type1,
-      valor1,
-      campo2,
-      type2,
-      valor2,
-      campo3,
-      type3,
-      valor3
-    );
     const colRef = collection(db, collectionName);
     const q = query(
       colRef,
@@ -527,6 +506,110 @@ const useGetData = () => {
     return retorno;
   };
 
+  const getDataButtonsAgendas = async (
+    collectionName,
+    campo1,
+    type1,
+    valor1,
+    campo2,
+    type2,
+    valor2,
+    campo3,
+    type3,
+    valor3
+  ) => {
+    const colRef = collection(db, collectionName);
+    const q = query(
+      colRef,
+      where(campo1, type1, valor1),
+      where(campo2, type2, valor2),
+      where(campo3, type3, valor3)
+    );
+    const items = [];
+    await onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        items.push({ ...doc.data(), id: doc.id });
+      });
+      querySnapshot.docChanges().forEach((change) => {
+        if (change.type === "removed") {
+          // console.log("removed", change.doc.data());
+          setData(null);
+        }
+      });
+
+      setData(items);
+      setLoading(false);
+    });
+    console.log("itens", items);
+    setLoading(false);
+    return items;
+  };
+
+  const getDataButtonsAgendas2 = async (
+    collectionName,
+    campo1,
+    type1,
+    valor1,
+    campo2,
+    type2,
+    valor2,
+    campo3,
+    type3,
+    valor3
+  ) => {
+    const colRef = collection(db, collectionName);
+    const q = query(
+      colRef,
+      where(campo1, type1, valor1),
+      where(campo2, type2, valor2),
+      where(campo3, type3, valor3)
+    );
+    const items = [];
+    const unsb = await onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // setData((prev) => [...prev, { ...doc.data(), id: doc.id }]);
+        items.push({ ...doc.data(), id: doc.id });
+      });
+      querySnapshot.docChanges().forEach((change) => {
+        if (change.type === "removed") {
+          setData(items);
+        }
+      });
+      setData(items);
+      // setLoading(false);
+      // return data;
+    });
+    // console.log(items);
+    setLoading(false);
+    return items;
+  };
+
+  const getDataWhereOrderBy4 = async (collectionName, order, ...props) => {
+    console.log("FILTROS", collectionName, order, props);
+    let consulta = props.map((filtro) => {
+      if (filtro) {
+        return where(filtro.campo, filtro.tipo, filtro.valor);
+      }
+    });
+    consulta = consulta.filter(function (element) {
+      return element != undefined;
+    });
+
+    console.log("CONSULTA", consulta);
+    const colletionRef = collection(db, collectionName);
+    const q = query(
+      colletionRef,
+      orderBy(order.campo, order.direcao ? order.direcao.toLowerCase() : "asc"),
+      ...consulta
+    );
+    const items = [];
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      items.push({ ...doc.data(), id: doc.id });
+    });
+    return items;
+  };
+
   return {
     getAllUsers,
     getDataWhereId,
@@ -543,11 +626,15 @@ const useGetData = () => {
     getDataWhereQuadra,
     getData,
     getDataOrderBy,
+    getDataOrderByLogs,
     getDataOrderByTeste,
     getDataAgenda,
     getDataSnapAtt,
     getDataSnapAttButtonAgenda,
     deletePermanente,
+    getDataButtonsAgendas,
+    getDataButtonsAgendas2,
+    getDataWhereOrderBy4,
     data,
     loading,
   };

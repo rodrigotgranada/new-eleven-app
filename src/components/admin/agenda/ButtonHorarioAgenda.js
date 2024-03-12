@@ -27,6 +27,13 @@ const ButtonHorarioAgenda = ({ horario, dataClick, quadraClick, type }) => {
   const [data, setData] = useState(null);
   const [nome, setNome] = useState(null);
   const [bloqueio, setBloqueio] = useState(false);
+
+  const {
+    getDataButtonsAgendas: getMarcacoes,
+    data: marcacoes,
+    loading: carregaMarcacoes,
+  } = useGetData();
+
   useEffect(() => {
     // console.log("DATA-NEW", data);
     // console.log("DATA-TYPE", type);
@@ -85,19 +92,22 @@ const ButtonHorarioAgenda = ({ horario, dataClick, quadraClick, type }) => {
     );
 
     const unsb = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.docChanges().forEach((change) => {
+        if (change.type === "removed") {
+          console.log("removed", change.doc.data());
+          setData(null);
+        }
+      });
       querySnapshot.docs.forEach(async (doc) => {
         if (doc.data()) {
-          if (doc.data().user === "agendamentoCancelado") {
-            setData(null);
+          setData({ ...doc.data(), id: doc.id });
+          if (!doc.data().bloqueio) {
+            const nomeMarc = await getNome(doc.data().user);
+            setNome(nomeMarc);
           } else {
-            setData({ ...doc.data(), id: doc.id });
-            if (!doc.data().bloqueio) {
-              const nomeMarc = await getNome(doc.data().user);
-              setNome(nomeMarc);
-            } else {
-              setBloqueio(doc.data().bloqueio);
-            }
+            setBloqueio(doc.data().bloqueio);
           }
+          // }
         }
       });
     });

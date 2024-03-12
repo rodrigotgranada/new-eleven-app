@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Bloqueios from "../pages/admin/bloqueios/Bloqueios";
@@ -27,6 +27,13 @@ import Churrasqueiras from "../pages/admin/churrasqueiras/Churrasqueiras";
 const Routers = () => {
   const { currentUser } = useAuth();
   const location = useLocation();
+
+  // useEffect(() => {
+  //   console.log("Estou atualizando");
+
+  //   return () => {};
+  // }, []);
+
   return (
     <Routes>
       {/* <Routes> */}

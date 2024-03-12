@@ -227,7 +227,7 @@ const EditQuadra = ({ isOpen, setIsOpen, editarQuadra, ...props }) => {
                 Fechar
               </Button>
 
-              {modalDelete && (
+              {/* {modalDelete && (
                 <DeleteQuadra
                   isOpen={modalDelete}
                   setIsOpen={setModalDelete}
@@ -242,7 +242,7 @@ const EditQuadra = ({ isOpen, setIsOpen, editarQuadra, ...props }) => {
                 }}
               >
                 Delete
-              </Button>
+              </Button> */}
             </ModalFooter>
           </>
         )}

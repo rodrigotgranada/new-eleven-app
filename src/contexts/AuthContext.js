@@ -12,7 +12,16 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
 } from "firebase/auth";
-import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -328,13 +337,14 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const atualizaDados = async (usuario, nome, sobrenome, documento, foto) => {
+  const atualizaDados = async (usuario, nome, sobrenome, foto) => {
+    console.log("usuario", usuario);
+    console.log("auth.currentUser", auth.currentUser);
     try {
       const docRef = doc(db, "users", usuario.uid);
       const snap = await updateDoc(docRef, {
         displayName: nome,
         sobrenome: sobrenome,
-        documento: documento,
         photoURL: foto,
       }).then(async (e, f) => {
         await updateProfile(auth.currentUser, {
@@ -355,13 +365,87 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const atualizaCheck = async (usuario, check) => {
+    try {
+      const docRef = doc(db, "users", usuario);
+      const snap = await updateDoc(docRef, {
+        checked: check,
+      });
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  };
+
+  const atualizaAdmin = async (usuario, rule) => {
+    try {
+      const docRef = doc(db, "users", usuario);
+      const snap = await updateDoc(docRef, {
+        rule: rule,
+      });
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  };
+
   useEffect(() => {
+    // console.log("currentUser.uid", currentUser.uid);
+    // if (currentUser) {
+    //   const colRef = collection(db, "users");
+    //   const q = query(colRef, where("uid", "==", currentUser?.uid));
+
+    //   const unsb = onSnapshot(q, (querySnapshot) => {
+    //     querySnapshot.docChanges().forEach((change) => {
+    //       console.log("changed", change.doc.data());
+    //     });
+    //   });
+    // }
+    console.log("oiii XXXXXXX");
+    if (currentUser) {
+      const colRef = collection(db, "users");
+      const q = query(colRef, where("uid", "==", currentUser?.uid));
+
+      onSnapshot(q, (querySnapshot) => {
+        querySnapshot.docChanges().forEach(async (change) => {
+          // console.log("current", currentUser);
+          // console.log("changed", change.doc.data());
+
+          const atual = currentUser?.usuario?.checked;
+          const novo = change.doc.data()?.checked;
+
+          setCurrentUser(change.doc.data());
+          console.log("atual", atual);
+          console.log("novo", novo);
+
+          if (atual != novo) {
+            try {
+              await logout();
+              toast.success("Logged out", {
+                position: toast.POSITION.TOP_CENTER,
+              });
+              navigate("/");
+            } catch (err) {
+              toast.error(err.message, {
+                position: toast.POSITION.TOP_CENTER,
+              });
+              // setError("Failed to log out");
+            }
+          }
+        });
+      });
+    }
+
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const colletionRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(colletionRef);
         const userFull = { ...user };
         userFull.usuario = docSnap.data();
+
+        console.log("userFull", userFull);
         setCurrentUser(userFull);
       } else {
         setCurrentUser(user);
@@ -386,6 +470,8 @@ export function AuthProvider({ children }) {
     verifyUser,
     atualizaVerificado,
     atualizaDados,
+    atualizaCheck,
+    atualizaAdmin,
   };
 
   return (

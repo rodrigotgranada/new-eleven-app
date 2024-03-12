@@ -18,6 +18,8 @@ import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import useGetData from "../../../../hooks/useGetData";
 import useTransferAgendamento from "../../../../hooks/useTransferAgendamento";
 import { db } from "../../../../firebase";
+import useLogs from "../../../../hooks/useLogs";
+import { useAuth } from "../../../../contexts/AuthContext";
 
 const AdminCancelAgendamento = ({
   title,
@@ -39,6 +41,8 @@ const AdminCancelAgendamento = ({
   } = useGetData();
 
   const { checkTransfer } = useTransferAgendamento();
+  const { logAgedamento, logAgendamentoDatabase } = useLogs();
+  const { currentUser } = useAuth();
   // console.log("ID", agendaID);
 
   useEffect(() => {
@@ -81,6 +85,13 @@ const AdminCancelAgendamento = ({
           const docRef = doc(db, "agenda", agendaID);
           await deleteDoc(docRef).then((e) => {
             toast.success(`Agendamento Cancelado!!`);
+            logAgendamentoDatabase(
+              "interno",
+              "quadra",
+              "remove",
+              agenda,
+              currentUser
+            );
             setIsOpen(false);
             setAgendamentoOpen(false);
           });

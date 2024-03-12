@@ -106,14 +106,21 @@ const ConfirmAddPermanente = ({
                 dates_string.push(i.format("YYYY-MM-DD"));
               }
               dates_string.map(async (date) => {
+                let formatedDate3 = moment(date).format("DD/MM/YYYY");
+                const dataF = formatedDate3.split("/");
+                const anoFinal = dataF[2].slice(-2);
+                const protocol = `${anoFinal}${dataF[1]}${dataF[0]}${hora?.value}${quadra?.numero}`;
+
                 try {
                   const docRef = collection(db, "agenda");
                   const body = {
+                    codLocacao: protocol,
                     step: 5,
                     user: permanente.user,
                     dataDia: date,
                     dataHorario: permanente.hora,
                     esporte: permanente.esporte,
+                    tipoMarc: "usuario",
                     quadra: permanente.quadra,
                     jogadores: [
                       {

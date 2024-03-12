@@ -13,6 +13,7 @@ const MaskedInputDados = ({
   // onBlur,
   setError,
   error,
+  disabled,
 }) => {
   const handleChange = (event, id) => {
     const valores = {
@@ -58,6 +59,7 @@ const MaskedInputDados = ({
       onChange={(e) => handleChange(e, id)}
       required={required}
       onBlur={(e) => handleVerify(e, id)}
+      disabled={disabled}
     />
   );
 };

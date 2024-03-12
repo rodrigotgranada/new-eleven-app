@@ -35,8 +35,11 @@ import { addDoc, collection } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { db } from "../../../../firebase";
 import { GiConsoleController } from "react-icons/gi";
+import { useAuth } from "../../../../contexts/AuthContext";
+import useLogs from "../../../../hooks/useLogs";
 
 const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
+  const { currentUser } = useAuth();
   const { getAllUsers: getUsers, data: users, loadingUsers } = useGetData();
   const { getDataAgenda: getMarcacao, data: marcacao, loading } = useGetData();
   const {
@@ -69,6 +72,7 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
   const surnameRef = useRef();
   const telefoneRef = useRef();
   const [selectedEsporte, setSelectedEsporte] = useState(null);
+  const { logAgedamento, logAgendamentoDatabase } = useLogs();
 
   useEffect(() => {
     getUsers("users");
@@ -92,7 +96,7 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
     console.log("esportes", esportes.length);
   }, [esportes]);
 
-  console.log("agendaID", dados);
+  // console.log("agendaID", dados);
 
   const defaultMarc = {
     codLocacao: "",
@@ -107,6 +111,7 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
     permanente_id: "",
     quadra: "",
     status: "avulso",
+    tipoMarc: "",
     step: 5,
     tipoQuadra: dados?.type,
     user: "",
@@ -174,6 +179,7 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
         defaultMarc.dataHorario = dados.dataHorario;
         defaultMarc.quadra = dados.quadra;
         defaultMarc.esporte = selectedEsporte;
+        defaultMarc.tipoMarc = "avulso";
         defaultMarc.jogadores[0] = {
           id: uuidv4(),
           name: nameRef?.current?.value,
@@ -230,6 +236,7 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
           defaultMarc.dataHorario = dados.dataHorario;
           defaultMarc.quadra = dados.quadra;
           defaultMarc.esporte = selectedEsporte;
+          defaultMarc.tipoMarc = "usuario";
           defaultMarc.jogadores[0] = {
             id: MeuUser[0].id,
             name: MeuUser[0].displayName,
@@ -249,6 +256,7 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
     try {
       const docRef = collection(db, "agenda");
       await addDoc(docRef, dados).then((e) => {
+        logAgendamentoDatabase("interno", "quadra", "add", dados, currentUser);
         toast.success(`Marcação confirmada`, {
           position: toast.POSITION.TOP_CENTER,
         });

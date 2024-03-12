@@ -17,6 +17,7 @@ import Loading from "../Loading/Loading";
 import useWhatsappApi from "../../../hooks/useWhatsappApi";
 import useLogs from "../../../hooks/useLogs";
 import moment from "moment";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const ConfirmMarcacaoQuadra = ({
   title,
@@ -31,6 +32,7 @@ const ConfirmMarcacaoQuadra = ({
   const [confirmed, setConfirmed] = useState(false);
   const [verify, setVerify] = useState(false);
   const [pro, setPro] = useState(false);
+  const { currentUser } = useAuth();
 
   const {
     getDataAgenda: getConfirmAgenda,
@@ -48,13 +50,19 @@ const ConfirmMarcacaoQuadra = ({
     loadingEsporte,
   } = useGetData();
   const {
+    getDataId: getUserAtual,
+    data: userAtual,
+    loading: loadingUserAtual,
+  } = useGetData();
+
+  const {
     getDataId: getQuadraEscolhida,
     data: quadraEscolhida,
     loadingQuadra,
   } = useGetData();
 
   const { sendWelcome } = useWhatsappApi();
-  const { logAgedamento } = useLogs();
+  const { logAgedamento, logAgendamentoDatabase } = useLogs();
 
   useEffect(() => {
     if (isOpen) {
@@ -78,13 +86,14 @@ const ConfirmMarcacaoQuadra = ({
         let protocolo = { ...marcacao };
         protocolo.codLocacao = protocol;
         protocolo.singleMarc = true;
+        protocolo.tipoMarc = "usuario";
         protocolo.createAt = moment(new Date()).format("YYYY-MM-DD");
         protocolo.status = "aberto";
 
-        addMarcacao(protocolo);
+        addMarcacao(protocolo, esporte, hora, quadra);
         setPro(protocolo);
         setVerify(1);
-        logAgedamento("app", "add", protocolo);
+        logAgedamento("app", "add", protocolo, esporte, hora, quadra);
       };
       const verificaAgenda = async () => {
         let ocupada = await getConfirmAgenda(
@@ -99,8 +108,14 @@ const ConfirmMarcacaoQuadra = ({
           "==",
           marcacao.quadra
         );
+
+        let permitido = await getUserAtual("users", currentUser?.uid);
         if (!ocupada) {
-          geraProtocolo();
+          if (!permitido?.checked) {
+            setVerify(3);
+          } else {
+            geraProtocolo();
+          }
         } else {
           setVerify(2);
         }
@@ -111,11 +126,12 @@ const ConfirmMarcacaoQuadra = ({
 
   const navigate = useNavigate();
 
-  const addMarcacao = async (dados) => {
+  const addMarcacao = async (dados, esporte, hora, quadra) => {
     try {
       const docRef = collection(db, "agenda");
       await addDoc(docRef, dados).then((e) => {
         setConfirmed(true);
+        logAgendamentoDatabase("app", "quadra", "add", dados, currentUser);
         toast.success(`Marcação ${dados?.codLocacao} confirmada`, {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -168,6 +184,9 @@ const ConfirmMarcacaoQuadra = ({
                 )}
                 {verify === 2 && (
                   <p>{`Marcação não confirmada, quadra já ocupada neste horário`}</p>
+                )}
+                {verify === 3 && (
+                  <p>{`Marcação não confirmada, usuário desabilitado, entre em contato com Eleven Sports`}</p>
                 )}
               </Col>
             </Row>

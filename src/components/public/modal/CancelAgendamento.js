@@ -17,6 +17,8 @@ import useGetData from "../../../hooks/useGetData";
 import useTransferAgendamento from "../../../hooks/useTransferAgendamento";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
+import useLogs from "../../../hooks/useLogs";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const CancelAgendamento = ({
   title,
@@ -29,6 +31,9 @@ const CancelAgendamento = ({
   const [agenda, setAgenda] = useState(null);
   const [transfer, setTransfer] = useState(null);
   const [isValidCancel, setIsValidCancel] = useState(true);
+  const { logAgedamento, logAgendamentoDatabase } = useLogs();
+  const { currentUser } = useAuth();
+
   const {
     getDataId: getItemId,
     data: marcX,
@@ -101,6 +106,13 @@ const CancelAgendamento = ({
         try {
           const docRef = doc(db, "agenda", agendaID);
           await deleteDoc(docRef).then((e) => {
+            logAgendamentoDatabase(
+              "app",
+              "quadra",
+              "remove",
+              agenda,
+              currentUser
+            );
             toast.success(`Agendamento Cancelado!!`);
           });
         } catch (error) {

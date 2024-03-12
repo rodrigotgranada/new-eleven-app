@@ -1,7 +1,8 @@
 import React from "react";
+import LogsContent from "../../../components/admin/logs/LogsContent";
 
 const Logs = () => {
-  return <div>Logs</div>;
+  return <LogsContent />;
 };
 
 export default Logs;

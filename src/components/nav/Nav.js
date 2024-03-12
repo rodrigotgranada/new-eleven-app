@@ -10,10 +10,12 @@ import "../../styles/public/nav.scss";
 import SubNav from "./SubNav";
 import { Switch } from "@mui/material";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "../../firebase";
 
 export const Nav = (props) => {
   const [error, setError] = useState("");
-  const { currentUser, logout } = useAuth();
+  const { currentUser, setCurrentUser, logout } = useAuth();
   const {
     getData: getImagemPadrao,
     data: fotoPadrao,
@@ -22,7 +24,41 @@ export const Nav = (props) => {
 
   useEffect(() => {
     getImagemPadrao("fotoPadrao");
+    // checkUser();
+    return () => {
+      console.log("oii XX");
+    };
   }, []);
+
+  const checkUser = async () => {
+    if (currentUser) {
+      const colRef = collection(db, "users");
+      const q = query(colRef, where("uid", "==", currentUser?.uid));
+
+      onSnapshot(q, (querySnapshot) => {
+        querySnapshot.docChanges().forEach(async (change) => {
+          const atualCheck = currentUser?.usuario?.checked;
+          const novoCheck = change.doc.data()?.checked;
+          const atualRule = currentUser?.usuario?.rule;
+          const novoRule = change.doc.data()?.rule;
+          if (atualCheck != novoCheck || atualRule != novoRule) {
+            try {
+              await logout();
+              toast.success("Logged out", {
+                position: toast.POSITION.TOP_CENTER,
+              });
+              navigate("/");
+            } catch (err) {
+              toast.error(err.message, {
+                position: toast.POSITION.TOP_CENTER,
+              });
+              setError("Failed to log out");
+            }
+          }
+        });
+      });
+    }
+  };
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -57,7 +93,7 @@ export const Nav = (props) => {
   let buttons;
 
   if (currentUser?.usuario) {
-    console.log("rule", currentUser);
+    checkUser();
     buttons = (
       <>
         {currentUser?.usuario?.rule &&

@@ -9,6 +9,8 @@ import "../../../styles/public/signup.scss";
 import { toast } from "react-toastify";
 import MaskedInput from "../../../components/public/formComponents/MaskedInput";
 import MaskedInputSignup from "../../../components/public/formComponents/MaskedInputSignup";
+// import { permanenteTemplate } from "../utils/permanenteTemplateJson";
+import { fotoPadrao } from "../../../utils/photoPadrao.js";
 
 export default function Signup() {
   const emailRef = useRef();
@@ -45,7 +47,7 @@ export default function Signup() {
         surnameRef.current.value,
         telefoneRef.current.value,
         docRef.current.value,
-        selectedImages,
+        selectedImages ? selectedImages : fotoPadrao,
         rule,
         active
       );

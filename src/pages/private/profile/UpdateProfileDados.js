@@ -37,47 +37,54 @@ export default function UpdateProfileDados() {
   const { loading: loadAuth, getDataWhere } = useAuthData();
 
   const handleSubmit = async (e) => {
+    setLoading(true);
+    console.log("e", e);
     e.preventDefault();
 
     const nameFinal = nameRef.current.value;
     const surnameFinal = surnameRef.current.value;
     const docFInal = onlyNumbers(docRef.current.value);
     const picture = selectedImages;
-    let valida = null;
+    let valida = true;
+    // console.log(
+    //   "docFInal",
+    //   docFInal,
+    //   "current",
+    //   onlyNumbers(currentUser?.usuario?.documento)
+    // );
+    // if (
+    //   onlyNumbers(docFInal) &&
+    //   onlyNumbers(docFInal) != onlyNumbers(currentUser?.usuario?.documento)
+    // ) {
+    // const verificacao = await getDataWhere(
+    //   "users",
+    //   "documento",
+    //   "==",
+    //   docFInal
+    // );
+    // console.log("verificacao", verificacao);
 
-    if (
-      onlyNumbers(docFInal) &&
-      onlyNumbers(docFInal) != onlyNumbers(currentUser?.usuario?.documento)
-    ) {
-      const verificacao = await getDataWhere(
-        "users",
-        "documento",
-        "==",
-        docFInal
-      );
-      console.log("verificacao", verificacao);
-
-      if (verificacao) {
-        let verify = { ...error };
-        verify[`documentoE`] = `Documento já existe`;
-        setError(verify);
-        valida = false;
-      } else {
-        let verify = { ...error };
-        verify[`documentoE`] = null;
-        setError(verify);
-        valida = true;
-      }
-    }
+    // if (verificacao) {
+    //   let verify = { ...error };
+    //   verify[`documentoE`] = `Documento já existe`;
+    //   setError(verify);
+    //   valida = false;
+    // } else {
+    //   let verify = { ...error };
+    //   verify[`documentoE`] = null;
+    //   setError(verify);
+    //   valida = true;
+    // }
+    // }
     if (valida) {
+      console.log("picture", picture);
       const retorno = await atualizaDados(
         currentUser,
         nameFinal,
         surnameFinal,
-        docFInal,
         picture
       );
-      console.log(retorno);
+      console.log("retorno", retorno);
 
       if (retorno) {
         toast.success("Dados atualizados com sucesso!", {
@@ -89,6 +96,7 @@ export default function UpdateProfileDados() {
         });
       }
     }
+    setLoading(false);
   };
 
   const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
@@ -137,6 +145,7 @@ export default function UpdateProfileDados() {
                         required={true}
                         setError={setError}
                         error={error}
+                        disabled={true}
                         // onBlur={handleChange}
                       />
                       {/* <Form.Control
@@ -167,6 +176,7 @@ export default function UpdateProfileDados() {
                 </Row>
                 <Row className="d-flex align-items-center justify-content-center row-button-signup">
                   <Col lg="6">
+                    {console.log(loading, error)}
                     <Button
                       disabled={
                         loading ||
@@ -178,7 +188,7 @@ export default function UpdateProfileDados() {
                       className="w-100"
                       type="submit"
                     >
-                      Atualizar
+                      {loading ? "Carregando..." : "Atualizar"}
                     </Button>
                   </Col>
                 </Row>
