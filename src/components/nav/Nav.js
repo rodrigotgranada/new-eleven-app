@@ -9,7 +9,7 @@ import ReactSwitch from "react-switch";
 import "../../styles/public/nav.scss";
 import SubNav from "./SubNav";
 import { Switch } from "@mui/material";
-import { BsFillMoonFill, BsSun } from "react-icons/bs";
+import { BsFillMoonFill, BsSun, BsMoonFill, BsMoon } from "react-icons/bs";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 
@@ -180,7 +180,12 @@ export const Nav = (props) => {
           </ul>
           <ul>
             <li className="theme-toggle">
-              <ReactSwitch onChange={changeTheme} checked={theme === "dark"} />
+              {theme === "dark" ? (
+                <BsMoonFill onClick={changeTheme} />
+              ) : (
+                <BsMoon onClick={changeTheme} />
+              )}
+              {/* <ReactSwitch onChange={changeTheme} checked={theme === "dark"} /> */}
               {/* <span>Modo Claro</span> */}
             </li>
             {buttons}
@@ -219,13 +224,17 @@ export const Nav = (props) => {
           </ul>
           <ul>
             <li className="theme-toggle">
-              <BsSun />
+              {/* <BsSun />
               <Switch
                 color="primary"
                 checked={theme === "dark"}
                 onChange={changeTheme}
-              />
-              <BsFillMoonFill />
+              /> */}
+              {theme === "dark" ? (
+                <BsMoonFill onClick={changeTheme} />
+              ) : (
+                <BsMoon onClick={changeTheme} />
+              )}
               {/* <ReactSwitch
                 onChange={changeTheme}
                 checked={theme === "dark"}

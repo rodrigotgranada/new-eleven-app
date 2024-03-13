@@ -108,3 +108,26 @@
     }
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .customDatePickerWidth {
+    width: 100%;
+    .datePicker {
+      width: 96%;
+      margin: 0px 2%;
+      @include themed() {
+        color: t("text");
+      }
+    }
+    .react-datepicker__day-names {
+      min-height: 5vh;
+    }
+    .react-datepicker__week {
+      min-height: 5vh;
+    }
+    .react-datepicker__day {
+      width: 3rem !important;
+      min-height: 3rem !important;
+    }
+  }
+}

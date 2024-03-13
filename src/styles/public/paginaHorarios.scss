@@ -2,12 +2,34 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  padding: 0rem 0.8rem;
+  // gap: 1.5rem;
 
   button {
     margin: 1rem 0.5rem;
     justify-content: center;
     text-align: center;
-    width: 13.3rem;
+    width: 7rem;
     min-height: 3rem;
+    border-radius: 10px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .paginaHorario {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0rem 0.8rem;
+    gap: 1rem;
+
+    button {
+      margin: 0;
+      justify-content: center;
+      text-align: center;
+      width: 6rem;
+      min-height: 3rem;
+      border-radius: 10px;
+    }
   }
 }

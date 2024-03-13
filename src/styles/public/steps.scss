@@ -24,6 +24,9 @@
   z-index: 1;
   width: 5rem;
   padding: 0.5rem;
+  p {
+    margin-bottom: 0rem;
+  }
   svg {
     font-size: 1.4rem;
     margin-bottom: 0.2rem;
@@ -47,4 +50,26 @@
 .messagesArea {
   height: 50vh;
   overflow: scroll;
+}
+
+@media only screen and (max-width: 768px) {
+  .steps {
+    width: 100%;
+    max-width: 100%;
+    gap: 0.2rem;
+
+    &::after {
+      content: "";
+      width: 100%;
+      border-bottom: 1px solid #ccc;
+      position: absolute;
+      top: 4rem;
+    }
+  }
+
+  .step {
+    p {
+      display: none;
+    }
+  }
 }

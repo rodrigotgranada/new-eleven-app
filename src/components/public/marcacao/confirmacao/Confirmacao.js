@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { MdOutlineWhatsapp } from "react-icons/md";
 import ReactWhatsapp from "react-whatsapp";
 import MarcacaoContext from "../../../../contexts/MarcacaoContext";
@@ -59,60 +59,69 @@ const Confirmacao = () => {
       {loadingHorario && loadingEsporte && loadingQuadra && loadingUsuario && (
         <Loading type={`spin`} width={"30px"} />
       )}
-      {marcacao && quadraEscolhida && esporteEscolhido && horarioEscolhido && (
-        <div>
-          <h1>
-            {`${usuario?.displayName}, confirma a marcação da quadra ${
-              quadraEscolhida?.name
-            }, de ${esporteEscolhido?.display}, no dia ${moment(
-              marcacao.dataDia
-            ).format("DD/MM/YYYY")} no horário das ${
-              horarioEscolhido.value
-            }:00 ??`}
-          </h1>
-          <div className="buttons-confirm-diag">
-            <ConfirmMarcacao
-              marcacao={marcacao}
-              setMarcacao={setMarcacao}
-              usuario={usuario}
-              handleConfirm={handleConfirm}
-            />
-            <CancelMarcacao
-              marcacao={marcacao}
-              setMarcacao={setMarcacao}
-              handleConfirm={handleCancel}
-            />
-          </div>
+      {usuario &&
+        marcacao &&
+        quadraEscolhida &&
+        esporteEscolhido &&
+        horarioEscolhido && (
+          <>
+            <h3 className="confirmacaoQuadraTexto">
+              {`${usuario?.displayName}, confirma a marcação da quadra ${
+                quadraEscolhida?.name
+              }, de ${esporteEscolhido?.display}, no dia ${moment(
+                marcacao.dataDia
+              ).format("DD/MM/YYYY")} no horário das ${
+                horarioEscolhido.value
+              }:00 ??`}
+            </h3>
+            <div className="jogadorConfirm">
+              <h4>Jogadores:</h4>
 
-          <h1>Jogadores:</h1>
-          {marcacao &&
-            marcacao?.jogadores.map((jogador, index) => {
-              if (jogador?.name) {
-                return (
-                  <div className="jogadorConfirm" key={index}>
-                    <p>{jogador?.name}</p>
-                    {jogador?.telefone && (
-                      <ReactWhatsapp
-                        number={`55${jogador?.telefone}`}
-                        message={`Oi ${jogador?.name}, o ${
-                          usuario?.displayName
-                        } marcou a quadra ${quadraEscolhida?.name}, de ${
-                          esporteEscolhido?.display
-                        }, no dia ${moment(marcacao.dataDia).format(
-                          "DD/MM/YYYY"
-                        )} no horário das ${
-                          horarioEscolhido.value
-                        }:00 e marcou você.  `}
-                      >
-                        <MdOutlineWhatsapp /> {jogador?.telefone}
-                      </ReactWhatsapp>
-                    )}
-                  </div>
-                );
-              }
-            })}
-        </div>
-      )}
+              {marcacao &&
+                marcacao?.jogadores.map((jogador, index) => {
+                  if (jogador?.name) {
+                    return (
+                      <div key={index} className="listJogadoresConfirm">
+                        <p className="nomeJogIndividual">{jogador?.name}</p>
+                        {jogador?.telefone && (
+                          <p className="TelJogIndividual">
+                            {jogador?.telefone}
+                          </p>
+                          // <ReactWhatsapp
+                          //   number={`55${jogador?.telefone}`}
+                          //   message={`Oi ${jogador?.name}, o ${
+                          //     usuario?.displayName
+                          //   } marcou a quadra ${quadraEscolhida?.name}, de ${
+                          //     esporteEscolhido?.display
+                          //   }, no dia ${moment(marcacao.dataDia).format(
+                          //     "DD/MM/YYYY"
+                          //   )} no horário das ${
+                          //     horarioEscolhido.value
+                          //   }:00 e marcou você.  `}
+                          // >
+                          //   <MdOutlineWhatsapp /> {jogador?.telefone}
+                          // </ReactWhatsapp>
+                        )}
+                      </div>
+                    );
+                  }
+                })}
+            </div>
+            <div className="buttons-confirm-diag">
+              <ConfirmMarcacao
+                marcacao={marcacao}
+                setMarcacao={setMarcacao}
+                usuario={usuario}
+                handleConfirm={handleConfirm}
+              />
+              <CancelMarcacao
+                marcacao={marcacao}
+                setMarcacao={setMarcacao}
+                handleConfirm={handleCancel}
+              />
+            </div>
+          </>
+        )}
     </>
   );
 };

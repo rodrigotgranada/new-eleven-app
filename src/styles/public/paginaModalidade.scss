@@ -43,3 +43,20 @@
     }
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .paginaModalidade {
+    gap: 1rem;
+  }
+
+  .card-modalidade-button {
+    min-width: 11.5rem;
+    max-width: 15rem;
+    min-height: 10rem;
+    max-height: 15rem;
+    display: flex;
+    justify-content: start;
+    align-items: flex-end;
+    padding-left: 1rem;
+  }
+}

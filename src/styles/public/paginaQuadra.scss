@@ -37,3 +37,18 @@
     }
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .paginaQuadra {
+    margin: 0;
+    gap: 1rem;
+
+    .card-main-public {
+      margin: 0;
+      padding: 0.5rem;
+
+      p {
+      }
+    }
+  }
+}

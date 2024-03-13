@@ -12,6 +12,11 @@ input[type="number"] {
   justify-content: flex-start;
   margin: 0.5rem 1.1rem 1rem 0.1rem;
   gap: 1rem;
+  .btn-jog-gap {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
 }
 
 .row-button-confirm-jogador {
@@ -19,4 +24,23 @@ input[type="number"] {
   justify-content: flex-end;
   margin: 0.5rem 1.1rem 1rem 0.1rem;
   gap: 1rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .paginaJogadores {
+    .row-jogadores {
+      margin-right: 0;
+      margin-left: 0;
+      .btn-jog-gap {
+        gap: 1rem;
+      }
+    }
+    .row-buttons-jogador {
+      margin-right: 0;
+      margin-left: 0;
+    }
+    .nameBtn {
+      display: none;
+    }
+  }
 }

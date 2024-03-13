@@ -124,7 +124,7 @@ const MeusAgendamentos = () => {
           </Col>
         </Container>
       </section>
-      <section>
+      <section className="sectionResultsAgendamento">
         <Container>
           <Row className="row-meus-agendamentos">
             {loadingMinhasMarcacoes2 && (
