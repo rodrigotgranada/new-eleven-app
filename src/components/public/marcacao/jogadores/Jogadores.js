@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import MarcacaoContext from "../../../../contexts/MarcacaoContext";
 import "../../../../styles/public/jogadores.scss";
 import useGetData from "../../../../hooks/useGetData";
+import InputMask from "react-input-mask";
+import Teste from "./Teste";
 
 const Jogadores = () => {
   const { marcacao, setMarcacao } = useContext(MarcacaoContext);
@@ -66,13 +68,18 @@ const Invited = ({ usuario, marcacao, setMarcacao }) => {
     setInvitedPlayers(_invitedPlayers);
   };
 
+  const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
+
   const handleChange = (event, indice) => {
     const index = invitedPlayers.findIndex((m) => {
       return m.id === indice;
     });
 
     let _invitedPlayers = [...invitedPlayers];
-    _invitedPlayers[index][event.target.name] = event.target.value;
+    _invitedPlayers[index][event.target.name] =
+      event.target.name === "telefone"
+        ? onlyNumbers(event.target.value)
+        : event.target.value;
     setInvitedPlayers(_invitedPlayers);
   };
 
@@ -104,12 +111,13 @@ const Invited = ({ usuario, marcacao, setMarcacao }) => {
                 </Col>
                 <Col lg="6" md="6" xs="6">
                   <Label>Telefone / Whats</Label>
-                  <Input
+                  <InputMask
                     key={member.id}
-                    type="number"
-                    name="telefone"
-                    className="input-number"
-                    placeholder={`DDD+Telefone ( 53999110000 )`}
+                    mask={`(99)99999-9999`}
+                    type={"telefone"}
+                    name={"telefone"}
+                    className={"input-number form-control"}
+                    placeholder={"Telefone"}
                     defaultValue={member?.telefone || ""}
                     onChange={(e) => handleChange(e, member.id)}
                     required={index === 0 ? true : false}
@@ -139,8 +147,8 @@ const Invited = ({ usuario, marcacao, setMarcacao }) => {
               </Row>
             </FormGroup>
           ))}
-        <Row>
-          <Col lg="12" className="row-button-confirm-jogador">
+        <Row className="row-buttons-jogador">
+          <Col lg="12" className="row-buttons-jogador">
             <button className="btn btn-success">
               {" "}
               <span>

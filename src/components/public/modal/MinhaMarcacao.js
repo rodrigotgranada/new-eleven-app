@@ -64,14 +64,14 @@ const MinhaMarcacao = ({
         {marcacao && (
           <ModalBody>
             <Row>
-              <Col lg="5">
-                <h3>{`Agendamento`}</h3>
+              <Col lg="5" className="minhaMarcacaoInfos">
+                {/* <h3>{`Agendamento`}</h3> */}
                 <p>Data: {formataData(marcacao?.dataDia)}</p>
                 <p>Hora: {`${horario?.value}:00`}</p>
                 <p>Esporte: {esporte?.display}</p>
                 <p>Quadra: {quadra?.name}</p>
               </Col>
-              <Col lg="7">
+              <Col lg="7" className="minhaMarcacaoPlayers">
                 <h3>{`Jogadores`}</h3>
                 <ListPlayers2 isOpen={isOpen} agendaID={marcacao?.id} />
               </Col>
@@ -86,6 +86,7 @@ const MinhaMarcacao = ({
               isOpen={modalCancel}
               setIsOpen={setModalCancel}
               agendaID={marcacao?.id}
+              agendaMarc={marcacao}
               horaAgenda={`${horario?.value}:00`}
               transferID={marcacao?.transfer_id}
             />
@@ -97,7 +98,7 @@ const MinhaMarcacao = ({
               setModalCancel(!modalCancel);
             }}
           >
-            Cancelar Agendamento
+            Desmarcar
           </Button>
           {modalTransfer && (
             <TransferirMarcacao

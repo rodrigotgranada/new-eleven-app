@@ -55,7 +55,7 @@ const Confirmacao = () => {
   };
 
   return (
-    <>
+    <div className="paginaConfirm">
       {loadingHorario && loadingEsporte && loadingQuadra && loadingUsuario && (
         <Loading type={`spin`} width={"30px"} />
       )}
@@ -122,7 +122,7 @@ const Confirmacao = () => {
             </div>
           </>
         )}
-    </>
+    </div>
   );
 };
 

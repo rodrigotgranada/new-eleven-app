@@ -97,57 +97,63 @@ const ListPlayers2 = ({ isOpen, agendaID }) => {
         !carregaPlayers &&
         meusJogadores.map((jogador, index) => (
           <FormGroup className="form__group_modal" key={index}>
-            <Col lg="5" className="modal_col">
-              <Input
-                key={jogador.id}
-                type="text"
-                name="name"
-                placeholder={`Nome`}
-                defaultValue={jogador?.name || ""}
-                onChange={(e) => handleChange(e, jogador.id)}
-                required={index === 0 ? true : false}
-              />
-            </Col>
-            <Col lg="5" className="modal_col">
-              <MaskedInputCelModal
-                unique={jogador.id}
-                type="telefone"
-                name="telefone"
-                placeholder={`Telefone`}
-                defaultValue={jogador?.telefone || ""}
-                handleChange2={handleChange}
-                required={index === 0 ? true : false}
-                classX="form-control"
-              />
-            </Col>
-            <Col className="modal_col col-btn-plus">
-              <button
-                type="button"
-                onClick={addMemberRow}
-                className="btn btn-success btn-modal"
-              >
-                <span>
-                  <BiPlusCircle />
-                </span>
-              </button>
-              {meusJogadores.length > 1 && index !== 0 && (
+            <Row className="rowPlayers">
+              <Col lg="6" md="6" sm="6" xs="6" className="modal_col">
+                <Input
+                  key={jogador.id}
+                  type="text"
+                  name="name"
+                  placeholder={`Nome`}
+                  defaultValue={jogador?.name || ""}
+                  onChange={(e) => handleChange(e, jogador.id)}
+                  required={index === 0 ? true : false}
+                />
+              </Col>
+              <Col lg="6" md="6" sm="6" xs="6" className="modal_col">
+                <MaskedInputCelModal
+                  unique={jogador.id}
+                  type="telefone"
+                  name="telefone"
+                  placeholder={`Telefone`}
+                  defaultValue={jogador?.telefone || ""}
+                  handleChange2={handleChange}
+                  required={index === 0 ? true : false}
+                  classX="form-control"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col className="rowPlayersButtons">
                 <button
                   type="button"
-                  onClick={() => removeMemberRow(index)}
-                  className="btn btn-danger btn-modal"
+                  onClick={addMemberRow}
+                  className="btn btn-success btn-modal"
                 >
                   <span>
-                    <GiCancel />
+                    <BiPlusCircle />
                   </span>
                 </button>
-              )}
-            </Col>
+                {meusJogadores.length > 1 && index !== 0 && (
+                  <button
+                    type="button"
+                    onClick={() => removeMemberRow(index)}
+                    className="btn btn-danger btn-modal"
+                  >
+                    <span>
+                      <GiCancel />
+                    </span>
+                  </button>
+                )}
+              </Col>
+            </Row>
           </FormGroup>
         ))}
       <Row className="btn-save-modal">
-        <button type="submit" className="btn btn-success ">
-          Salvar
-        </button>
+        <Col className="btn-save-modal">
+          <button type="submit" className="btn btn-success ">
+            Salvar
+          </button>
+        </Col>
       </Row>
     </Form>
   );

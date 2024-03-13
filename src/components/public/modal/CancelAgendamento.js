@@ -25,6 +25,7 @@ const CancelAgendamento = ({
   isOpen,
   setIsOpen,
   agendaID,
+  agendaMarc,
   horaAgenda,
   transferID,
 }) => {
@@ -158,7 +159,7 @@ const CancelAgendamento = ({
             <Col lg="12">
               {isValidCancel ? (
                 <>
-                  <p>{`Deseja cancelar o agendamento ${agendaID} ?`}</p>
+                  <p>{`Deseja cancelar o agendamento ${agendaMarc.codLocacao} ?`}</p>
                   {transfer && (
                     <p>
                       Existe uma transferencia para esse agendamento, cancelar
