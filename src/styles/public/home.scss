@@ -37,11 +37,23 @@
 
 @media only screen and (max-width: 768px) {
   .slick-slide div:first-child {
-    width: 100%;
-  
+    width: 100%;  
     img {
       width: 10rem;
       height: 7rem;
     }
+  }
+
+  .button__bar {
+    li {
+      button {
+        &::before {
+          @include themed() {
+            color: t("arrow-parceiros") !important;
+          }
+        }
+      }
+    }
+    
   }
 }

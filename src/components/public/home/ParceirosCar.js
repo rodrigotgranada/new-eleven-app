@@ -78,6 +78,7 @@ const ParceirosCar = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
+    dotsClass: "slick-dots button__bar",
   };
 
   const openInNewTab = (url) => {
