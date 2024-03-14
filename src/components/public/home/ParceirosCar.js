@@ -75,8 +75,7 @@ const ParceirosCar = () => {
   };
 
   const openInNewTab = (url) => {
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
-    if (newWindow) newWindow.opener = null;
+    window.open(url, "_blank", "noopener,noreferrer");
   };
   const onClickUrl = (url) => {
     return () => openInNewTab(url);
@@ -90,25 +89,25 @@ const ParceirosCar = () => {
           <Slider {...settings}>
             {parceiros &&
               parceiros?.map((item, index) => (
-                <div
-                  key={index}
-                  className={`slide-item`}
-                  style={{
-                    backgroundColor: "red",
-                    backgroundImage: `${item.foto}`,
-                    width: "100%",
-                  }}
-                  onClick={() => onClickUrl(item.link)}
-                >
-                  <img
-                    alt={item.nome}
-                    src={item.foto}
-                    style={{ width: "10rem", height: "7rem" }}
-                    onClick={() => onClickUrl(item.link)}
-                  />
+                // <div
+                //   key={index}
+                //   className={`slide-item`}
+                //   style={{
+                //     color: "green",
+                //   }}
+                //   onClick={() => onClickUrl(item.link)}
+                // >
+                // <ExternalLink href={item.link}>
+                <img
+                  alt={item.nome}
+                  src={item.foto}
+                  //   style={{ width: "10rem", height: "7rem" }}
+                  onClick={() => openInNewTab(item.link)}
+                />
+                // </ExternalLink>
 
-                  <ExternalLink href={item.link}>{item.nome}</ExternalLink>
-                </div>
+                // <ExternalLink href={item.link}>{item.nome}</ExternalLink>
+                //</div>
               ))}
           </Slider>
         </Container>

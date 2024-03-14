@@ -10,6 +10,22 @@
   }
 }
 
+.slick-slide {
+  display: flex !important;
+  justify-content: center !important;
+
+}
+
+
+.slick-slide div:first-child {
+  border: 2px solid orange;
+  width: 100%;
+
+  img {
+    width: 10rem;
+    height: 7rem;
+  }
+}
 .flecha-car {
 
   &::before {
