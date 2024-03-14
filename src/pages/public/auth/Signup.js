@@ -53,11 +53,11 @@ export default function Signup() {
       );
       navigate("/login");
       toast.success("Usuário criado... E-mail enviado!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     } catch {
       toast.error("Usuário não registrado!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
       setError("Falha ao criar conta");
     }

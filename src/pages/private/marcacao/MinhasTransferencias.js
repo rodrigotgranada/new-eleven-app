@@ -12,9 +12,7 @@ const MinhasTransferencias = () => {
   const { currentUser } = useAuth();
 
   const {
-    // getDataWhereOrderByLimit: getMinhasMarcacoes,
-    // getDataSnapAtt: getSnap,
-    getDataWhere3: getMinhasTransferencias,
+    getDataWhereOrderByLimit3: getMinhasTransferencias,
     data: minhasMarcacoes2,
     loading: loadingMinhasMarcacoes2,
   } = useGetData();
@@ -22,24 +20,11 @@ const MinhasTransferencias = () => {
   useEffect(() => {
     if (currentUser) {
       handleGetData();
-      // getMinhasTransferencias(
-      //   "codTemp_transferAgenda",
-      //   "userDestino",
-      //   "==",
-      //   currentUser?.uid,
-      //   "validate",
-      //   ">=",
-      //   dataAtual,
-      //   "status",
-      //   "==",
-      //   "pendente"
-      // );
     }
   }, [currentUser]);
 
   useEffect(() => {
     if (minhasMarcacoes2) {
-      console.log("minhasMarcacoes2", minhasMarcacoes2);
       setFilteredAgendamentos(minhasMarcacoes2);
     }
   }, [minhasMarcacoes2]);
@@ -56,12 +41,11 @@ const MinhasTransferencias = () => {
       dataAtual,
       "status",
       "==",
-      "pendente"
+      "pendente",
+      "validate",
+      "asc",
+      10
     );
-
-    // console.log("dadosSnap", dadosSnap);
-
-    // setFilteredAgendamentos(dadosSnap);
   };
 
   return (
@@ -79,17 +63,13 @@ const MinhasTransferencias = () => {
           </Col>
         </Container>
       </section>
-      <section>
+      <section className="sectionResultsAgendamento">
         <Container>
           <Row className="row-meus-agendamentos">
             {loadingMinhasMarcacoes2 && (
               <Loading type={`spin`} width={"30px"} />
             )}
-            {console.log(
-              "Transfer",
-              filteredAgendamentos.length,
-              filteredAgendamentos
-            )}
+
             {!filteredAgendamentos && <p>Não há transferencias</p>}
             {filteredAgendamentos &&
               filteredAgendamentos.map((minhaTransferencia, index) => {

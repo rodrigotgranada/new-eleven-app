@@ -114,18 +114,24 @@ const CancelAgendamento = ({
               agenda,
               currentUser
             );
-            toast.success(`Agendamento Cancelado!!`);
+            toast.success(`Agendamento Cancelado!!`, {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
           });
         } catch (error) {
-          toast.error(error.message);
+          toast.error(error.message, {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
         }
       });
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
 
     // toast.error(`Agendamento ${agendaID} cancelado`, {
-    //   position: toast.POSITION.TOP_CENTER,
+    //   position: toast.POSITION.BOTTOM_CENTER,
     // });
   };
 

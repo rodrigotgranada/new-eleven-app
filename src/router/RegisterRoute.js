@@ -7,7 +7,7 @@ const RegisterRoute = ({ currentUser }) => {
     if (currentUser) {
       if (!currentUser?.usuario?.checked) {
         toast.warning("Usuário não verificado!", {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.BOTTOM_CENTER,
         });
       }
     }

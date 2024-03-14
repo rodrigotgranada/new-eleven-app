@@ -116,10 +116,14 @@ const EditQuadra = ({ isOpen, setIsOpen, editarQuadra, ...props }) => {
         foto: selectedImage ? selectedImage : fotoPadrao[0]?.quadraPadrao,
         esportes: modalidade,
       }).then((e) => {
-        toast.success("Quadra editada com Sucesso!");
+        toast.success("Quadra editada com Sucesso!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
       });
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 

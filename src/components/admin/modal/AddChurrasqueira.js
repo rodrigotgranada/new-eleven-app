@@ -63,10 +63,14 @@ const AddChurrasqueira = ({ title, isOpen, setIsOpen }) => {
         foto: selectedImage ? selectedImage : fotoPadrao[0]?.quadraPadrao,
       }).then((e) => {
         resetForm();
-        toast.success("Churrasqueira adicionada com Sucesso!");
+        toast.success("Churrasqueira adicionada com Sucesso!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
       });
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 

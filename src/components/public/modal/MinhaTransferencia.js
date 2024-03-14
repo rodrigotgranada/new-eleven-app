@@ -57,25 +57,27 @@ const MinhaTransferencia = ({
 
   const handleVerify = async (codigo) => {
     const codeAuth = transferencia.code;
-    console.log("codigo usuario", parseInt(codeAuth));
-    console.log("codigo digitado", parseInt(codigo));
-
-    if (parseInt(codigo) === parseInt(codeAuth)) {
-      const valida = await checkTransfer(transferencia.id);
-      if (valida?.error) {
-        const accepted = await acceptTransfer(transferencia);
-        toast.success("Código Válido", {
-          position: toast.POSITION.TOP_CENTER,
-        });
+    // console.log("codigo usuario", parseInt(codeAuth));
+    // console.log("codigo digitado", parseInt(codigo));
+    if (codigo) {
+      if (parseInt(codigo) === parseInt(codeAuth)) {
+        const valida = await checkTransfer(transferencia.id);
+        console.log("VALIDA", valida);
+        if (valida?.error) {
+          const accepted = await acceptTransfer(transferencia);
+          toast.success("Código Válido", {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+        } else {
+          toast.error("Transferencia Cancelada", {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+        }
       } else {
-        toast.error("Transferencia Cancelada", {
-          position: toast.POSITION.TOP_CENTER,
+        toast.error("Código inválido", {
+          position: toast.POSITION.BOTTOM_CENTER,
         });
       }
-    } else {
-      toast.error("Código inválido", {
-        position: toast.POSITION.TOP_CENTER,
-      });
     }
   };
   return (
@@ -107,7 +109,7 @@ const MinhaTransferencia = ({
             <Row>
               <Col lg="5">
                 <h3>{`Dados agendamento`}</h3>
-                <p>Data: {formataData(transferencia?.dataDia)}</p>
+                <p>Data: {formataData(agendamento?.dataDia)}</p>
                 <p>Hora: {`${horario?.value}:00`}</p>
                 <p>Esporte: {esporte?.display}</p>
                 <p>Quadra: {quadra?.name}</p>

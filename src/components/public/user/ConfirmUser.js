@@ -43,11 +43,11 @@ const ConfirmUser = ({ user }) => {
 
     if (enviado) {
       toast.success("Código enviado!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     } else {
       toast.error("Código não enviado!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     }
   };

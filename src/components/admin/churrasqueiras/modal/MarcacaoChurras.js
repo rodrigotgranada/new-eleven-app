@@ -202,12 +202,15 @@ const MarcacaoChurras = ({ isOpen, setIsOpen, infos }) => {
       await addDoc(docRef, dados).then((e) => {
         logAgendamentoDatabase("interno", "churras", "add", dados, currentUser);
         toast.success(`Marcação confirmada`, {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.BOTTOM_CENTER,
         });
       });
     } catch (error) {
       toast.error(
-        `Marcação não confirmada, churrasqueira já ocupada neste horário`
+        `Marcação não confirmada, churrasqueira já ocupada neste horário`,
+        {
+          position: toast.POSITION.BOTTOM_CENTER,
+        }
       );
     }
   };

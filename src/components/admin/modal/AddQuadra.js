@@ -87,10 +87,14 @@ const AddQuadra = ({ title, isOpen, setIsOpen, tipoQuadra, ...props }) => {
         esportes: modalidade,
       }).then((e) => {
         resetForm();
-        toast.success("Quadra adicionada com Sucesso!");
+        toast.success("Quadra adicionada com Sucesso!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
       });
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 

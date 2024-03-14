@@ -45,12 +45,12 @@ export const Nav = (props) => {
             try {
               await logout();
               toast.success("Logged out", {
-                position: toast.POSITION.TOP_CENTER,
+                position: toast.POSITION.BOTTOM_CENTER,
               });
               navigate("/");
             } catch (err) {
               toast.error(err.message, {
-                position: toast.POSITION.TOP_CENTER,
+                position: toast.POSITION.BOTTOM_CENTER,
               });
               setError("Failed to log out");
             }
@@ -71,12 +71,12 @@ export const Nav = (props) => {
     try {
       await logout();
       toast.success("Logged out", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
       navigate("/");
     } catch (err) {
       toast.error(err.message, {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
       setError("Failed to log out");
     }

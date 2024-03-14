@@ -148,14 +148,16 @@ const ConfirmAddPermanente = ({
             }
           });
         toast.success(`Permanente confirmada`, {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.BOTTOM_CENTER,
         });
 
         handleResetPermanente();
         setSelectedUser(null);
         setIsOpen(false);
       } catch (error) {
-        toast.error(`Permanente não confirmado, permanente já existe`);
+        toast.error(`Permanente não confirmado, permanente já existe`, {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
       }
     }
 

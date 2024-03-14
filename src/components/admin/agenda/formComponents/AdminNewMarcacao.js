@@ -258,11 +258,13 @@ const AdminNewMarcacao = ({ dados, oldOpen, oldSetIsOpen, handleC }) => {
       await addDoc(docRef, dados).then((e) => {
         logAgendamentoDatabase("interno", "quadra", "add", dados, currentUser);
         toast.success(`Marcação confirmada`, {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.BOTTOM_CENTER,
         });
       });
     } catch (error) {
-      toast.error(`Marcação não confirmada, quadra já ocupada neste horário`);
+      toast.error(`Marcação não confirmada, quadra já ocupada neste horário`, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 

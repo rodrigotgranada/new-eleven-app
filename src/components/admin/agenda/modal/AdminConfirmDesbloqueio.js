@@ -92,16 +92,22 @@ const AdminConfirmDesbloqueio = ({
           try {
             const docRef = doc(db, "agenda", resposta.id);
             await deleteDoc(docRef).then((e) => {
-              toast.success(`Bloqueio Cancelado!!`);
+              toast.success(`Bloqueio Cancelado!!`, {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
               oldSetIsOpen(false);
               setIsOpen(false);
             });
           } catch (error) {
-            toast.error(error.message);
+            toast.error(error.message, {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
           }
         });
       } catch (error) {
-        toast.error(error.message);
+        toast.error(error.message, {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
       }
     }
   };

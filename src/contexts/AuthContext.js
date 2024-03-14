@@ -214,7 +214,9 @@ export function AuthProvider({ children }) {
 
       return snap;
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 
@@ -256,14 +258,18 @@ export function AuthProvider({ children }) {
               const userFull = { ...user };
               userFull.usuario = docSnap.data();
               setCurrentUser(userFull);
-              toast.success("E-mail atualizado com sucesso");
+              toast.success("E-mail atualizado com sucesso", {
+                position: toast.POSITION.BOTTOM_CENTER,
+              });
               return docSnap.data();
             }
           );
         });
       })
       .catch((error) => {
-        toast.error("Senha Incorreta");
+        toast.error("Senha Incorreta", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
       });
   };
 
@@ -277,11 +283,17 @@ export function AuthProvider({ children }) {
       reauthenticateWithCredential(auth.currentUser, credential)
         .then((teste) => {
           updatePassword(auth.currentUser, password).then((user) => {
-            toast.success("Senha atualizada com sucesso");
+            toast.success("Senha atualizada com sucesso", {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
             navigate("/");
           });
         })
-        .catch((err) => toast.error("Senha Incorreta"));
+        .catch((err) =>
+          toast.error("Senha Incorreta", {
+            position: toast.POSITION.BOTTOM_CENTER,
+          })
+        );
     } catch (err) {
       console.log(err);
     }
@@ -333,13 +345,13 @@ export function AuthProvider({ children }) {
 
       return snap;
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 
   const atualizaDados = async (usuario, nome, sobrenome, foto) => {
-    console.log("usuario", usuario);
-    console.log("auth.currentUser", auth.currentUser);
     try {
       const docRef = doc(db, "users", usuario.uid);
       const snap = await updateDoc(docRef, {
@@ -424,12 +436,12 @@ export function AuthProvider({ children }) {
             try {
               await logout();
               toast.success("Logged out", {
-                position: toast.POSITION.TOP_CENTER,
+                position: toast.POSITION.BOTTOM_CENTER,
               });
               navigate("/");
             } catch (err) {
               toast.error(err.message, {
-                position: toast.POSITION.TOP_CENTER,
+                position: toast.POSITION.BOTTOM_CENTER,
               });
               // setError("Failed to log out");
             }

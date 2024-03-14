@@ -88,11 +88,11 @@ export default function UpdateProfileDados() {
 
       if (retorno) {
         toast.success("Dados atualizados com sucesso!", {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.BOTTOM_CENTER,
         });
       } else {
         toast.error("Dados não atualizados! Tente novamente mais tarde", {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.BOTTOM_CENTER,
         });
       }
     }

@@ -370,6 +370,44 @@ const useGetData = () => {
     });
   };
 
+  const getDataWhereOrderByLimit3 = async (
+    collectionName,
+    campo,
+    type,
+    valor,
+    campo1,
+    type1,
+    valor1,
+    campo2,
+    type2,
+    valor2,
+    orderCampo,
+    order,
+    quantidade
+  ) => {
+    const colletionRef = collection(db, collectionName);
+    const q = query(
+      colletionRef,
+      where(campo, type, valor),
+      where(campo1, type1, valor1),
+      where(campo2, type2, valor2),
+      orderBy(orderCampo, order ? order.toLowerCase() : "asc"),
+      limit(quantidade ? quantidade : 10000)
+    );
+
+    await onSnapshot(q, (querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push({ ...doc.data(), id: doc.id });
+      });
+
+      setData(items);
+
+      setLoading(false);
+      return items;
+    });
+  };
+
   const getDataAgenda = async (
     collectionName,
     campo1,
@@ -619,6 +657,7 @@ const useGetData = () => {
     getDataOrderBy2,
     getDataWhereOrderByLimit,
     getDataWhereOrderByLimit2,
+    getDataWhereOrderByLimit3,
     getDataId,
     getDataWhereSnap,
     getDataWhere,

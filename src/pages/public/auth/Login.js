@@ -35,19 +35,19 @@ export default function Login() {
       // console.log('authLogin', authLogin)
       if (authLogin.user.emailVerified) {
         toast.success("Bem-vindo!", {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.BOTTOM_CENTER,
         });
         navigate("/");
       } else {
         // toast.warning("E-mail não verificado!", {
-        //   position: toast.POSITION.TOP_CENTER,
+        //   position: toast.POSITION.BOTTOM_CENTER,
         // });
         navigate("/my-profile");
       }
     } catch (err) {
       console.log(err);
       toast.error("Usuário ou senha inválidos", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
       setError("Usuário ou senha inválidos");
     }

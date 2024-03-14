@@ -88,10 +88,14 @@ const AdminListPlayers = ({ isOpen, agendaID }) => {
       await updateDoc(docRef, {
         jogadores: _meusJogadores,
       }).then((e) => {
-        toast.success("Agendamento atualizado com Sucesso!");
+        toast.success("Agendamento atualizado com Sucesso!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
       });
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 

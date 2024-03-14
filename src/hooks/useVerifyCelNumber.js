@@ -74,7 +74,7 @@ const useVerifyCelNumber = () => {
       await deleteDoc(doc(db, "codTemp_celChange", item.id));
       // toast.success("Troca cancelada com sucesso!");
       toast.success("Troca cancelada com sucesso!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     } catch (err) {
       console.log(err);
@@ -129,11 +129,11 @@ const useVerifyCelNumber = () => {
 
               if (enviado) {
                 toast.success("Troca de número solicitada! Código enviado!", {
-                  position: toast.POSITION.TOP_CENTER,
+                  position: toast.POSITION.BOTTOM_CENTER,
                 });
               } else {
                 toast.error("Código não enviado!", {
-                  position: toast.POSITION.TOP_CENTER,
+                  position: toast.POSITION.BOTTOM_CENTER,
                 });
               }
               // toast.success("Troca de número solicitada!");
@@ -178,7 +178,7 @@ const useVerifyCelNumber = () => {
       await deleteDoc(doc(db, "codTemp_celChange", item.id));
       // toast.success("Troca efetuada com sucesso!");
       toast.success("Troca efetuada com sucesso!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
       return true;
     } catch (err) {

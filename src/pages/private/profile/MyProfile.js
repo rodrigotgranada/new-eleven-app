@@ -33,11 +33,11 @@ export default function MyProfile() {
     try {
       await verifyUser();
       toast.success("E-mail enviado!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     } catch {
       toast.error("E-mail não enviado!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
       setError("Failed to send email");
     }

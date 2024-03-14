@@ -40,6 +40,7 @@ const Routers = () => {
       <Route path="*" element={<Page404 />} />
       <Route path="/" element={<Navigate to="home" />} />
       <Route path="home" element={<Home />} />
+      {/* <Route path="home" element={<Navigate to="marcar-quadra" />} /> */}
       {/* Private */}
       <Route path="/*" element={<RegisterRoute currentUser={currentUser} />}>
         <Route path="my-profile" element={<MyProfile />} />
@@ -57,7 +58,8 @@ const Routers = () => {
       <Route path="/*" element={<AdminRoute currentUser={currentUser} />}>
         <Route path="admin/" element={<Navigate to="agenda" />} />
         {/* <Route path="admin/home" element={<AdminHome />} /> */}
-        <Route path="admin/home" element={<Navigate to="agenda" />} />
+        {/* <Route path="admin/home" element={<Navigate to="agenda" />} /> */}
+        <Route path="admin/home" element={<Agenda />} />
         <Route path="admin/agenda" element={<Agenda />} />
         <Route path="admin/permanentes" element={<Permanentes />} />
         <Route path="admin/churrasqueiras" element={<Churrasqueiras />} />

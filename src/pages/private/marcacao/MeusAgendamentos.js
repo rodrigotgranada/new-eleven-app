@@ -31,7 +31,7 @@ const MeusAgendamentos = () => {
   const {
     getDataWhereOrderByLimit2: getMinhasMarcacoes3,
     data: minhasMarcacoes2,
-    loadingMinhasMarcacoes2,
+    loading: loadingMinhasMarcacoes2,
   } = useGetData();
 
   const {
@@ -80,7 +80,7 @@ const MeusAgendamentos = () => {
         "2023-11-15",
         "dataDia",
         "asc",
-        30
+        10
       );
     }
   }, [currentUser]);
@@ -130,11 +130,12 @@ const MeusAgendamentos = () => {
             {loadingMinhasMarcacoes2 && (
               <Loading type={`spin`} width={"30px"} />
             )}
-            {console.log("MMMM", filteredAgendamentos)}
+            {filteredAgendamentos && filteredAgendamentos?.length == 0 && (
+              <p> Nenhum registro encontrado </p>
+            )}
             {filteredAgendamentos &&
               filteredAgendamentos.length > 0 &&
               filteredAgendamentos.map((minhaMarcacao, index) => {
-                console.log(minhaMarcacao);
                 return (
                   <CardAgendamento
                     key={index}

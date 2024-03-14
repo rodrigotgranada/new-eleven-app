@@ -168,14 +168,14 @@ const AdminModalConfirmTransfer = ({
   const handleFinish = (transferido) => {
     if (transferido) {
       toast.success("Transferencia concluida", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
 
       handleCLose();
       setLastModal(!lastModal);
     } else {
       toast.error("Transferencia não concluida", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     }
   };

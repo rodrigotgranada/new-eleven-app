@@ -84,7 +84,9 @@ const AdminCancelAgendamento = ({
         try {
           const docRef = doc(db, "agenda", agendaID);
           await deleteDoc(docRef).then((e) => {
-            toast.success(`Agendamento Cancelado!!`);
+            toast.success(`Agendamento Cancelado!!`, {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
             logAgendamentoDatabase(
               "interno",
               "quadra",
@@ -96,11 +98,15 @@ const AdminCancelAgendamento = ({
             setAgendamentoOpen(false);
           });
         } catch (error) {
-          toast.error(error.message);
+          toast.error(error.message, {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
         }
       });
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 

@@ -137,25 +137,25 @@ const ConfirmRenovarPermanente = ({ data, isOpen, setIsOpen }) => {
 
               if (result.length === dates_string.length) {
                 toast.success(`Permanente Renovada`, {
-                  position: toast.POSITION.TOP_CENTER,
+                  position: toast.POSITION.BOTTOM_CENTER,
                 });
                 handleCLose();
               }
             } catch (error) {
               toast.error(`${error}`, {
-                position: toast.POSITION.TOP_CENTER,
+                position: toast.POSITION.BOTTOM_CENTER,
               });
             }
           });
         } catch (error) {
           toast.error(`${error}`, {
-            position: toast.POSITION.TOP_CENTER,
+            position: toast.POSITION.BOTTOM_CENTER,
           });
         }
       });
     } catch (error) {
       toast.error(`${error}`, {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     }
   };

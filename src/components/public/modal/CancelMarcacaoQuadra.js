@@ -31,8 +31,8 @@ const CancelMarcacaoQuadra = ({
     navigate("/");
     setIsOpen(false);
 
-    toast.error(`Marcação ${marcacao?.codLocacao} cancelada`, {
-      position: toast.POSITION.TOP_CENTER,
+    toast.error(`Marcação cancelada`, {
+      position: toast.POSITION.BOTTOM_CENTER,
     });
   };
   return (
@@ -63,7 +63,7 @@ const CancelMarcacaoQuadra = ({
         <ModalBody>
           <Row>
             <Col lg="12">
-              <p>{`Deseja cancelar o agendamento ${marcacao?.codLocacao} ?`}</p>
+              <p>{`Deseja cancelar o agendamento ?`}</p>
             </Col>
           </Row>
         </ModalBody>

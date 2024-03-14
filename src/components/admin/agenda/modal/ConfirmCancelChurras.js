@@ -17,7 +17,9 @@ const ConfirmCancelChurras = ({ isOpen, setIsOpen, infos }) => {
     try {
       const docRef = doc(db, "agenda_churras", infos?.config?.id);
       await deleteDoc(docRef).then((e) => {
-        toast.success(`Agendamento Churrasqueira Cancelado!!`);
+        toast.success(`Agendamento Churrasqueira Cancelado!!`, {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
         logAgendamentoDatabase(
           "interno",
           "churras",
@@ -29,7 +31,9 @@ const ConfirmCancelChurras = ({ isOpen, setIsOpen, infos }) => {
         // setAgendamentoOpen(false);
       });
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
   return (

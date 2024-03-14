@@ -68,11 +68,13 @@ const AdminConfirmBloqueio = ({
       await addDoc(docRef, dados).then((e) => {
         // setConfirmed(true);
         toast.success(`Bloqueio confirmado`, {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.BOTTOM_CENTER,
         });
       });
     } catch (error) {
-      toast.error(`Bloqueio não confirmado, quadra já ocupada neste horário`);
+      toast.error(`Bloqueio não confirmado, quadra já ocupada neste horário`, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 

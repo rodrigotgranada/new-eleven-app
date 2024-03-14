@@ -22,6 +22,8 @@ select {
     color: t("text");
     background: t("bg");
     box-shadow: t("box-shadow");
+    border: 1px solid;
+    width: 100%;
   }
   cursor: pointer;
   option {

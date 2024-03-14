@@ -79,7 +79,7 @@ const useTransferAgendamento = () => {
           );
           // toast.success("Troca cancelada com sucesso!");
           toast.success("Transferencia cancelada com sucesso!", {
-            position: toast.POSITION.TOP_CENTER,
+            position: toast.POSITION.BOTTOM_CENTER,
           });
           return true;
         } catch (err) {
@@ -135,24 +135,24 @@ const useTransferAgendamento = () => {
             console.log(err);
           }
           toast.success("Transferencia solicitada!", {
-            position: toast.POSITION.TOP_CENTER,
+            position: toast.POSITION.BOTTOM_CENTER,
           });
           const enviado = await sendConfirmPT(userDestino?.telefone, codAuth);
           console.log("enviado", enviado);
 
           if (enviado) {
             toast.success("Código enviado!", {
-              position: toast.POSITION.TOP_CENTER,
+              position: toast.POSITION.BOTTOM_CENTER,
             });
           } else {
             toast.error("Código não enviado!", {
-              position: toast.POSITION.TOP_CENTER,
+              position: toast.POSITION.BOTTOM_CENTER,
             });
           }
           return e?.id;
         } else {
           toast.error("Transferencia não solicitada!", {
-            position: toast.POSITION.TOP_CENTER,
+            position: toast.POSITION.BOTTOM_CENTER,
           });
         }
       });
@@ -160,7 +160,9 @@ const useTransferAgendamento = () => {
       // console.log("cadastro", cadastro);
     } catch (error) {
       console.log(error);
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 

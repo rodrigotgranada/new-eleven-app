@@ -21,7 +21,9 @@ const DeleteQuadra = ({ isOpen, setIsOpen, quadra, id, closePrevious }) => {
       //   toast.success(`Quadra ${quadra?.name} excluida com sucesso!!`);
       // });
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 

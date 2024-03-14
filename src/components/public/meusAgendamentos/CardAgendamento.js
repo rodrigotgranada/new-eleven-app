@@ -61,6 +61,7 @@ const CardAgendamento = ({ marcacao, chave, ...props }) => {
           quadra={quadra}
         />
       )}
+
       {marcacao &&
         Object.keys(hora).length > 0 &&
         Object.keys(esporte).length > 0 &&
@@ -68,8 +69,8 @@ const CardAgendamento = ({ marcacao, chave, ...props }) => {
           <Card
             key={chave}
             className={`card-agendamento ${
-              marcacao?.transfer_id ? "card-with-transfer" : null
-            }`}
+              marcacao?.transfer_id ? "card-with-transfer" : ""
+            } ${marcacao?.permanente ? "card-with-permanente" : ""}`}
             onClick={() => {
               setModalOpen(true);
             }}

@@ -16,11 +16,11 @@ const UsuarioAdmin = ({ infos }) => {
     console.log(retorno);
     if (retorno) {
       toast.success("Usuario atualizado com sucesso!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     } else {
       toast.error("Usuario não atualizado! Tente novamente mais tarde", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.BOTTOM_CENTER,
       });
     }
   };

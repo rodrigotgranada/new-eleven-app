@@ -133,11 +133,13 @@ const ConfirmMarcacaoQuadra = ({
         setConfirmed(true);
         logAgendamentoDatabase("app", "quadra", "add", dados, currentUser);
         toast.success(`Marcação ${dados?.codLocacao} confirmada`, {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.BOTTOM_CENTER,
         });
       });
     } catch (error) {
-      toast.error(`Marcação não confirmada, quadra já ocupada neste horário`);
+      toast.error(`Marcação não confirmada, quadra já ocupada neste horário`, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
     }
   };
 
