@@ -18,12 +18,12 @@
 
 
 .slick-slide div:first-child {
-  border: 2px solid orange;
-  width: 100%;
+  // border: 2px solid orange;
+  width: 70%;
 
   img {
-    width: 10rem;
-    height: 7rem;
+    // width:70%;
+    height: 15rem;
   }
 }
 .flecha-car {
@@ -35,3 +35,13 @@
   }
 }
 
+@media only screen and (max-width: 768px) {
+  .slick-slide div:first-child {
+    width: 100%;
+  
+    img {
+      width: 10rem;
+      height: 7rem;
+    }
+  }
+}
