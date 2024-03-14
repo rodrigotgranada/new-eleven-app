@@ -1,7 +1,21 @@
+@import "../themes/_theme.scss";
+
 .banner-eleven {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   .home-logo {
     width: 5rem;
   }
 }
+
+.flecha-car {
+
+  &::before {
+    @include themed() {
+      color: t("arrow-parceiros") !important;
+    }
+  }
+}
+

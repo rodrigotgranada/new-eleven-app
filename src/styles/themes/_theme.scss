@@ -34,6 +34,11 @@ $bg-date-calendar-selected--dark: linear-gradient(
 $bg-date-calendar-hover--light: radial-gradient(#f17300 40%, #f1740083);
 $bg-date-calendar-hover--dark: radial-gradient(#f17300 40%, #f1740083);
 
+
+$arrow-parceiros--light: #282828;
+$arrow-parceiros--dark: #f1740083;
+
+
 $themes: (
   light: (
     bg: $bg--light,
@@ -46,6 +51,7 @@ $themes: (
     text-date-calendar-disabled: $text-date-calendar-disabled--light,
     bg-date-calendar-selected: $bg-date-calendar-selected--light,
     bg-date-calendar-hover: $bg-date-calendar-hover--light,
+    arrow-parceiros: $arrow-parceiros--light,
   ),
   dark: (
     bg: $bg--dark,
@@ -58,6 +64,7 @@ $themes: (
     text-date-calendar-disabled: $text-date-calendar-disabled--dark,
     bg-date-calendar-selected: $bg-date-calendar-selected--dark,
     bg-date-calendar-hover: $bg-date-calendar-hover--dark,
+    arrow-parceiros: $arrow-parceiros--dark,
   ),
 );
 

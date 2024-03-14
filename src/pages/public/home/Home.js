@@ -2,7 +2,7 @@ import React from "react";
 import "../../../styles/public/home.scss";
 import logo from "../../../assets/Logos/simbolFinal.png";
 import { Container } from "reactstrap";
-
+import ParceirosCar from "../../../components/public/home/ParceirosCar";
 const Home = () => {
   return (
     <>
@@ -15,6 +15,7 @@ const Home = () => {
         </section>
         <section className="home-parceiros">
           <h4>Parceiros</h4>
+          <ParceirosCar />
         </section>
         {/* <section className="home-atividades">
           <h4>Atividades</h4>

@@ -23,6 +23,7 @@ import RegisterRoute from "./RegisterRoute";
 import MinhasTransferencias from "../pages/private/marcacao/MinhasTransferencias";
 import Agenda from "../pages/admin/agenda/Agenda";
 import Churrasqueiras from "../pages/admin/churrasqueiras/Churrasqueiras";
+import Parceiros from "../pages/admin/parceiros/Parceiros";
 
 const Routers = () => {
   const { currentUser } = useAuth();
@@ -69,6 +70,7 @@ const Routers = () => {
         <Route path="admin/logs" element={<Logs />} />
         <Route path="admin/usuarios" element={<Usuarios />} />
         <Route path="admin/quadras" element={<Quadras />} />
+        <Route path="admin/parceiros" element={<Parceiros />} />
       </Route>
       {/* Auth */}
       <Route path="signup" element={<Signup />} />
