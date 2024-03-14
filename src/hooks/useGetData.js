@@ -56,15 +56,15 @@ const useGetData = () => {
       colletionRef,
       orderBy(campo.toLowerCase(), order ? order.toLowerCase() : "asc")
     );
-
+    const items = [];
     await onSnapshot(q, (querySnapshot) => {
-      const items = [];
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
       });
       setData(items);
       setLoading(false);
     });
+    return items;
   };
 
   const getDataOrderByLogs = async (

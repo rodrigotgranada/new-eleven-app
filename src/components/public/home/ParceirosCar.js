@@ -40,15 +40,21 @@ function SamplePrevArrow(props) {
 
 const ParceirosCar = () => {
   const {
-    getData: getParceiros,
+    getDataOrderBy: getParceiros,
     data: parceiros,
     loading: carregaParceiros,
   } = useGetData();
 
   useEffect(() => {
-    getParceiros("parceiros");
+    getParceiros("parceiros", "ordem");
     return () => {};
   }, []);
+
+  //   useEffect(() => {
+  //     console.log("parceiros", parceiros);
+
+  //     return () => {};
+  //   }, [parceiros]);
 
   const settings = {
     // vertical: false,
@@ -99,6 +105,7 @@ const ParceirosCar = () => {
                 // >
                 // <ExternalLink href={item.link}>
                 <img
+                  key={index}
                   alt={item.nome}
                   src={item.foto}
                   //   style={{ width: "10rem", height: "7rem" }}
