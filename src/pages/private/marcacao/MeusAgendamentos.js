@@ -6,6 +6,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import useGetData from "../../../hooks/useGetData";
 import "../../../styles/public/meusAgendamentos.scss";
 import { FormSelect } from "react-bootstrap";
+import moment from "moment";
 
 const MeusAgendamentos = () => {
   const [filteredAgendamentos, setFilteredAgendamentos] = useState();
@@ -61,6 +62,7 @@ const MeusAgendamentos = () => {
   useEffect(() => {
     if (currentUser) {
       getModalidades("modalidades", "display", "asc");
+      const dataAtual = moment(new Date()).format("YYYY-MM-DD");
       // getMinhasMarcacoes2(
       //   "agenda",
       //   "user",
@@ -77,7 +79,7 @@ const MeusAgendamentos = () => {
         currentUser?.uid,
         "dataDia",
         ">=",
-        "2023-11-15",
+        dataAtual,
         "dataDia",
         "asc",
         10

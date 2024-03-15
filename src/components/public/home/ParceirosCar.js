@@ -82,7 +82,7 @@ const ParceirosCar = () => {
   };
 
   const openInNewTab = (url) => {
-    window.open(url, "_blank", "noopener,noreferrer");
+    window.open(`https://${url}`, "_blank", "noopener,noreferrer");
   };
   const onClickUrl = (url) => {
     return () => openInNewTab(url);
@@ -96,15 +96,6 @@ const ParceirosCar = () => {
           <Slider {...settings}>
             {parceiros &&
               parceiros?.map((item, index) => (
-                // <div
-                //   key={index}
-                //   className={`slide-item`}
-                //   style={{
-                //     color: "green",
-                //   }}
-                //   onClick={() => onClickUrl(item.link)}
-                // >
-                // <ExternalLink href={item.link}>
                 <img
                   key={index}
                   alt={item.nome}
@@ -112,10 +103,6 @@ const ParceirosCar = () => {
                   //   style={{ width: "10rem", height: "7rem" }}
                   onClick={() => openInNewTab(item.link)}
                 />
-                // </ExternalLink>
-
-                // <ExternalLink href={item.link}>{item.nome}</ExternalLink>
-                //</div>
               ))}
           </Slider>
         </Container>

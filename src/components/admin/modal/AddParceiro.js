@@ -70,7 +70,7 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
         capa: parceiro.capa ? parceiro.capa : false,
         nome: parceiro.nome,
         foto: parceiro.foto ? parceiro.foto : fotoPadrao[0]?.quadraPadrao,
-        link: parceiro.link,
+        link: montaLink(parceiro.link),
         ordem: parceiro.ordem ? numeroFormatado : 0,
         status: parceiro.status ? parceiro.status : false,
         createdAt: moment(new Date()).format("YYYY-MM-DD HH:mm"),
@@ -87,6 +87,18 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
         position: toast.POSITION.BOTTOM_CENTER,
       });
     }
+  };
+
+  const montaLink = (url) => {
+    let final = "";
+    if (url.includes("https://")) {
+      final = url.replace("https://", "");
+    } else if (url.includes("http://")) {
+      final = url.replace("http://", "");
+    } else {
+      final = url;
+    }
+    return final;
   };
 
   const handleChange = (e) => {
@@ -219,18 +231,6 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
               </button>
             </Form>
           </Col>
-          {/* <Col lg="6">
-            <h4> Parceiros:</h4>
-            <div className="w-100 messagesArea">
-              {parceiros &&
-                parceiros.length > 0 &&
-                parceiros?.map((item, index) => (
-                  <p className="messageItem" key={index}>
-                    {item?.ordem} - {item?.nome}
-                  </p>
-                ))}
-            </div>
-          </Col> */}
         </Row>
       </ModalBody>
 

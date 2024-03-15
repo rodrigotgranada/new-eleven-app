@@ -10,12 +10,21 @@
   }
 }
 
+.home-parceiros {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .title-parceiros {
+    margin-bottom: 0.7rem;
+  }
+}
+
 .slick-slide {
   display: flex !important;
   justify-content: center !important;
-
 }
-
 
 .slick-slide div:first-child {
   // border: 2px solid orange;
@@ -27,7 +36,6 @@
   }
 }
 .flecha-car {
-
   &::before {
     @include themed() {
       color: t("arrow-parceiros") !important;
@@ -37,7 +45,7 @@
 
 @media only screen and (max-width: 768px) {
   .slick-slide div:first-child {
-    width: 100%;  
+    width: 100%;
     img {
       width: 10rem;
       height: 7rem;
@@ -54,6 +62,5 @@
         }
       }
     }
-    
   }
 }

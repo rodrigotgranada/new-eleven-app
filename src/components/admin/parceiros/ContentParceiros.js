@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Col } from "reactstrap";
 import AddParceiro from "../modal/AddParceiro";
 import ListParceiros from "./ListParceiros";
+import "../../../styles/admin/parceiros.scss";
 
 const ContentParceiros = () => {
   const [ModalOpen, setModalOpen] = useState(false);
@@ -26,7 +27,7 @@ const ContentParceiros = () => {
           </button>
         </section>
         <Col lg="12">
-          <section className="admin__menu p-0">
+          <section className="section-parceiros">
             <ListParceiros />
           </section>
         </Col>

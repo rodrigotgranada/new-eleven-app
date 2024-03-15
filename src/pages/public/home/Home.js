@@ -14,7 +14,7 @@ const Home = () => {
           </div>
         </section>
         <section className="home-parceiros">
-          <h4>Parceiros</h4>
+          <h4 className="title-parceiros">Parceiros</h4>
           <ParceirosCar />
         </section>
         {/* <section className="home-atividades">

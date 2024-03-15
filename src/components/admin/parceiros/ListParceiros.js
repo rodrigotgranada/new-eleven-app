@@ -3,16 +3,18 @@ import useGetData from "../../../hooks/useGetData";
 import { useEffect } from "react";
 import Loading from "../../public/Loading/Loading";
 import { Card } from "reactstrap";
+import "../../../styles/admin/parceiros.scss";
+import CardParceiro from "./CardParceiro";
 
 const ListParceiros = () => {
   const {
-    getData: getParceiros,
+    getDataOrderBy: getParceiros,
     data: parceiros,
     loading: carregaParceiros,
   } = useGetData();
 
   useEffect(() => {
-    getParceiros("parceiros");
+    getParceiros("parceiros", "ordem");
     return () => {};
   }, []);
   return (
@@ -23,12 +25,13 @@ const ListParceiros = () => {
         <>
           {parceiros.map((parceiro, index) => {
             return (
-              <Card key={index} className={`card-parceiro`}>
-                <p>
-                  {parceiro.ordem} - {parceiro.nome}
-                </p>
-                <img alt={parceiro.nome} src={parceiro.foto} />
-              </Card>
+              <CardParceiro parceiro={parceiro} index={index} key={index} />
+              // <Card key={index} className={`card-parceiro`}>
+              //   <p>
+              //     {parceiro.ordem} - {parceiro.nome}
+              //   </p>
+              //   <img alt={parceiro.nome} src={parceiro.foto} />
+              // </Card>
             );
           })}
         </>
