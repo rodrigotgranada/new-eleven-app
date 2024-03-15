@@ -30,9 +30,9 @@ export default function UpdateProfileDados() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [selectedImages, setSelectedImages] = useState(
-    currentUser?.usuario?.photoURL
-  );
+  // const [selectedImages, setSelectedImages] = useState(
+  //   currentUser?.usuario?.photoURL
+  // );
   const navigate = useNavigate();
   const { loading: loadAuth, getDataWhere } = useAuthData();
 
@@ -44,7 +44,7 @@ export default function UpdateProfileDados() {
     const nameFinal = nameRef.current.value;
     const surnameFinal = surnameRef.current.value;
     const docFInal = onlyNumbers(docRef.current.value);
-    const picture = selectedImages;
+    // const picture = selectedImages;
     let valida = true;
     // console.log(
     //   "docFInal",
@@ -77,12 +77,12 @@ export default function UpdateProfileDados() {
     // }
     // }
     if (valida) {
-      console.log("picture", picture);
+      // console.log("picture", picture);
       const retorno = await atualizaDados(
         currentUser,
         nameFinal,
-        surnameFinal,
-        picture
+        surnameFinal
+        // picture
       );
       console.log("retorno", retorno);
 
@@ -162,7 +162,7 @@ export default function UpdateProfileDados() {
                     </FormGroup>
                   </Col>
 
-                  <Col lg="6" className="col-picture-signup">
+                  {/* <Col lg="6" className="col-picture-signup">
                     <FormGroup>
                       <FileInput
                         selectedImages={selectedImages}
@@ -172,7 +172,7 @@ export default function UpdateProfileDados() {
                         tamanho={true}
                       />
                     </FormGroup>
-                  </Col>
+                  </Col> */}
                 </Row>
                 <Row className="d-flex align-items-center justify-content-center row-button-signup">
                   <Col lg="6">

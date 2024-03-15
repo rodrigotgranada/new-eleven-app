@@ -150,7 +150,7 @@ export function AuthProvider({ children }) {
     surname,
     telefone,
     documento,
-    images,
+    // images,
     rule
   ) => {
     const meuEmail = email;
@@ -172,7 +172,7 @@ export function AuthProvider({ children }) {
             documento: onlyNumbers(documento),
             telefone: onlyNumbers(telefone),
             email,
-            photoURL: images,
+            // photoURL: images,
             rule: rule,
             status: true,
             checked: false,
@@ -180,9 +180,9 @@ export function AuthProvider({ children }) {
             codAuth: codAuth,
           });
         })
-        // .then(async (user) => {
-        //   await sendConfirmPT(telefone, codAuth);
-        // })
+        .then(async (user) => {
+          await sendConfirmPT(telefone, codAuth);
+        })
         .then(async () => await signOut(auth))
         .catch((error) => console.log(error));
     } catch (error) {

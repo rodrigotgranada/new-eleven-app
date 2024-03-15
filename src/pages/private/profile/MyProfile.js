@@ -95,7 +95,7 @@ export default function MyProfile() {
                       {handleMessageVerify()}
                       {/* <h2 className="text-center mb-4">Usuário</h2> */}
                       {error && <Alert variant="danger">{error}</Alert>}
-                      {currentUser?.usuario?.photoURL ? (
+                      {/* {currentUser?.usuario?.photoURL ? (
                         <img
                           src={currentUser?.usuario?.photoURL}
                           alt="Capa"
@@ -104,7 +104,7 @@ export default function MyProfile() {
                       ) : (
                         <></>
                       )}
-                      <br />
+                      <br /> */}
                       <strong>Nome:</strong> {currentUser?.usuario?.displayName}
                       <br />
                       <strong>Sobrenome:</strong>{" "}

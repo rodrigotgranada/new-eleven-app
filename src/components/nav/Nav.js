@@ -101,21 +101,6 @@ export const Nav = (props) => {
           )}
 
         <li>
-          <img
-            src={
-              currentUser?.usuario?.photoURL
-                ? currentUser?.usuario?.photoURL
-                : fotoPadrao[0]?.userPadrao
-            }
-            alt={
-              currentUser?.usuario?.displayName
-                ? currentUser?.usuario?.displayName
-                : "Usuario"
-            }
-            style={{ width: "2rem", height: "2rem", borderRadius: "50%" }}
-          />
-        </li>
-        <li>
           <Link to="/my-profile" title="Entrar">
             {currentUser?.usuario?.displayName
               ? currentUser?.usuario?.displayName

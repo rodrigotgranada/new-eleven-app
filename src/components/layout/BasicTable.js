@@ -23,26 +23,26 @@ const BasicTable = ({ data, columns }) => {
     <MaterialReactTable
       columns={columns}
       data={data}
-      enableRowActions
-      // enableRowSelection={false}
+      // enableRowActions
+      enableRowSelection={false}
       // enableColumnOrdering
       enableGlobalFilter={true}
       renderDetailPanel={({ row }) => (
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-around",
+            justifyContent: "flex-end",
             alignItems: "center",
           }}
         >
-          <img
+          {/* <img
             alt="avatar"
             width={200}
             height={200}
             src={row.original.photoURL}
             loading="lazy"
             style={{ borderRadius: "50%" }}
-          />
+          /> */}
           <Box sx={{ textAlign: "center" }}>
             {currentUser?.usuario?.owner && row.original.codAuth && (
               <>
@@ -71,42 +71,6 @@ const BasicTable = ({ data, columns }) => {
           </Box>
         </Box>
       )}
-      renderRowActionMenuItems={({ closeMenu, row }) => {
-        const body = [
-          <MenuItem
-            key={0}
-            onClick={() => {
-              // View profile logic...
-              closeMenu();
-            }}
-            sx={{ m: 0 }}
-          >
-            <ListItemIcon>
-              <AccountCircle />
-            </ListItemIcon>
-            Ver Perfil {row.original.displayName}
-          </MenuItem>,
-        ];
-
-        row.original.telefone &&
-          body.push(
-            <MenuItem
-              key={1}
-              onClick={() => {
-                // Send email logic...
-                closeMenu();
-              }}
-              sx={{ m: 0 }}
-            >
-              <ListItemIcon>
-                <WhatsAppIcon />
-              </ListItemIcon>
-              Enviar Whatsapp
-            </MenuItem>
-          );
-
-        return body;
-      }}
       localization={MRT_Localization_PT_BR}
     />
   );

@@ -246,7 +246,7 @@ export default function Signup() {
                       )}
                     </Row>
                   </Col>
-                  <Col lg="6" className="col-picture-signup">
+                  {/* <Col lg="6" className="col-picture-signup">
                     <FormGroup>
                       <FileInput
                         selectedImages={selectedImages}
@@ -256,7 +256,7 @@ export default function Signup() {
                         tamanho={true}
                       />
                     </FormGroup>
-                  </Col>
+                  </Col> */}
                 </Row>
                 <Row className="d-flex align-items-center justify-content-center row-button-signup">
                   <Col lg="6">
