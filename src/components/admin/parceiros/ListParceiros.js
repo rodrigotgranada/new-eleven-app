@@ -8,15 +8,22 @@ import CardParceiro from "./CardParceiro";
 
 const ListParceiros = () => {
   const {
-    getDataOrderBy: getParceiros,
+    getDataOrderByTeste: getParceiros,
     data: parceiros,
     loading: carregaParceiros,
   } = useGetData();
 
   useEffect(() => {
     getParceiros("parceiros", "ordem");
-    return () => {};
+    // return () => {};
   }, []);
+
+  useEffect(() => {
+    console.log("parceiros", parceiros);
+
+    return () => {};
+  }, [parceiros]);
+
   return (
     <>
       {carregaParceiros && <Loading type={`spin`} width={"30px"} />}

@@ -58,7 +58,7 @@ const ListChurrasqueiras = () => {
 
   return (
     <>
-      <section className="agenda-churras-btn">
+      <div className="agenda-churras-btn">
         <DatePicker
           // selected={startDate}
           onChange={(date) => setChurrasqueiraDate(date)}
@@ -70,8 +70,8 @@ const ListChurrasqueiras = () => {
           // inline
           placeholderText="Quando Inicia"
         />
-      </section>
-      <section className="agenda-churras-main">
+      </div>
+      <div className="agenda-churras-main">
         {churrasqueiras &&
           churrasqueiras.length > 0 &&
           churrasqueiras.map((churrasqueira, index) => {
@@ -101,7 +101,7 @@ const ListChurrasqueiras = () => {
               </div>
             );
           })}
-      </section>
+      </div>
     </>
   );
 };

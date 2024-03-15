@@ -14,16 +14,59 @@ import {
   Row,
 } from "reactstrap";
 import FileInputQuadra from "../quadrasMenu/FileInputQuadra";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../../firebase";
+import moment from "moment";
+import useGetData from "../../../hooks/useGetData";
+import DeleteParceiro from "./DeleteParceiro";
 
 const EditParceiro = ({ title, isOpen, setIsOpen, parceiroX }) => {
   const [parceiro, setparceiro] = useState(parceiroX);
   const [selectedImage, setSelectedImage] = useState(parceiroX?.foto);
+  const [modalDelete, setModalDelete] = useState(false);
+
+  const {
+    getData: getImagemPadrao,
+    data: fotoPadrao,
+    loading: carregaFotoPadrao,
+  } = useGetData();
+
+  useEffect(() => {
+    // getParceiros("parceiros");
+    getImagemPadrao("fotoPadrao");
+    return () => {};
+  }, [isOpen]);
 
   const handleCLose = () => {
     setIsOpen(false);
   };
 
-  const EditarQuadra = async (e) => {};
+  const EditarQuadra = async (e) => {
+    e.preventDefault();
+    const numeroFormatado =
+      parceiro.ordem.length === 1 ? `0${parceiro.ordem}` : parceiro.ordem;
+    try {
+      const docRef = doc(db, "parceiros", parceiro?.id);
+      await updateDoc(docRef, {
+        capa: parceiro.capa ? parceiro.capa : false,
+        nome: parceiro.nome,
+        foto: parceiro.foto ? parceiro.foto : fotoPadrao[0]?.quadraPadrao,
+        link: montaLink(parceiro.link),
+        ordem: parceiro.ordem ? numeroFormatado : 0,
+        status: parceiro.status ? parceiro.status : false,
+        createdAt: parceiro.createdAt,
+        modifiedAt: moment(new Date()).format("YYYY-MM-DD HH:mm"),
+      }).then((e) => {
+        toast.success("Parceiro editado com Sucesso!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      });
+    } catch (error) {
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+    }
+  };
   const montaLink = (url) => {
     let final = "";
     if (url.includes("https://")) {
@@ -169,6 +212,24 @@ const EditParceiro = ({ title, isOpen, setIsOpen, parceiroX }) => {
       </ModalBody>
 
       <ModalFooter>
+        {modalDelete && (
+          <DeleteParceiro
+            isOpen={modalDelete}
+            setIsOpen={setModalDelete}
+            oldIsOpen={isOpen}
+            oldSetIsOpen={setIsOpen}
+            parceiro={parceiro}
+          />
+        )}
+        <Button
+          type="button"
+          className="btn btn-danger"
+          onClick={() => {
+            setModalDelete(!modalDelete);
+          }}
+        >
+          Excluir
+        </Button>
         <Button
           type="button"
           onClick={() => {

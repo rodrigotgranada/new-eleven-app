@@ -32,28 +32,15 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
   });
   const [selectedImage, setSelectedImage] = useState(null);
   const {
-    getData: getParceiros,
-    data: parceiros,
-    loading: carregaParceiros,
-  } = useGetData();
-
-  const {
     getData: getImagemPadrao,
     data: fotoPadrao,
     loading: carregaFotoPadrao,
   } = useGetData();
 
   useEffect(() => {
-    getParceiros("parceiros");
     getImagemPadrao("fotoPadrao");
     return () => {};
   }, [isOpen]);
-
-  // useEffect(() => {
-  //   console.log(churrasqueiras);
-  //   console.log(fotoPadrao);
-  // }, [churrasqueiras, fotoPadrao]);
-
   const handleCLose = () => {
     setIsOpen(false);
   };
@@ -223,7 +210,7 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
                 tamanho={true}
               />
               <button
-                className="buy__btn btn "
+                className="buy__btn btn btn-success"
                 type="submit"
                 //   onClick={addNovaQuadra}
               >

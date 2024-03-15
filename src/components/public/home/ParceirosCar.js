@@ -40,7 +40,7 @@ function SamplePrevArrow(props) {
 
 const ParceirosCar = () => {
   const {
-    getDataOrderBy: getParceiros,
+    getDataOrderByTeste: getParceiros,
     data: parceiros,
     loading: carregaParceiros,
   } = useGetData();
@@ -71,7 +71,7 @@ const ParceirosCar = () => {
     // centerPadding: "15%",
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,

@@ -3,6 +3,7 @@ import ChurrasqueiraContext from "../../../contexts/ChurrasqueiraContext";
 import AddChurrasqueira from "../modal/AddChurrasqueira";
 import { Col } from "reactstrap";
 import ListChurrasqueiras from "./ListChurrasqueiras";
+import "../../../styles/admin/churrasqueiras.scss";
 
 const Content = () => {
   const { churrasqueiraDate, setChurrasqueiraDate } =
@@ -30,7 +31,7 @@ const Content = () => {
         </section>
       </Col>
       <Col lg="12">
-        <section className="admin__menu p-0">
+        <section className="section-churras">
           <ListChurrasqueiras />
         </section>
       </Col>

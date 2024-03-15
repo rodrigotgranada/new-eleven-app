@@ -1,0 +1,33 @@
+.menu-churras {
+padding-top: 0;
+padding-bottom: 0;
+}
+
+.section-churras {
+    // padding-top: 0;
+    .agenda-churras-btn {
+        padding-bottom: 0.7rem;
+    }
+
+    .agenda-churras-main {
+        display: flex;
+        // flex-direction: column;
+        gap: 1.9rem;
+
+    }
+
+    .bloco-quadras {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: fit-content;
+        gap: 0.7rem;
+    }
+}
+
+
+@media only screen and (max-width: 768px) {
+    .section-parceiros {
+      justify-content: center;
+    }
+  }
