@@ -26,13 +26,11 @@ const useTransferAgendamento = () => {
   const { sendConfirmPT } = useWhatsappApi();
 
   const checkTransfer = async (transferID) => {
-    console.log("TransferID", transferID);
     try {
       let resultado = null;
       const colletionRef = doc(db, "codTemp_transferAgenda", transferID);
       const docSnap = await getDoc(colletionRef);
       resultado = docSnap.data();
-      console.log(resultado);
 
       if (resultado) {
         let verify = { ...data };
@@ -59,9 +57,7 @@ const useTransferAgendamento = () => {
   const cancelTransfer = async (transferID) => {
     try {
       const item = await checkTransfer(transferID);
-      console.log("teste", item);
       if (item && item.data) {
-        console.log("ID", item?.data?.locacao);
         try {
           await deleteDoc(doc(db, "codTemp_transferAgenda", transferID)).then(
             async (e) => {
@@ -70,7 +66,6 @@ const useTransferAgendamento = () => {
                 await updateDoc(userRef, {
                   transfer_id: null,
                 }).then(async (e) => await checkTransfer(transferID));
-                console.log("successoooo");
                 return e?.id;
               } catch (err) {
                 console.log(err);
@@ -123,14 +118,12 @@ const useTransferAgendamento = () => {
         validate: marcacao?.dataDia,
         jogadores: jogadores,
       }).then(async (e) => {
-        console.log("e", e?.id);
         if (e?.id) {
           try {
             const userRef = doc(db, "agenda", agendaID);
             await updateDoc(userRef, {
               transfer_id: e?.id,
             });
-            console.log("successoooo");
           } catch (err) {
             console.log(err);
           }
@@ -167,7 +160,6 @@ const useTransferAgendamento = () => {
   };
 
   const acceptTransfer = async (transfer, players) => {
-    console.log("ACCEPTtransfer", transfer);
     try {
       const userRef = doc(db, "agenda", transfer?.locacaoID);
       await updateDoc(userRef, {
@@ -188,7 +180,6 @@ const useTransferAgendamento = () => {
       const colletionRef = doc(db, "agenda", agendaID);
       const docSnap = await getDoc(colletionRef);
       resultado = docSnap.data();
-      // console.log(resultado);
       setLoading(false);
       return resultado;
     } catch (err) {
@@ -197,7 +188,6 @@ const useTransferAgendamento = () => {
   };
   const adminTransfer = async (agenda, selUser, jogadores) => {
     const agendamento = await adminCheckAgenda(agenda?.id);
-    console.log(agendamento);
     if (agendamento) {
       try {
         const userRef = doc(db, "agenda", agenda?.id);

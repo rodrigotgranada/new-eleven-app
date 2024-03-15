@@ -1,15 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-// import { ThemeContext } from "styled-components";
 import { useAuth } from "../../contexts/AuthContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import useGetData from "../../hooks/useGetData";
-import ReactSwitch from "react-switch";
 import "../../styles/public/nav.scss";
 import SubNav from "./SubNav";
-import { Switch } from "@mui/material";
-import { BsFillMoonFill, BsSun, BsMoonFill, BsMoon } from "react-icons/bs";
+import { BsMoonFill, BsMoon } from "react-icons/bs";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 
@@ -25,9 +22,7 @@ export const Nav = (props) => {
   useEffect(() => {
     getImagemPadrao("fotoPadrao");
     // checkUser();
-    return () => {
-      console.log("oii XX");
-    };
+    return () => {};
   }, []);
 
   const checkUser = async () => {

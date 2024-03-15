@@ -10,16 +10,8 @@ const LogsContent = () => {
   const [quantidade, setQuantidade] = useState(5);
   useEffect(() => {
     attList();
-
     return () => {};
   }, []);
-
-  useEffect(() => {
-    console.log("LOGS", data);
-
-    return () => {};
-  }, [data]);
-
   const attList = async () => {
     getDataOrderByLogs("log_agenda", "createdAt", "desc", quantidade);
   };

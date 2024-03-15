@@ -3,14 +3,6 @@ import { useEffect, useState } from "react";
 const useStepsForm = (steps) => {
   const [currentStep, setCurrentStep] = useState(0);
 
-  useEffect(() => {
-    console.log("currentStep", currentStep);
-  }, [currentStep]);
-
-  // useEffect(() => {
-  //   console.log("steps.length", steps.length);
-  // }, []);
-
   const changeStep = (i, e) => {
     if (e) e.preventDefault();
     if (i < 0 || i >= steps.length) return;

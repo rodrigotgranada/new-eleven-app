@@ -11,23 +11,6 @@ import moment from "moment";
 const MeusAgendamentos = () => {
   const [filteredAgendamentos, setFilteredAgendamentos] = useState();
   const { currentUser } = useAuth();
-  // const {
-  //   getDataWhere: getMinhasMarcacoes,
-  //   data: minhasMarcacoes,
-  //   loadingMinhasMarcacoes,
-  // } = useGetData();
-
-  // const {
-  //   getDataWhereSnap: getMinhasTransferencias,
-  //   data: minhasTransferencias,
-  //   loadingMinhasTransferencias,
-  // } = useGetData();
-
-  // const {
-  //   getDataWhereOrderByLimit: getMinhasMarcacoes2,
-  //   data: minhasMarcacoes2,
-  //   loadingMinhasMarcacoes2,
-  // } = useGetData();
 
   const {
     getDataWhereOrderByLimit2: getMinhasMarcacoes3,
@@ -40,20 +23,6 @@ const MeusAgendamentos = () => {
     data: modalidades,
     loading: carregaModalidades,
   } = useGetData();
-
-  // useEffect(() => {
-  //   console.log("minhasMarcacoes2", minhasMarcacoes2);
-  // }, [minhasMarcacoes2]);
-
-  // useEffect(() => {
-  //   getMinhasTransferencias(
-  //     "codTemp_transferAgenda",
-  //     "userOrigem",
-  //     "==",
-  //     currentUser?.uid
-  //   );
-  // }, [minhasTransferencias]);
-
   useEffect(() => {
     Object.keys(minhasMarcacoes2).length > 0 &&
       setFilteredAgendamentos(minhasMarcacoes2);
@@ -63,15 +32,6 @@ const MeusAgendamentos = () => {
     if (currentUser) {
       getModalidades("modalidades", "display", "asc");
       const dataAtual = moment(new Date()).format("YYYY-MM-DD");
-      // getMinhasMarcacoes2(
-      //   "agenda",
-      //   "user",
-      //   "==",
-      //   currentUser?.uid,
-      //   "codLocacao",
-      //   "desc",
-      //   20
-      // );
       getMinhasMarcacoes3(
         "agenda",
         "user",
@@ -88,7 +48,6 @@ const MeusAgendamentos = () => {
   }, [currentUser]);
 
   const handleSearch = (filter) => {
-    console.log("filter", filter);
     if (filter != "all") {
       const filtered = minhasMarcacoes2.filter((child) => {
         if (child?.esporte?.includes(filter)) {

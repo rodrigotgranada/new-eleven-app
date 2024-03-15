@@ -20,7 +20,6 @@ const MaskedInputCelModal = ({
 }) => {
   const handleVerify = (event, id) => {
     const valor = onlyNumbers(event.target.value).length;
-    console.log("event", valor);
     if (id === "telefone" && valor && valor < 11) {
       let verify = { ...error };
       verify[`${id}`] = `Telefone inválido`;

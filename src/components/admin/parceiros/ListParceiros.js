@@ -2,7 +2,6 @@ import React from "react";
 import useGetData from "../../../hooks/useGetData";
 import { useEffect } from "react";
 import Loading from "../../public/Loading/Loading";
-import { Card } from "reactstrap";
 import "../../../styles/admin/parceiros.scss";
 import CardParceiro from "./CardParceiro";
 
@@ -15,15 +14,8 @@ const ListParceiros = () => {
 
   useEffect(() => {
     getParceiros("parceiros", "ordem");
-    // return () => {};
-  }, []);
-
-  useEffect(() => {
-    console.log("parceiros", parceiros);
-
     return () => {};
-  }, [parceiros]);
-
+  }, []);
   return (
     <>
       {carregaParceiros && <Loading type={`spin`} width={"30px"} />}
@@ -33,12 +25,6 @@ const ListParceiros = () => {
           {parceiros.map((parceiro, index) => {
             return (
               <CardParceiro parceiro={parceiro} index={index} key={index} />
-              // <Card key={index} className={`card-parceiro`}>
-              //   <p>
-              //     {parceiro.ordem} - {parceiro.nome}
-              //   </p>
-              //   <img alt={parceiro.nome} src={parceiro.foto} />
-              // </Card>
             );
           })}
         </>

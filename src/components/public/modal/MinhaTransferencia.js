@@ -16,7 +16,6 @@ import VerificationInput from "react-verification-input";
 import { BiTennisBall } from "react-icons/bi";
 import { useAuth } from "../../../contexts/AuthContext";
 import useTransferAgendamento from "../../../hooks/useTransferAgendamento";
-import CancelAgendamento from "./CancelAgendamento";
 
 const MinhaTransferencia = ({
   title,
@@ -32,7 +31,6 @@ const MinhaTransferencia = ({
   const { checkTransfer, cancelTransfer, acceptTransfer } =
     useTransferAgendamento();
   const [modalCancel, setModalCancel] = useState(false);
-  console.log("transferencia", transferencia, "agendamento", agendamento);
 
   const playerPadrao = {
     name: currentUser?.usuario?.displayName,
@@ -47,7 +45,6 @@ const MinhaTransferencia = ({
 
   const handleCancel = async () => {
     const verify = await cancelTransfer(transferencia?.id);
-    console.log("AQUI", verify);
     handleVerify();
   };
 
@@ -57,12 +54,9 @@ const MinhaTransferencia = ({
 
   const handleVerify = async (codigo) => {
     const codeAuth = transferencia.code;
-    // console.log("codigo usuario", parseInt(codeAuth));
-    // console.log("codigo digitado", parseInt(codigo));
     if (codigo) {
       if (parseInt(codigo) === parseInt(codeAuth)) {
         const valida = await checkTransfer(transferencia.id);
-        console.log("VALIDA", valida);
         if (valida?.error) {
           const accepted = await acceptTransfer(transferencia);
           toast.success("Código Válido", {
@@ -114,8 +108,6 @@ const MinhaTransferencia = ({
                 <p>Esporte: {esporte?.display}</p>
                 <p>Quadra: {quadra?.name}</p>
               </Col>
-
-              {console.log(transferencia?.jogadores)}
               {transferencia?.jogadores && (
                 <Col lg="3">
                   <h4>{`Jogadores`}</h4>

@@ -42,7 +42,6 @@ const CancelAgendamento = ({
   } = useGetData();
 
   const { checkTransfer } = useTransferAgendamento();
-  // console.log("ID", agendaID);
 
   useEffect(() => {
     if (!isOpen) {
@@ -54,7 +53,6 @@ const CancelAgendamento = ({
 
   const handleVerifyAgenda = async () => {
     const agendamento = await getItemId("agenda", agendaID);
-    console.log("agendamento", agendamento);
     setAgenda(agendamento);
 
     if (agendamento) {
@@ -67,14 +65,12 @@ const CancelAgendamento = ({
       setIsValidCancel(isWithinRange);
       if (agendamento?.transfer_id) {
         const vTransfer = await checkTransfer(agendamento?.transfer_id);
-        console.log("vT", vTransfer);
         setTransfer(vTransfer?.error);
       }
     }
   };
 
   const isTimeValid = (currentTime, dayTime, hourTime) => {
-    console.log(currentTime, dayTime, hourTime);
     const horaMarcada = moment(`${dayTime} ${hourTime}`, "YYYY-MM-DD HH:mm");
     const horaValida = moment(
       `${dayTime} ${hourTime}`,

@@ -5,8 +5,6 @@ import "../../../styles/admin/cardQuadra.scss";
 import EditQuadra from "../modal/EditQuadra";
 
 const CardQuadra = ({ quadra }) => {
-  //   console.log(quadra);
-  const [currentQuadra, setCurrentQuadra] = useState(null);
   const [ModalOpenEdit, setModalOpenEdit] = useState(false);
   const {
     getDataWhereId: getModalidade,
@@ -15,13 +13,8 @@ const CardQuadra = ({ quadra }) => {
   } = useGetData();
 
   useEffect(() => {
-    // console.log(quadra.esportes);
     getModalidade("modalidades", "in", quadra.esportes);
   }, [quadra]);
-
-  useEffect(() => {
-    console.log("modalidades", modalidades);
-  }, [modalidades]);
 
   return (
     <>
@@ -32,7 +25,6 @@ const CardQuadra = ({ quadra }) => {
           setIsOpen={setModalOpenEdit}
           hasFooter={true}
           editarQuadra={quadra}
-          // id={props.quadra?.id}
         />
       )}
 
@@ -42,11 +34,6 @@ const CardQuadra = ({ quadra }) => {
           setModalOpenEdit(true);
         }}
       >
-        {/* <div
-        onClick={() => {
-          setModalOpenEdit(true);
-        }}
-      > */}
         <p className="card-text-name">
           {quadra?.numero} - {quadra?.name}{" "}
         </p>
@@ -65,10 +52,7 @@ const CardQuadra = ({ quadra }) => {
           src={quadra?.foto ? quadra?.foto : null}
           alt={quadra?.name}
           id={quadra?.id}
-          // height={"150rem"}
-          // width={"250rem"}
         />
-        {/* </div> */}
       </Card>
     </>
   );

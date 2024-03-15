@@ -98,11 +98,7 @@ const useGetData = () => {
     );
 
     await onSnapshot(q, (querySnapshot) => {
-      querySnapshot.docChanges().forEach((change) => {
-        if (change.type === "removed") {
-          console.log("removed", change.doc.data());
-        }
-      });
+      querySnapshot.docChanges().forEach((change) => {});
 
       const items = [];
       querySnapshot.forEach((doc) => {
@@ -144,11 +140,9 @@ const useGetData = () => {
       querySnapshot.forEach((doc) => {
         cities.push(doc.data().name);
       });
-      console.log("Current cities in CA: ", cities.join(", "));
       setData(cities);
       setLoading(false);
       return cities;
-      // console.log("Current cities in CA: ", cities.join(", "));
     });
   };
 
@@ -161,7 +155,6 @@ const useGetData = () => {
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
       });
-      // console.log("items", items);
       setData(items);
       setLoading(false);
       return items;
@@ -177,7 +170,6 @@ const useGetData = () => {
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
       });
-      // console.log("items", items);
       setData(items);
       setLoading(false);
       return items;
@@ -192,7 +184,6 @@ const useGetData = () => {
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
       });
-      // console.log("items", items);
     });
     setData(items);
     setLoading(false);
@@ -233,7 +224,6 @@ const useGetData = () => {
       querySnapshot.forEach((doc) => {
         items.push({ ...doc.data(), id: doc.id });
       });
-      console.log("items", items);
       setData(items);
       setLoading(false);
     });
@@ -252,7 +242,6 @@ const useGetData = () => {
     type3,
     valor3
   ) => {
-    // console.log("loading", loading);
     const colletionRef = collection(db, collectionName);
     const q = query(
       colletionRef,
@@ -455,15 +444,12 @@ const useGetData = () => {
       colRef,
       where(campo1, type1, valor1),
       where(campo2, type2, valor2)
-      // where(campo3, type3, valor3)
     );
-    //real time update
+
     const items = [];
     const unsb = onSnapshot(q, (querySnapshot) => {
-      console.log("onsnap", querySnapshot.docs);
       querySnapshot.docs.forEach((doc) => {
         items.push(doc.data());
-        console.log("DATA", doc.data());
       });
     });
     setLoading(false);
@@ -493,10 +479,8 @@ const useGetData = () => {
     //real time update
     const items = [];
     const unsb = onSnapshot(q, (querySnapshot) => {
-      console.log("onsnap", querySnapshot.docs);
       querySnapshot.docs.forEach((doc) => {
         items.push(doc.data());
-        console.log("DATA", doc.data());
       });
     });
     setLoading(false);
@@ -539,8 +523,6 @@ const useGetData = () => {
         console.log(`Permanente excluido com sucesso!!`);
       });
     }
-
-    console.log("retorno", retorno);
     return retorno;
   };
 
@@ -570,7 +552,6 @@ const useGetData = () => {
       });
       querySnapshot.docChanges().forEach((change) => {
         if (change.type === "removed") {
-          // console.log("removed", change.doc.data());
           setData(null);
         }
       });
@@ -578,7 +559,6 @@ const useGetData = () => {
       setData(items);
       setLoading(false);
     });
-    console.log("itens", items);
     setLoading(false);
     return items;
   };
@@ -614,16 +594,12 @@ const useGetData = () => {
         }
       });
       setData(items);
-      // setLoading(false);
-      // return data;
     });
-    // console.log(items);
     setLoading(false);
     return items;
   };
 
   const getDataWhereOrderBy4 = async (collectionName, order, ...props) => {
-    console.log("FILTROS", collectionName, order, props);
     let consulta = props.map((filtro) => {
       if (filtro) {
         return where(filtro.campo, filtro.tipo, filtro.valor);
@@ -633,7 +609,6 @@ const useGetData = () => {
       return element != undefined;
     });
 
-    console.log("CONSULTA", consulta);
     const colletionRef = collection(db, collectionName);
     const q = query(
       colletionRef,

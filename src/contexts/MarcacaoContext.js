@@ -5,9 +5,9 @@ const MarcacaoContext = createContext();
 
 export function MarcacaoProvider({ children }) {
   const [marcacao, setMarcacao] = useState(marcacaoTemplate);
-  useEffect(() => {
-    console.log("marcacaoContext", marcacao);
-  }, [marcacao]);
+  // useEffect(() => {
+  //   console.log("marcacaoContext", marcacao);
+  // }, [marcacao]);
   return (
     <MarcacaoContext.Provider value={{ marcacao, setMarcacao }}>
       {children}

@@ -12,7 +12,6 @@ import { db } from "../../../firebase";
 import { toast } from "react-toastify";
 
 const ListPlayers2 = ({ isOpen, agendaID }) => {
-  // console.log("marcacao333", dados);
   const [meusJogadores, setMeusJogadores] = useState([]);
   const {
     getDataId: getItemId,
@@ -23,7 +22,6 @@ const ListPlayers2 = ({ isOpen, agendaID }) => {
   const handlePlayers = async () => {
     const players = await getItemId("agenda", agendaID);
     setMeusJogadores(players?.jogadores);
-    // console.log(players);
   };
 
   useEffect(() => {
@@ -33,10 +31,6 @@ const ListPlayers2 = ({ isOpen, agendaID }) => {
       handlePlayers();
     }
   }, [isOpen]);
-
-  // useEffect(() => {
-  //   console.log(carregaPlayers);
-  // }, [carregaPlayers]);
 
   const addMemberRow = () => {
     let _meusJogadores = [...meusJogadores];
@@ -61,9 +55,7 @@ const ListPlayers2 = ({ isOpen, agendaID }) => {
 
   const handleChange = (event, indice) => {
     const { value, name } = event.target;
-    console.log("value", value, "name", name, "indice", indice);
     const index = meusJogadores.findIndex((m) => {
-      console.log(m);
       return m.id === indice;
     });
     const _meusJogadores = [...meusJogadores];
@@ -75,7 +67,6 @@ const ListPlayers2 = ({ isOpen, agendaID }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let _meusJogadores = [...meusJogadores];
-    console.log("meusJogadores", _meusJogadores);
     if (_meusJogadores[_meusJogadores.length - 1]["name"].length === 0) {
       _meusJogadores.pop();
     }

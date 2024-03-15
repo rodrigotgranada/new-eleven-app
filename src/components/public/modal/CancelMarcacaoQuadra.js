@@ -20,8 +20,6 @@ const CancelMarcacaoQuadra = ({
   handleConfirm,
   ...props
 }) => {
-  console.log(marcacao);
-
   const navigate = useNavigate();
   const handleCLose = () => {
     setIsOpen(false);

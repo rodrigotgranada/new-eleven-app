@@ -19,10 +19,7 @@ import { useState } from "react";
 import useAuthData from "../../../hooks/useAuthData";
 import { useAuth } from "../../../contexts/AuthContext";
 import useTransferAgendamento from "../../../hooks/useTransferAgendamento";
-import { FormControlLabel, Switch } from "@mui/material";
-import { styled } from "@mui/material/styles";
-// import ReactSwitch from "react-switch";
-// import Switch from "react-switch";
+import { Switch } from "@mui/material";
 
 const TransferirMarcacao = ({
   title,
@@ -33,11 +30,6 @@ const TransferirMarcacao = ({
   transferID,
   marcacao,
 }) => {
-  // const {
-  //   getData: getUsuarios,
-  //   data: usuarios,
-  //   loading: carregaUsuarios,
-  // } = useGetData();
   const { currentUser, logout } = useAuth();
 
   const [selectPlayer, setSelectPlayer] = useState(null);
@@ -57,15 +49,10 @@ const TransferirMarcacao = ({
     }
   }, [isOpen]);
 
-  // let jogador = false;
-
   const handleVerify = async (verifyID) => {
-    console.log("entreui");
     if (transferID || verifyID) {
       const ver = await checkTransfer(transferID || verifyID);
-      // console.log(ver);
       if (ver?.error) {
-        // console.log(ver);
         setErrorSolicitacao(ver);
       } else {
         setErrorSolicitacao(null);
@@ -75,24 +62,14 @@ const TransferirMarcacao = ({
     }
   };
 
-  useEffect(() => {
-    console.log(jogador);
-  }, [jogador]);
-
   const handleCLose = () => {
     setIsOpen(false);
-  };
-
-  const handleSelectPlayer = async (e) => {
-    console.log("jogador escolhido", e);
-    setSelectPlayer(e);
   };
 
   const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
 
   const handleChange = async (event, indice) => {
     const { value, name } = event.target;
-    // console.log("value", currentUser);
     let verify = onlyNumbers(value).length;
     setSelectPlayer(null);
     if (verify === 11) {
@@ -102,7 +79,6 @@ const TransferirMarcacao = ({
         "==",
         `${onlyNumbers(value)}`
       );
-      console.log("jog", jog);
       if (jog && jog?.uid != currentUser?.uid) {
         setSelectPlayer(jog);
       } else {
@@ -125,7 +101,6 @@ const TransferirMarcacao = ({
           jogador,
           marcacao
         );
-        console.log(verify2);
         handleVerify();
       } else {
         setErrorSolicitacao(verify);
@@ -139,14 +114,12 @@ const TransferirMarcacao = ({
         jogador,
         marcacao
       );
-      // console.log("VERRIFY2", verify2);
       handleVerify(verify2);
     }
   };
 
   const handleCancel = async () => {
     const verify = await cancelTransfer(transferID);
-    console.log("AQUI", verify);
     handleVerify();
   };
 
@@ -205,7 +178,6 @@ const TransferirMarcacao = ({
               )}
 
               <Row className="btns-save-modal-transfer">
-                {/* {loadAuth && <p> Carregando... </p>} */}
                 {errorSolicitacao?.error && (
                   <p>
                     {errorSolicitacao?.error} - Código de transferencia:

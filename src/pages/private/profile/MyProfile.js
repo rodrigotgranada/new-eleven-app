@@ -105,7 +105,6 @@ export default function MyProfile() {
                         <></>
                       )}
                       <br />
-                      {console.log(currentUser)}
                       <strong>Nome:</strong> {currentUser?.usuario?.displayName}
                       <br />
                       <strong>Sobrenome:</strong>{" "}

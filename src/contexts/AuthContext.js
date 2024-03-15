@@ -102,7 +102,6 @@ export function AuthProvider({ children }) {
             () => {
               getDownloadURL(uploadTask.snapshot.ref).then(
                 async (downloadURL) => {
-                  console.log("url", downloadURL);
                   const userCredential = await createUserWithEmailAndPassword(
                     auth,
                     email,
@@ -110,7 +109,6 @@ export function AuthProvider({ children }) {
                   )
                     .then(async (usuario) => {
                       const user = usuario.user;
-                      console.log(`userSignUp`, user);
                       await sendEmailVerification(user);
                       await updateProfile(user, {
                         displayName: name,
@@ -158,15 +156,10 @@ export function AuthProvider({ children }) {
     const meuEmail = email;
     const meuPassword = password;
     try {
-      // console.log("entrei");
-      // console.log("email", email);
-      // console.log("password", password);
       const codAuth = Math.floor(Math.random() * 900000) + 100000;
       await createUserWithEmailAndPassword(auth, meuEmail, meuPassword)
         .then(async (usuario) => {
-          // console.log("entrei2");
           const user = usuario.user;
-          // console.log(`userSignUp`, user);
           await sendEmailVerification(user);
           await updateProfile(user, {
             displayName: name,
@@ -188,8 +181,6 @@ export function AuthProvider({ children }) {
           });
         })
         .then(async (user) => {
-          // console.log("usss", user);
-          // console.log("codAuth", codAuth);
           await sendConfirmPT(telefone, codAuth);
         })
         .then(async () => await signOut(auth))
@@ -404,34 +395,16 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    // console.log("currentUser.uid", currentUser.uid);
-    // if (currentUser) {
-    //   const colRef = collection(db, "users");
-    //   const q = query(colRef, where("uid", "==", currentUser?.uid));
-
-    //   const unsb = onSnapshot(q, (querySnapshot) => {
-    //     querySnapshot.docChanges().forEach((change) => {
-    //       console.log("changed", change.doc.data());
-    //     });
-    //   });
-    // }
-    console.log("oiii XXXXXXX");
     if (currentUser) {
       const colRef = collection(db, "users");
       const q = query(colRef, where("uid", "==", currentUser?.uid));
 
       onSnapshot(q, (querySnapshot) => {
         querySnapshot.docChanges().forEach(async (change) => {
-          // console.log("current", currentUser);
-          // console.log("changed", change.doc.data());
-
           const atual = currentUser?.usuario?.checked;
           const novo = change.doc.data()?.checked;
 
           setCurrentUser(change.doc.data());
-          console.log("atual", atual);
-          console.log("novo", novo);
-
           if (atual != novo) {
             try {
               await logout();
@@ -456,8 +429,6 @@ export function AuthProvider({ children }) {
         const docSnap = await getDoc(colletionRef);
         const userFull = { ...user };
         userFull.usuario = docSnap.data();
-
-        console.log("userFull", userFull);
         setCurrentUser(userFull);
       } else {
         setCurrentUser(user);

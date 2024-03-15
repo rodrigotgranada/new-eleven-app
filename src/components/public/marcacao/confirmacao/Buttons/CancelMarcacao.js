@@ -7,19 +7,21 @@ const CancelMarcacao = (props) => {
   const [ModalOpen, setModalOpen] = useState(false);
   return (
     <>
-      <CancelMarcacaoQuadra
-        title="Cancelar marcação"
-        isOpen={ModalOpen}
-        setIsOpen={setModalOpen}
-        marcacao={props.marcacao}
-        setMarcacao={props.setMarcacao}
-        handleConfirm={props.handleConfirm}
-      />
+      {ModalOpen && (
+        <CancelMarcacaoQuadra
+          title="Cancelar marcação"
+          isOpen={ModalOpen}
+          setIsOpen={setModalOpen}
+          marcacao={props.marcacao}
+          setMarcacao={props.setMarcacao}
+          handleConfirm={props.handleConfirm}
+        />
+      )}
       <Button
         className="btn btn-danger"
         type="button"
         onClick={() => {
-          setModalOpen(true);
+          setModalOpen(!ModalOpen);
         }}
       >
         <GiCancel /> <span>Cancelar</span>

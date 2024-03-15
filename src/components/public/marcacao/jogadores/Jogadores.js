@@ -7,7 +7,6 @@ import MarcacaoContext from "../../../../contexts/MarcacaoContext";
 import "../../../../styles/public/jogadores.scss";
 import useGetData from "../../../../hooks/useGetData";
 import InputMask from "react-input-mask";
-import Teste from "./Teste";
 
 const Jogadores = () => {
   const { marcacao, setMarcacao } = useContext(MarcacaoContext);
@@ -33,7 +32,6 @@ const Jogadores = () => {
 };
 
 const Invited = ({ usuario, marcacao, setMarcacao }) => {
-  // console.log(usuario, marcacao, setMarcacao);
   const [invitedPlayers, setInvitedPlayers] = useState([
     {
       name: usuario?.displayName,
@@ -44,7 +42,6 @@ const Invited = ({ usuario, marcacao, setMarcacao }) => {
   ]);
 
   useEffect(() => {
-    console.log("invitessss", invitedPlayers);
     let jogadores = { ...marcacao };
     jogadores.step = 4;
     jogadores.jogadores = invitedPlayers;

@@ -1,10 +1,12 @@
-import React, { forwardRef, useContext, useEffect } from "react";
+import React, { forwardRef, useContext, useEffect, useState } from "react";
 import ChurrasqueiraContext from "../../../contexts/ChurrasqueiraContext";
 import moment from "moment";
 import DatePicker, { registerLocale } from "react-datepicker";
 import { ptBR } from "date-fns/locale";
 import useGetData from "../../../hooks/useGetData";
 import ButtonHorario from "./ButtonHorario";
+import EditChurrasqueira from "../modal/EditChurrasqueira";
+import ButtonName from "./ButtonName";
 registerLocale("ptBR", ptBR);
 
 const ListChurrasqueiras = () => {
@@ -21,6 +23,7 @@ const ListChurrasqueiras = () => {
     data: churrasqueiras,
     loading: carregaChurrasqueiras,
   } = useGetData();
+  const [modalEdit, setModalEdit] = useState(false);
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <button
@@ -56,6 +59,18 @@ const ListChurrasqueiras = () => {
     { value: "noite", display: "Noite" },
   ];
 
+  const handleModal = (churras) => {
+    console.log("churras", churras);
+
+    return (
+      <EditChurrasqueira
+        isOpen={modalEdit}
+        setIsOpen={setModalEdit}
+        churrasqueiraX={churras}
+      />
+    );
+  };
+
   return (
     <>
       <div className="agenda-churras-btn">
@@ -77,9 +92,7 @@ const ListChurrasqueiras = () => {
           churrasqueiras.map((churrasqueira, index) => {
             return (
               <div className="bloco-quadras" key={index}>
-                <span>
-                  {churrasqueira.numero} ({churrasqueira.nome}){" "}
-                </span>{" "}
+                <ButtonName churrasqueira={churrasqueira} />
                 {types.map((type, index) => {
                   return (
                     // <button

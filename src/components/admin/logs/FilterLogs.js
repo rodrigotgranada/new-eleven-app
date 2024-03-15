@@ -34,18 +34,11 @@ const FilterLogs = () => {
 
   useEffect(() => {
     handleSearch();
-    console.log("filtro", filtro);
     return () => {};
   }, [filtro]);
 
-  useEffect(() => {
-    console.log("resultados", resultados);
-    return () => {};
-  }, [resultados]);
-
   const handleSelected = (e, info) => {
     const { value, name } = e.target;
-    console.log("value", value, "name", name);
     const filter = { ...filtro };
     filter[name] = value === "all" ? "" : value;
     if (info) {
@@ -63,7 +56,6 @@ const FilterLogs = () => {
   };
 
   const handleSearch = async () => {
-    // console.log("PESQUISA", filtro);
     const resultado = await getDataWhereOrderBy4(
       "log_agenda",
       { campo: "createdAt", direcao: "desc" },
@@ -77,7 +69,6 @@ const FilterLogs = () => {
     );
 
     setResultados(resultado);
-    // console.log("resultado", resultado);
   };
   return (
     <>

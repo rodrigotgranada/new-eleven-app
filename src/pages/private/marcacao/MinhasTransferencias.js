@@ -73,10 +73,7 @@ const MinhasTransferencias = () => {
             {!filteredAgendamentos && <p>Não há transferencias</p>}
             {filteredAgendamentos &&
               filteredAgendamentos.map((minhaTransferencia, index) => {
-                console.log("individual", minhaTransferencia);
-                console.log("index", index);
                 return (
-                  // <p key={index}>TEste</p>
                   <CardTransferencia
                     key={index}
                     transferencia={minhaTransferencia}
