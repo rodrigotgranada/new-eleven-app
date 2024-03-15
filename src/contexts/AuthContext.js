@@ -180,9 +180,9 @@ export function AuthProvider({ children }) {
             codAuth: codAuth,
           });
         })
-        .then(async (user) => {
-          await sendConfirmPT(telefone, codAuth);
-        })
+        // .then(async (user) => {
+        //   await sendConfirmPT(telefone, codAuth);
+        // })
         .then(async () => await signOut(auth))
         .catch((error) => console.log(error));
     } catch (error) {

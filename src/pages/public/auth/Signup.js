@@ -51,7 +51,7 @@ export default function Signup() {
         rule,
         active
       );
-      navigate("/login");
+      navigate("/");
       toast.success("Usuário criado... E-mail enviado!", {
         position: toast.POSITION.BOTTOM_CENTER,
       });
