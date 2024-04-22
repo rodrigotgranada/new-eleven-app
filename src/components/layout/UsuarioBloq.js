@@ -3,13 +3,13 @@ import ReactSwitch from "react-switch";
 import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
 
-const UsuarioApto = ({ infos }) => {
+const UsuarioBloq = ({ infos }) => {
   // console.log("infos", infos);
-  const [check, setCheck] = useState(infos?.checked);
-  const { currentUser, atualizaCheck } = useAuth();
+  const [check, setCheck] = useState(infos?.status);
+  const { currentUser, atualizaStatus } = useAuth();
 
   const handleChangeUserCheck = async () => {
-    const retorno = await atualizaCheck(infos.uid, !infos.checked);
+    const retorno = await atualizaStatus(infos.uid, !infos.status);
     console.log(retorno);
     if (retorno) {
       toast.success("Usuario atualizado com sucesso!", {
@@ -25,10 +25,10 @@ const UsuarioApto = ({ infos }) => {
     <>
       <ReactSwitch
         onChange={() => handleChangeUserCheck()}
-        checked={infos?.checked}
+        checked={!infos?.status}
       />
     </>
   );
 };
 
-export default UsuarioApto;
+export default UsuarioBloq;

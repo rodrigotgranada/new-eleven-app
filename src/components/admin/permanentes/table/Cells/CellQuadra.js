@@ -14,7 +14,7 @@ const CellQuadra = ({ id }) => {
   }, []);
 
   if (loadingQuadra) return <Loading type={`spin`} width={"30px"} />;
-  if (quadra) return <p> {`${quadra?.name} (${quadra.name})`} </p>;
+  if (quadra) return <p> {`${quadra?.name} (${quadra.numero})`} </p>;
 };
 
 export default CellQuadra;

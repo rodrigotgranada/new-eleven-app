@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
+import DatePicker, { registerLocale } from "react-datepicker";
 import { toast } from "react-toastify";
 import {
   Button,
@@ -18,6 +19,7 @@ import useGetData from "../../../hooks/useGetData";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../firebase";
 import moment from "moment";
+// import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 
 const AddParceiro = ({ title, isOpen, setIsOpen }) => {
   const [parceiro, setparceiro] = useState({
@@ -25,12 +27,14 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
     nome: "",
     foto: "",
     link: "",
+    dataInicio: "",
     ordem: 0,
     status: false,
     createdAt: "",
     modifiedAt: "",
   });
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const {
     getData: getImagemPadrao,
     data: fotoPadrao,
@@ -58,6 +62,7 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
         nome: parceiro.nome,
         foto: parceiro.foto ? parceiro.foto : fotoPadrao[0]?.quadraPadrao,
         link: montaLink(parceiro.link),
+        dataInicio: moment(selectedDate).format("YYYY-MM-DD"),
         ordem: parceiro.ordem ? numeroFormatado : 0,
         status: parceiro.status ? parceiro.status : false,
         createdAt: moment(new Date()).format("YYYY-MM-DD HH:mm"),
@@ -103,11 +108,11 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
     return () => {};
   }, [selectedImage]);
 
-  useEffect(() => {
-    console.log("parceiro", parceiro);
+  // useEffect(() => {
+  //   console.log("selectedDate", selectedDate);
 
-    return () => {};
-  }, [parceiro]);
+  //   return () => {};
+  // }, [selectedDate]);
 
   const resetForm = () => {
     setparceiro({
@@ -115,6 +120,7 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
       nome: "",
       foto: "",
       link: "",
+      dataInicio: "",
       ordem: 0,
       status: false,
       createdAt: "",
@@ -122,6 +128,17 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
     });
     setSelectedImage(null);
   };
+
+  const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+    <button
+      type="button"
+      className="btn btn-primary agenda-button"
+      onClick={onClick}
+      ref={ref}
+    >
+      {value}
+    </button>
+  ));
 
   return (
     <Modal
@@ -202,6 +219,15 @@ const AddParceiro = ({ title, isOpen, setIsOpen }) => {
                 />
                 <Label check>Ativo</Label>
               </FormGroup>
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+                customInput={<ExampleCustomInput />}
+                dateFormat="dd/MM/yyyy"
+                locale="ptBR"
+                // inline
+                showDisabledMonthNavigation
+                />
               <FileInputQuadra
                 selectedImage={selectedImage}
                 setSelectedImage={setSelectedImage}

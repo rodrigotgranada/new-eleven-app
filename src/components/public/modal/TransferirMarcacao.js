@@ -179,11 +179,14 @@ const TransferirMarcacao = ({
 
               <Row className="btns-save-modal-transfer">
                 {errorSolicitacao?.error && (
-                  <p>
-                    {errorSolicitacao?.error} - Código de transferencia:
-                    {errorSolicitacao?.data?.code} telefone:{" "}
-                    {errorSolicitacao?.data?.telefone}
-                  </p>
+                  <>
+                    <p>
+                      {" "}
+                      {errorSolicitacao?.error} - Código de transferencia:{" "}
+                      {errorSolicitacao?.data?.code}
+                    </p>
+                    <p>telefone: {errorSolicitacao?.data?.telefone}</p>
+                  </>
                 )}
               </Row>
               <Row className="btns-save-modal-transfer">

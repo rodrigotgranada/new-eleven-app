@@ -11,9 +11,9 @@ const RegisterRoute = ({ currentUser }) => {
         });
       }
     }
-  }, []);
+  }, [currentUser]);
 
-  return currentUser ? <Outlet /> : <Navigate to="/my-profile" />;
+  return currentUser ? <Outlet /> : <Navigate to="/meu-perfil" />;
 };
 
 export default RegisterRoute;

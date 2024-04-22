@@ -16,7 +16,7 @@ const ConfirmUser = ({ user }) => {
   const [code, setCode] = useState(null);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const { atualizaVerificado } = useAuth();
-  const { sendConfirmPT } = useWhatsappApi();
+  const { sendConfirm } = useWhatsappApi();
   const { getDataId } = useAuthData();
 
   const handleVerify = async (codigo) => {
@@ -34,7 +34,7 @@ const ConfirmUser = ({ user }) => {
   };
 
   const reenviarCodigo = async () => {
-    const enviado = await sendConfirmPT(
+    const enviado = await sendConfirm(
       user?.usuario?.telefone,
       user?.usuario?.codAuth
     );

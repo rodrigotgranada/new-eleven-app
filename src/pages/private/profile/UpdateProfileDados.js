@@ -8,13 +8,9 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-// import { useAuth } from "../../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-import FileInput from "../../../components/public/formComponents/FileInput";
 import { toast } from "react-toastify";
 import MaskedInputDados from "../../../components/public/formComponents/MaskedInputDados";
-import useAuthData from "../../../hooks/useAuthData";
 import "../../../styles/public/changeCel.scss";
 import { FormGroup, Input, Label } from "reactstrap";
 
@@ -30,11 +26,6 @@ export default function UpdateProfileDados() {
   });
 
   const [loading, setLoading] = useState(false);
-  // const [selectedImages, setSelectedImages] = useState(
-  //   currentUser?.usuario?.photoURL
-  // );
-  const navigate = useNavigate();
-  const { loading: loadAuth, getDataWhere } = useAuthData();
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -44,48 +35,13 @@ export default function UpdateProfileDados() {
     const nameFinal = nameRef.current.value;
     const surnameFinal = surnameRef.current.value;
     const docFInal = onlyNumbers(docRef.current.value);
-    // const picture = selectedImages;
     let valida = true;
-    // console.log(
-    //   "docFInal",
-    //   docFInal,
-    //   "current",
-    //   onlyNumbers(currentUser?.usuario?.documento)
-    // );
-    // if (
-    //   onlyNumbers(docFInal) &&
-    //   onlyNumbers(docFInal) != onlyNumbers(currentUser?.usuario?.documento)
-    // ) {
-    // const verificacao = await getDataWhere(
-    //   "users",
-    //   "documento",
-    //   "==",
-    //   docFInal
-    // );
-    // console.log("verificacao", verificacao);
-
-    // if (verificacao) {
-    //   let verify = { ...error };
-    //   verify[`documentoE`] = `Documento já existe`;
-    //   setError(verify);
-    //   valida = false;
-    // } else {
-    //   let verify = { ...error };
-    //   verify[`documentoE`] = null;
-    //   setError(verify);
-    //   valida = true;
-    // }
-    // }
     if (valida) {
-      // console.log("picture", picture);
       const retorno = await atualizaDados(
         currentUser,
         nameFinal,
         surnameFinal
-        // picture
       );
-      console.log("retorno", retorno);
-
       if (retorno) {
         toast.success("Dados atualizados com sucesso!", {
           position: toast.POSITION.BOTTOM_CENTER,
@@ -100,9 +56,7 @@ export default function UpdateProfileDados() {
   };
 
   const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
-
   const handleChange = async () => {};
-
   return (
     <>
       <Container className="d-flex align-items-center justify-content-center">
@@ -110,7 +64,6 @@ export default function UpdateProfileDados() {
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Atualizar dados</h2>
-              {/* {error && <Alert variant="danger">{error}</Alert>} */}
               <Form onSubmit={handleSubmit}>
                 <Row>
                   <Col lg="6">
@@ -146,37 +99,15 @@ export default function UpdateProfileDados() {
                         setError={setError}
                         error={error}
                         disabled={true}
-                        // onBlur={handleChange}
                       />
-                      {/* <Form.Control
-                        type="text"
-                        id="documento"
-                        ref={docRef}
-                        required
-
-                        onBlur={handleChange}
-                      /> */}
                       {error?.documentoE && (
                         <Alert variant="danger">{error?.documentoE}</Alert>
                       )}
                     </FormGroup>
                   </Col>
-
-                  {/* <Col lg="6" className="col-picture-signup">
-                    <FormGroup>
-                      <FileInput
-                        selectedImages={selectedImages}
-                        setSelectedImages={setSelectedImages}
-                        numImage={1}
-                        rotulo={`Foto Perfil`}
-                        tamanho={true}
-                      />
-                    </FormGroup>
-                  </Col> */}
                 </Row>
                 <Row className="d-flex align-items-center justify-content-center row-button-signup">
                   <Col lg="6">
-                    {console.log(loading, error)}
                     <Button
                       disabled={
                         loading ||

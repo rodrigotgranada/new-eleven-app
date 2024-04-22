@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
+import DatePicker, { registerLocale } from "react-datepicker";
 import { toast } from "react-toastify";
 import {
   Button,
@@ -23,6 +24,7 @@ import DeleteParceiro from "./DeleteParceiro";
 const EditParceiro = ({ title, isOpen, setIsOpen, parceiroX }) => {
   const [parceiro, setparceiro] = useState(parceiroX);
   const [selectedImage, setSelectedImage] = useState(parceiroX?.foto);
+  const [selectedDate, setSelectedDate] = useState(new Date(moment(parceiroX?.dataInicio)));
   const [modalDelete, setModalDelete] = useState(false);
 
   const {
@@ -32,7 +34,6 @@ const EditParceiro = ({ title, isOpen, setIsOpen, parceiroX }) => {
   } = useGetData();
 
   useEffect(() => {
-    // getParceiros("parceiros");
     getImagemPadrao("fotoPadrao");
     return () => {};
   }, [isOpen]);
@@ -52,6 +53,7 @@ const EditParceiro = ({ title, isOpen, setIsOpen, parceiroX }) => {
         nome: parceiro.nome,
         foto: parceiro.foto ? parceiro.foto : fotoPadrao[0]?.quadraPadrao,
         link: montaLink(parceiro.link),
+        dataInicio: parceiro.dataInicio,
         ordem: parceiro.ordem ? numeroFormatado : 0,
         status: parceiro.status ? parceiro.status : false,
         createdAt: parceiro.createdAt,
@@ -95,10 +97,13 @@ const EditParceiro = ({ title, isOpen, setIsOpen, parceiroX }) => {
   }, [selectedImage]);
 
   useEffect(() => {
-    console.log("parceiro", parceiro);
+    const minhaData = { ...parceiro };
+    minhaData.dataInicio = moment(selectedDate).format("YYYY-MM-DD");
+    setparceiro(minhaData);
 
     return () => {};
-  }, [parceiro]);
+  }, [selectedDate]);
+
 
   const resetForm = () => {
     setparceiro({
@@ -106,6 +111,7 @@ const EditParceiro = ({ title, isOpen, setIsOpen, parceiroX }) => {
       nome: "",
       foto: "",
       link: "",
+      dataInicio: "",
       ordem: 0,
       status: false,
       createdAt: "",
@@ -113,6 +119,17 @@ const EditParceiro = ({ title, isOpen, setIsOpen, parceiroX }) => {
     });
     setSelectedImage(null);
   };
+
+  const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+    <button
+      type="button"
+      className="btn btn-primary agenda-button"
+      onClick={onClick}
+      ref={ref}
+    >
+      {value}
+    </button>
+  ));
   return (
     <Modal
       size="lg"
@@ -192,6 +209,15 @@ const EditParceiro = ({ title, isOpen, setIsOpen, parceiroX }) => {
                 />
                 <Label check>Ativo</Label>
               </FormGroup>
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+                customInput={<ExampleCustomInput />}
+                dateFormat="dd/MM/yyyy"
+                locale="ptBR"
+                // inline
+                showDisabledMonthNavigation
+                />
               <FileInputQuadra
                 selectedImage={selectedImage}
                 setSelectedImage={setSelectedImage}

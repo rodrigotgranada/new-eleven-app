@@ -20,27 +20,27 @@ const Steps = ({ currentStep, changeStep }) => {
 
   return (
     <div className="steps">
-      <div className="step active">
+      <div className="step step-active">
         <p>Data</p>
         <MdOutlineCalendarMonth />{" "}
       </div>
-      <div className={`step ${marcacao?.step >= 1 ? "active" : ""}`}>
+      <div className={`step ${marcacao?.step >= 1 ? "step-active" : ""}`}>
         <p>Esporte</p>
         <MdOutlineSportsBaseball />
       </div>
-      <div className={`step ${marcacao?.step >= 2 ? "active" : ""}`}>
+      <div className={`step ${marcacao?.step >= 2 ? "step-active" : ""}`}>
         <p>Horário</p>
         <AiOutlineClockCircle />
       </div>
-      <div className={`step ${marcacao?.step >= 3 ? "active" : ""}`}>
+      <div className={`step ${marcacao?.step >= 3 ? "step-active" : ""}`}>
         <p>Quadra</p>
         <GiTennisCourt />
       </div>
-      <div className={`step ${marcacao?.step >= 4 ? "active" : ""}`}>
+      <div className={`step ${marcacao?.step >= 4 ? "step-active" : ""}`}>
         <p>Jogadores</p>
         <FaUserCog />
       </div>
-      <div className={`step ${marcacao?.step >= 5 ? "active" : ""}`}>
+      <div className={`step ${marcacao?.step >= 5 ? "step-active" : ""}`}>
         <p>Confirmar</p>
         <GiConfirmed />
       </div>

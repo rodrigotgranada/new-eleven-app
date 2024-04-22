@@ -63,7 +63,7 @@ export default function UpdateProfileSenha() {
 
     Promise.all(promises)
       .then(() => {
-        navigate("/my-profile");
+        navigate("/meu-perfil");
       })
       .catch((e) => {
         setError("Failed to update account");

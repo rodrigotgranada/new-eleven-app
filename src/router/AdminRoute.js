@@ -6,7 +6,7 @@ const AdminRoute = ({ currentUser }) => {
     currentUser?.usuario?.checked ? (
       <Outlet />
     ) : (
-      <Navigate to="/my-profile" />
+      <Navigate to="/meu-perfil" />
     )
   ) : (
     <Navigate to="/login" />

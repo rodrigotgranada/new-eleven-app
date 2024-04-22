@@ -1,63 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/AuthContext";
 import { ThemeContext } from "../../contexts/ThemeContext";
-import useGetData from "../../hooks/useGetData";
 import "../../styles/public/nav.scss";
 import SubNav from "./SubNav";
 import { BsMoonFill, BsMoon } from "react-icons/bs";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../../firebase";
 
-export const Nav = (props) => {
+export const Nav = () => {
   const [error, setError] = useState("");
-  const { currentUser, setCurrentUser, logout } = useAuth();
-  const {
-    getData: getImagemPadrao,
-    data: fotoPadrao,
-    loading: carregaFotoPadrao,
-  } = useGetData();
-
-  useEffect(() => {
-    getImagemPadrao("fotoPadrao");
-    // checkUser();
-    return () => {};
-  }, []);
-
-  const checkUser = async () => {
-    if (currentUser) {
-      const colRef = collection(db, "users");
-      const q = query(colRef, where("uid", "==", currentUser?.uid));
-
-      onSnapshot(q, (querySnapshot) => {
-        querySnapshot.docChanges().forEach(async (change) => {
-          const atualCheck = currentUser?.usuario?.checked;
-          const novoCheck = change.doc.data()?.checked;
-          const atualRule = currentUser?.usuario?.rule;
-          const novoRule = change.doc.data()?.rule;
-          if (atualCheck != novoCheck || atualRule != novoRule) {
-            try {
-              await logout();
-              toast.success("Logged out", {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-              navigate("/");
-            } catch (err) {
-              toast.error(err.message, {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
-              setError("Failed to log out");
-            }
-          }
-        });
-      });
-    }
-  };
-
+  const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  // const { title } = useContext(ThemeContext);
   const { theme, setTheme } = useContext(ThemeContext);
 
   const handleLogout = async () => {
@@ -88,7 +42,6 @@ export const Nav = (props) => {
   let buttons;
 
   if (currentUser?.usuario) {
-    checkUser();
     buttons = (
       <>
         {currentUser?.usuario?.rule &&
@@ -101,7 +54,7 @@ export const Nav = (props) => {
           )}
 
         <li>
-          <Link to="/my-profile" title="Entrar">
+          <Link to="/meu-perfil" title="Entrar">
             {currentUser?.usuario?.displayName
               ? currentUser?.usuario?.displayName
               : `Profile`}
@@ -137,8 +90,6 @@ export const Nav = (props) => {
   if (location.pathname.startsWith("/admin")) {
     verifyNav = (
       <>
-        {/* <Container> */}
-        {/* <nav className="main-nav"> */}
         <nav className="main-nav">
           <ul>
             <li>
@@ -165,25 +116,21 @@ export const Nav = (props) => {
               ) : (
                 <BsMoon onClick={changeTheme} />
               )}
-              {/* <ReactSwitch onChange={changeTheme} checked={theme === "dark"} /> */}
-              {/* <span>Modo Claro</span> */}
             </li>
             {buttons}
           </ul>
         </nav>
-        {/* </nav> */}
-        {/* </Container> */}
-        {currentUser && (
-          <SubNav admin={true} rule={currentUser?.usuario?.owner} />
-        )}
+        {currentUser &&
+          currentUser?.usuario &&
+          currentUser?.usuario?.checked && (
+            <SubNav admin={true} rule={currentUser?.usuario?.owner} />
+          )}
       </>
     );
   } else {
     verifyNav = (
       <>
-        {/* <Container> */}
         <nav className="main-nav">
-          {/* <nav className="main-nav"> */}
           <ul>
             <li>
               <Link to="/">
@@ -204,31 +151,18 @@ export const Nav = (props) => {
           </ul>
           <ul>
             <li className="theme-toggle">
-              {/* <BsSun />
-              <Switch
-                color="primary"
-                checked={theme === "dark"}
-                onChange={changeTheme}
-              /> */}
               {theme === "dark" ? (
                 <BsMoonFill onClick={changeTheme} />
               ) : (
                 <BsMoon onClick={changeTheme} />
               )}
-              {/* <ReactSwitch
-                onChange={changeTheme}
-                checked={theme === "dark"}
-                height={17}
-              /> */}
-              {/* <span>Modo Claro</span> */}
             </li>
             {buttons}
           </ul>
-          {/* </nav> */}
         </nav>
-        {/* </Container> */}
-
-        {currentUser && <SubNav admin={false} />}
+        {/* {currentUser &&
+          currentUser?.usuario &&
+          currentUser?.usuario?.checked && <SubNav admin={false} />} */}
       </>
     );
   }

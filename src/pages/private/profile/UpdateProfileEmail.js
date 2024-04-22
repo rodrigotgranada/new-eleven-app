@@ -59,7 +59,7 @@ export default function UpdateProfileEmail() {
     }
     Promise.all(promises)
       .then(() => {
-        navigate("/my-profile");
+        navigate("/meu-perfil");
       })
       .catch((e) => {
         setError("Falha ao atualizar E-mail");

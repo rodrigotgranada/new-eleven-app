@@ -1,5 +1,8 @@
+section {
+  padding: 1rem 0;
+}
 .row-meus-agendamentos {
-  gap: 2rem;
+  gap: 0 2rem;
 }
 
 .card-agendamento {
@@ -18,6 +21,23 @@
   }
 }
 
+.legendas {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  // justify-content: center;
+}
+.legenda {
+  width: 20px;
+  height: 20px;
+}
+
+.card-with-individual {
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
 .card-with-transfer {
   border: 2px solid #edd31b !important;
   background-color: #453d09ab !important;
@@ -29,6 +49,13 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .legendas {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    padding: 0.1rem 1.2rem;
+    // justify-content: center;
+  }
   .sectionResultsAgendamento {
     margin: 0;
     padding: 0;

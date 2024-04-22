@@ -111,7 +111,7 @@ const ConfirmMarcacaoQuadra = ({
 
         let permitido = await getUserAtual("users", currentUser?.uid);
         if (!ocupada) {
-          if (!permitido?.checked) {
+          if (!permitido?.checked || !permitido?.status) {
             setVerify(3);
           } else {
             geraProtocolo();
@@ -129,9 +129,12 @@ const ConfirmMarcacaoQuadra = ({
   const addMarcacao = async (dados, esporte, hora, quadra) => {
     try {
       const docRef = collection(db, "agenda");
-      await addDoc(docRef, dados).then((e) => {
+      await addDoc(docRef, dados).then(async (e) => {
         setConfirmed(true);
-        logAgendamentoDatabase("app", "quadra", "add", dados, currentUser);
+        const logFull = await logAgendamentoDatabase("app", "quadra", "add", dados, currentUser);
+        if(logFull) {
+
+        }
         toast.success(`Marcação ${dados?.codLocacao} confirmada`, {
           position: toast.POSITION.BOTTOM_CENTER,
         });

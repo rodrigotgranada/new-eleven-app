@@ -20,7 +20,7 @@ export default function Login() {
     }
 
     return () => {};
-  }, []);
+  }, [currentUser]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -42,7 +42,7 @@ export default function Login() {
         // toast.warning("E-mail não verificado!", {
         //   position: toast.POSITION.BOTTOM_CENTER,
         // });
-        navigate("/my-profile");
+        navigate("/meu-perfil");
       }
     } catch (err) {
       console.log(err);

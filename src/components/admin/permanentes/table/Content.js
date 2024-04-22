@@ -84,7 +84,7 @@ const Content = () => {
         // };
         return (
           <>
-            <h5>Nome</h5>
+            <h5 className="permanente-th">Nome</h5>
             {/* <input
               type="text"
               name="name"
@@ -109,7 +109,7 @@ const Content = () => {
       Header: () => {
         return (
           <>
-            <h5>Dia</h5>
+            <h5 className="permanente-th">Dia</h5>
             <select
               name={"winner"}
               id={"winner"}
@@ -132,7 +132,15 @@ const Content = () => {
       accessor: "dia",
     },
     {
-      Header: "Horário",
+      id: "horario",
+      Header: () => {
+        return (
+          <>
+            <h5 className="permanente-th">Horário</h5>
+          </>
+        );
+      },
+      //Header: "Horário",
       accessor: (d) => {
         return (
           <>
@@ -142,7 +150,15 @@ const Content = () => {
       },
     },
     {
-      Header: "Quadra",
+      id: "quadra",
+      Header: () => {
+        return (
+          <>
+            <h5 className="permanente-th">Quadra</h5>
+          </>
+        );
+      },
+      // Header: "Quadra",
       accessor: (d) => {
         return (
           <>
@@ -152,7 +168,15 @@ const Content = () => {
       },
     },
     {
-      Header: "Modalidade",
+      id: "modalidade",
+      Header: () => {
+        return (
+          <>
+            <h5 className="permanente-th">Modalidade</h5>
+          </>
+        );
+      },
+      //Header: "Modalidade",
       accessor: (d) => {
         return (
           <>
@@ -162,7 +186,15 @@ const Content = () => {
       },
     },
     {
-      Header: "Inicio",
+      id: "inicio",
+      Header: () => {
+        return (
+          <>
+            <h5 className="permanente-th">Inicio</h5>
+          </>
+        );
+      },
+      //Header: "Inicio",
       accessor: (d) => {
         return (
           <>
@@ -172,7 +204,15 @@ const Content = () => {
       },
     },
     {
-      Header: "Vencimento",
+      id: "vencimento",
+      Header: () => {
+        return (
+          <>
+            <h5 className="permanente-th">Vencimento</h5>
+          </>
+        );
+      },
+      //Header: "Vencimento",
       // accessor: "vencimento",
       accessor: (d) => {
         return (
@@ -183,7 +223,15 @@ const Content = () => {
       },
     },
     {
-      Header: "Ações",
+      id: "acoes",
+      Header: () => {
+        return (
+          <>
+            <h5 className="permanente-th">Ações</h5>
+          </>
+        );
+      },
+      //Header: "Ações",
       accessor: (d) => {
         return (
           <>

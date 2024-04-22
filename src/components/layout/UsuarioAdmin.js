@@ -4,14 +4,11 @@ import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
 
 const UsuarioAdmin = ({ infos }) => {
-  console.log("infos", infos);
+  // console.log("infos", infos);
   const [check, setCheck] = useState(infos?.rule);
   const { currentUser, atualizaAdmin } = useAuth();
 
   const handleChangeUserCheck = async () => {
-    console.log("entrei");
-    console.log("currentUser", currentUser);
-
     const retorno = await atualizaAdmin(infos.uid, !infos.rule);
     console.log(retorno);
     if (retorno) {

@@ -9,6 +9,8 @@ import ReactSwitch from "react-switch";
 import UsuarioApto from "./UsuarioApto";
 import { useAuth } from "../../contexts/AuthContext";
 import UsuarioAdmin from "./UsuarioAdmin";
+import BtnExcluirUser from "../admin/modal/BtnExcluirUser";
+import UsuarioBloq from "./UsuarioBloq";
 
 const BasicTable = ({ data, columns }) => {
   const [sorting, setSorting] = useState([]);
@@ -28,46 +30,46 @@ const BasicTable = ({ data, columns }) => {
       // enableColumnOrdering
       enableGlobalFilter={true}
       renderDetailPanel={({ row }) => (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          {/* <img
-            alt="avatar"
-            width={200}
-            height={200}
-            src={row.original.photoURL}
-            loading="lazy"
-            style={{ borderRadius: "50%" }}
-          /> */}
-          <Box sx={{ textAlign: "center" }}>
+        <Box className={"details"}>
+          <Box className={`details-contet`}>
             {currentUser?.usuario?.owner && row.original.codAuth && (
               <>
                 <p>Código de Verificação: {row.original.codAuth}</p>
               </>
             )}
-            <p onClick={(e) => console.log(row.original.checked)}>
-              E-mail verificado: {row.original.checked ? "Sim" : "Não"}
+            <p>
+              Nome: {`${row.original.displayName} ${row?.original?.sobrenome}`}
             </p>
-            <p>Administrador: {row.original.rule ? "Sim" : "Não"}</p>
-            {currentUser?.usuario?.owner && (
-              <UsuarioAdmin infos={row?.original} />
-            )}
-            <p>Acesso máximo: {row.original.owner ? "Sim" : "Não"}</p>
+            <p>E-mail: {row?.original?.email}</p>
             {row.original.telefone ? (
               <p>Telefone: {row.original.telefone}</p>
             ) : (
               <></>
             )}
-            <p>Usuario apto: {row.original.checked ? "Sim" : "Não"}</p>
-            {currentUser?.usuario?.owner && (
-              <UsuarioApto infos={row?.original} />
-            )}
+            {currentUser?.usuario?.owner && <p></p>}
+            <div className={`row-infoUser`}>
+              <p>Administrador: {row?.original?.rule ? "Sim" : "Não"}</p>
+              {currentUser?.usuario?.owner && (
+                <UsuarioAdmin infos={row?.original} />
+              )}
+            </div>
 
-            {/* <ReactSwitch onChange={(e) => setCheck(!check)} checked={check} /> */}
+            <div className={`row-infoUser`}>
+              <p>Usuario apto: {row.original.checked ? "Sim" : "Não"}</p>
+              {currentUser?.usuario?.owner && (
+                <UsuarioApto infos={row?.original} />
+              )}
+            </div>
+            <div className={`row-infoUser`}>
+              <p>Usuario bloqueado: {row.original.status ? "Não" : "Sim"}</p>
+              {currentUser?.usuario?.owner && (
+                <UsuarioBloq infos={row?.original} />
+              )}
+            </div>
+
+            {currentUser?.usuario?.owner && (
+              <p>Acesso máximo: {row.original.owner ? "Sim" : "Não"}</p>
+            )}
           </Box>
         </Box>
       )}

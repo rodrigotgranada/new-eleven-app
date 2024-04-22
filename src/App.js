@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout from "./components/layout/Layout";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ConfigProvider } from "./contexts/ConfigContext";
 import { ThemeProviderx } from "./contexts/ThemeContext";
 // import GlobalStyle from "./styles/global";
 
@@ -17,12 +18,14 @@ function App() {
     // <ThemeProvider theme={theme}>
     <ThemeProviderx>
       <Router>
-        <AuthProvider>
-          <ToastContainer />
-          {/* <GlobalStyle /> */}
-          <Layout />
-          {/* <Layout toggleTheme={toggleTheme} /> */}
-        </AuthProvider>
+        <ConfigProvider>
+          <AuthProvider>
+            <ToastContainer />
+            {/* <GlobalStyle /> */}
+            <Layout />
+            {/* <Layout toggleTheme={toggleTheme} /> */}
+          </AuthProvider>
+        </ConfigProvider>
       </Router>
     </ThemeProviderx>
     // </ThemeProvider>

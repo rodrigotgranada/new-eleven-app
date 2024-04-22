@@ -38,6 +38,11 @@ $bg-date-calendar-hover--dark: radial-gradient(#f17300 40%, #f1740083);
 $arrow-parceiros--light: #282828;
 $arrow-parceiros--dark: #f1740083;
 
+$btn-agenda-home--light: #495057;
+$btn-agenda-home--dark: #f17300;
+
+$btn-agenda-home-text--light: #f17300;
+$btn-agenda-home-text--dark: #495057;
 
 $themes: (
   light: (
@@ -52,6 +57,8 @@ $themes: (
     bg-date-calendar-selected: $bg-date-calendar-selected--light,
     bg-date-calendar-hover: $bg-date-calendar-hover--light,
     arrow-parceiros: $arrow-parceiros--light,
+    btn-agenda-home: $btn-agenda-home--light,
+    btn-agenda-home-txt: $btn-agenda-home-text--light,
   ),
   dark: (
     bg: $bg--dark,
@@ -65,6 +72,8 @@ $themes: (
     bg-date-calendar-selected: $bg-date-calendar-selected--dark,
     bg-date-calendar-hover: $bg-date-calendar-hover--dark,
     arrow-parceiros: $arrow-parceiros--dark,
+    btn-agenda-home: $btn-agenda-home--dark,
+    btn-agenda-home-txt: $btn-agenda-home-text--dark,
   ),
 );
 

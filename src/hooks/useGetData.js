@@ -109,6 +109,28 @@ const useGetData = () => {
     });
   };
 
+  const getDataEventos = async (collectionName, filtro, tipo, valor, filtro2, tipo2, valor2, campo, order) => {
+    const colletionRef = collection(db, collectionName);
+    const q = query(
+      colletionRef,
+      where(filtro, tipo, valor),
+      where(filtro2, tipo2, valor2),
+      orderBy(filtro, "asc"),
+      orderBy(campo, order ? order.toLowerCase() : "asc")
+    );
+
+    await onSnapshot(q, (querySnapshot) => {
+      querySnapshot.docChanges().forEach((change) => {});
+
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push({ ...doc.data(), id: doc.id });
+      });
+      setData(items);
+      setLoading(false);
+    });
+  };
+
   const getDataOrderBy2 = async (
     collectionName,
     campo1,
@@ -623,6 +645,7 @@ const useGetData = () => {
     return items;
   };
 
+
   return {
     getAllUsers,
     getDataWhereId,
@@ -642,6 +665,7 @@ const useGetData = () => {
     getDataOrderBy,
     getDataOrderByLogs,
     getDataOrderByTeste,
+    getDataEventos,
     getDataAgenda,
     getDataSnapAtt,
     getDataSnapAttButtonAgenda,

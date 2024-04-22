@@ -201,9 +201,6 @@ const useLogs = () => {
               new Date()
             ).format("HH:mm:ss")}`;
     }
-
-    // console.log("TEXTO", texto);
-
     const log =
       tipo === "quadra"
         ? {
@@ -231,21 +228,41 @@ const useLogs = () => {
             tipo: tipo,
             texto: texto,
           };
+          let retorno = ""
     try {
       const docRef = collection(db, "log_agenda");
-      await addDoc(docRef, log).then((e) => {
+      retorno = await addDoc(docRef, log).then((e) => {
+        console.log('e', e)
         console.log("Log gravado");
+        // sendAgendamento(
+        //   currentUser.telefone,
+        //   `${currentUser.displayName} ${currentUser.sobrenome}`,
+        //   quadra.numero,
+        //   quadra.name,
+        //   esporte.display,
+        //   dados.dataDia,
+        //   `${horario.value}:00`,
+        //   dados.codLocacao
+        // );
+        return true
       });
     } catch (error) {
       console.log(`Log não gravado`, error);
+      return false
     }
+    return retorno
   };
+
+  const logRecebidoWhats = async () => {
+
+  }
 
   return {
     logUserCreate,
     logUserConfirm,
     logAgedamento,
     logAgendamentoDatabase,
+    logRecebidoWhats,
   };
 };
 

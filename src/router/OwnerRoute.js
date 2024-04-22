@@ -8,7 +8,7 @@ const OwnerRoute = ({ currentUser }) => {
     currentUser.emailVerified ? (
       <Outlet />
     ) : (
-      <Navigate to="/my-profile" />
+      <Navigate to="/meu-perfil" />
     )
   ) : (
     <Navigate to="/login" />

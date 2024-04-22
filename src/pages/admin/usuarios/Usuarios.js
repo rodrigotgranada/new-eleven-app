@@ -19,61 +19,25 @@ const Usuarios = () => {
     Object.keys(usuarios).length && console.log("usuarios", usuarios);
   }, [usuarios]);
 
-  // const columns = [
-  //   {
-  //     id: "id2",
-  //     header: "Informações",
-  //     columns: [
-
-  //       {
-  //         accessorKey: "displayName",
-  //         header: "Nome",
-  //       },
-  //       {
-  //         accessorKey: "sobrenome",
-  //         header: "Sobrenome",
-  //       },
-  //       {
-  //         accessorKey: "documento",
-  //         header: "Documento",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: "id3",
-  //     header: "Contato",
-  //     columns: [
-  //       {
-  //         accessorKey: "telefone",
-  //         header: "Telefone",
-  //       },
-  //       {
-  //         accessorKey: "email",
-  //         header: "E-mail",
-  //       },
-  //     ],
-  //   },
-  // ];
-
   const columns = [
     {
       accessorKey: "displayName",
       header: "Nome",
+      size: 50,
     },
     {
       accessorKey: "telefone",
       header: "Telefone",
+      size: 50,
     },
   ];
 
   return (
     <Container>
-      {/* <Container> */}
       {carregaUsuarios && <p>Carregando...</p>}
       {Object.keys(usuarios).length && (
         <BasicTable data={usuarios} columns={columns} />
       )}
-      {/* </Container> */}
     </Container>
   );
 };

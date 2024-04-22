@@ -16,7 +16,7 @@ const Table = ({ columns, data, isLoading, footer }) => {
 
   return (
     <>
-      <table {...getTableProps()}>
+      <table {...getTableProps()} className="tableUsers">
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>

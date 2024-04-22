@@ -7,9 +7,10 @@ import Loading from "../Loading/Loading";
 
 import Slider from "react-slick";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { Container, Row } from "reactstrap";
+import { Card, Container, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import { ExternalLink } from "react-external-link";
+import moment from "moment";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -40,44 +41,32 @@ function SamplePrevArrow(props) {
 
 const ParceirosCar = () => {
   const {
-    getDataOrderByTeste: getParceiros,
+    getDataEventos: getParceiros,
     data: parceiros,
     loading: carregaParceiros,
   } = useGetData();
 
   useEffect(() => {
-    getParceiros("parceiros", "ordem");
+    getParceiros("parceiros", 'dataInicio', '>=', moment(new Date()).format('YYYY-MM-DD'), 'status', '==', true, "ordem");
     return () => {};
   }, []);
 
-  //   useEffect(() => {
-  //     console.log("parceiros", parceiros);
+  useEffect(() => {
+    return () => {
+    }
+  }, [parceiros])
 
-  //     return () => {};
-  //   }, [parceiros]);
 
   const settings = {
-    // vertical: false,
-    // autoplay: true,
-    // autoplaySpeed: 2000,
-    // dots: true,
-    // infinite: true,
-    // speed: 500,
-    // slidesToShow: 1,
-    // slidesToScroll: 1,
-    // slidesPerRow: 1,
-    // centerMode: true,
-    // arrows: true,
-    // centerPadding: "15%",
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
     dots: false,
-    infinite: true,
+    infinite: parceiros ? parceiros.length > 1 : false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
+    autoplay: false,
+    // autoplaySpeed: 2000,
     dotsClass: "slick-dots button__bar",
   };
 
@@ -90,20 +79,23 @@ const ParceirosCar = () => {
   return (
     <>
       {carregaParceiros && <Loading type={`spin`} width={"30px"} />}
-      {parceiros && parceiros.length == 0 && <p>Nenhum parceiro cadastrado</p>}
+      {parceiros && parceiros.length == 0 && <p>Nenhum Evento Cadastrado</p>}
       {parceiros && parceiros.length > 0 && (
         <Container>
           <Slider {...settings}>
             {parceiros &&
-              parceiros?.map((item, index) => (
-                <img
-                  key={index}
-                  alt={item.nome}
-                  src={item.foto}
-                  //   style={{ width: "10rem", height: "7rem" }}
-                  onClick={() => openInNewTab(item.link)}
-                />
-              ))}
+              parceiros?.map((item, index) => {
+                // if(item.status) {
+                  return <div key={index} onClick={() => openInNewTab(item.link)}>
+                          <Card className="item-slider-card" style={{ backgroundImage: `url(${item.foto})`}}>
+                            <div className="legend-eventos">
+                              <span className="legend-eventos-span">{item.nome}</span>
+                              <span className="legend-eventos-span">Data: {moment(item.dataInicio).format('DD/MM/YYYY')}</span>
+                            </div>
+                          </Card>
+                       </div>
+                // }
+              })}
           </Slider>
         </Container>
       )}

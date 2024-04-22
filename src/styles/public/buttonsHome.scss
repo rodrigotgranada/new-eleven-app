@@ -1,0 +1,87 @@
+@import "../themes/_theme.scss";
+
+.buttonsHome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  .btns-home {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    @include themed() {
+      background-color: t("btn-agenda-home");
+      color: t("btn-agenda-home-txt")
+    }
+  }
+
+  .box-agenda {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    height: fit-content;
+
+    .cardAgendaHome {
+      width: 100%;
+      padding: .15rem;
+      @include themed() {
+        color: t("text");
+      }
+
+      .containerAgendamento {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        .titleAgenda {
+          font-weight: bold;
+          .resultAgenda {
+            font-weight: 400
+          }
+        }
+      }
+    }
+  }
+  .marqueSeuHorario {
+    font-size: 1.5rem;
+    font-weight: 800;
+    height: 6rem;
+  }
+
+}
+
+.item-slider-card {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: 100% 10rem;
+  background-repeat: no-repeat;
+  max-width: 100%;
+  min-height: 10rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+  right: 0;
+
+  .legend-eventos {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+    padding: 0.6rem;
+    background-color: rgba(128, 128, 128, 0.685);
+    max-width: fit-content;
+    border-radius: 15px 15px 0 15px;
+    .legend-eventos-span{
+      font-weight: 700;
+      @include themed() {
+        color: t("text");
+      }
+    }
+  }
+}

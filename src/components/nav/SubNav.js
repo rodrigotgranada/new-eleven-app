@@ -19,7 +19,7 @@ const SubNav = ({ admin, rule }) => {
         { path: "admin/usuarios", display: "Usuários", rule: true },
         { path: "admin/quadras", display: "Quadras", rule: true },
         { path: "admin/logs", display: "Logs", rule: true },
-        { path: "admin/parceiros", display: "Parceiros", rule: true },
+        { path: "admin/eventos", display: "Eventos", rule: true },
       ])
     : (admin__nav = [
         { path: "marcar-quadra", display: "Agenda" },

@@ -5,7 +5,7 @@ const AgendaContext = createContext();
 export function AgendaProvider({ children }) {
   const [agendaDate, setAgendaDate] = useState(new Date());
   useEffect(() => {
-    console.log("AgendaContext", agendaDate);
+    // console.log("AgendaContext", agendaDate);
   }, [agendaDate]);
   return (
     <AgendaContext.Provider value={{ agendaDate, setAgendaDate }}>

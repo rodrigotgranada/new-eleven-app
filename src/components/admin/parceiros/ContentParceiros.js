@@ -13,7 +13,7 @@ const ContentParceiros = () => {
         <section className="menu-parceiros">
           {ModalOpen && (
             <AddParceiro
-              title={`Adicionar Parceiro`}
+              title={`Adicionar Evento`}
               isOpen={ModalOpen}
               setIsOpen={setModalOpen}
               // tipoQuadra={id}
@@ -23,7 +23,7 @@ const ContentParceiros = () => {
             className="btn btn-warning"
             onClick={(e) => setModalOpen(true)}
           >
-            Adicionar Parceiro
+            Adicionar Evento
           </button>
         </section>
         <Col lg="12">

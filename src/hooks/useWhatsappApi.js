@@ -6,19 +6,18 @@ const useWhatsappApi = () => {
     console.log(number, code);
     const header = {
       headers: {
-        Authorization: `Bearer EAAyOgO7GEEABOyQWVTNbfptFyafurRmEfvrsR8ZCtM5ercGnRdpOZBICIn3hEhR8ZBNqR87P5hRxe4C7FSSdiyI1IieB3Gb3X5s99BeT74v5ZA4n6zjT9jdWanx4akc1a8l4MROZCaQKWaGTJb1aZBE8VJDSrA8RuxoYEAjtvkUBLuZCt6EvO58dmxRbqGHyyCT`,
+        Authorization: `Bearer EAAzwZAcSvR1QBO6nLXOjIk5ukUyZAaKNMooUsMehcUfi7H8ZAi9ZBZBdpuaYtLV2Jgs5h7ScZC77anU95hWgQq4eaZByeVH3q40Goq3pRNi7TY8p0SmCpD9eOTH5B6DppUW5ZBWmiiJqIVxRey4fQFWmqAaZC08fl3CvanpLiN3ZBLk2YPboNgRk5055rJqfDEVyd0`,
         Accept: "application/json",
       },
     };
     const body = {
       messaging_product: "whatsapp",
-      recipient_type: "individual",
       to: `55${number}`,
       type: "template",
       template: {
-        name: "welcomeconfirm",
+        name: "confirm_codigo_acesso",
         language: {
-          code: "en_US",
+          code: "pt_BR",
         },
         components: [
           {
@@ -30,29 +29,26 @@ const useWhatsappApi = () => {
               },
             ],
           },
-          {
-            type: "button",
-            sub_type: "url",
-            index: "0",
-            parameters: [
-              {
-                type: "text",
-                text: `${code}`,
-              },
-            ],
-          },
         ],
       },
     };
 
-    axios
+    const retorno = axios
       .post(
-        "https://graph.facebook.com/v17.0/119012777970637/messages",
+        "https://graph.facebook.com/v18.0/292580983930541/messages",
         body,
         header
       )
-      .then((res) => console.log("msg enviada", res))
-      .catch((err) => console.log("ERRO", err));
+      .then((res) => {
+        console.log("msg enviada", res);
+        return true;
+      })
+      .catch((err) => {
+        console.log("ERRO", err);
+        return false;
+      });
+
+    return retorno;
   };
 
   const sendConfirmPT = async (number, code) => {
@@ -60,7 +56,7 @@ const useWhatsappApi = () => {
     let confirm = false;
     const header = {
       headers: {
-        Authorization: `Bearer EAAyOgO7GEEABOyQWVTNbfptFyafurRmEfvrsR8ZCtM5ercGnRdpOZBICIn3hEhR8ZBNqR87P5hRxe4C7FSSdiyI1IieB3Gb3X5s99BeT74v5ZA4n6zjT9jdWanx4akc1a8l4MROZCaQKWaGTJb1aZBE8VJDSrA8RuxoYEAjtvkUBLuZCt6EvO58dmxRbqGHyyCT`,
+        Authorization: `Bearer EAAeb79Fkz6oBO9QpcZAwwtkEUZBDJGouDIFcrSCbx0cO4CNEZABsErVc0MaIi480jb1C2IGLOXYIpuK1qM8AqPUWFxWyPbVPBnxFiGDYUWqJ5dnsYjxurl0YH5qyLWUGOglSmvI5hR0IbZCZCsMgyWUXCiPiuqROitZAEhsTlWKVqJQakBo4DbD5GFajiZBdZAtY`,
         Accept: "application/json",
       },
     };
@@ -101,7 +97,7 @@ const useWhatsappApi = () => {
 
     const config = await axios
       .post(
-        "https://graph.facebook.com/v17.0/119012777970637/messages",
+        "https://graph.facebook.com/v18.0/259782567222999/messages",
         body,
         header
       )
@@ -117,66 +113,21 @@ const useWhatsappApi = () => {
     return config;
   };
 
-  // const sendConfirm = (number, name, code) => {
-  //   console.log(number, name, code);
-  //   const header = {
-  //     headers: {
-  //       Authorization: `Bearer EAAyOgO7GEEABOyQWVTNbfptFyafurRmEfvrsR8ZCtM5ercGnRdpOZBICIn3hEhR8ZBNqR87P5hRxe4C7FSSdiyI1IieB3Gb3X5s99BeT74v5ZA4n6zjT9jdWanx4akc1a8l4MROZCaQKWaGTJb1aZBE8VJDSrA8RuxoYEAjtvkUBLuZCt6EvO58dmxRbqGHyyCT`,
-  //       Accept: "application/json",
-  //     },
-  //   };
-  //   const body = {
-  //     messaging_product: "whatsapp",
-  //     to: `55${number}`,
-  //     type: "template",
-  //     template: {
-  //       name: "welcome",
-  //       language: {
-  //         code: "en_US",
-  //       },
-  //       components: [
-  //         {
-  //           type: "body",
-  //           parameters: [
-  //             {
-  //               type: "text",
-  //               text: `${name}`,
-  //             },
-  //             {
-  //               type: "text",
-  //               text: `${code}`,
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //   };
-
-  //   axios
-  //     .post(
-  //       "https://graph.facebook.com/v17.0/119012777970637/messages",
-  //       body,
-  //       header
-  //     )
-  //     .then((res) => console.log("msg enviada", res))
-  //     .catch((err) => console.log("ERRO", err));
-  // };
-
-  const sendWelcome = (number, name) => {
+  const sendTransferencia = (numero, codigo) => {
     const header = {
       headers: {
-        Authorization: `Bearer EAAyOgO7GEEABOyQWVTNbfptFyafurRmEfvrsR8ZCtM5ercGnRdpOZBICIn3hEhR8ZBNqR87P5hRxe4C7FSSdiyI1IieB3Gb3X5s99BeT74v5ZA4n6zjT9jdWanx4akc1a8l4MROZCaQKWaGTJb1aZBE8VJDSrA8RuxoYEAjtvkUBLuZCt6EvO58dmxRbqGHyyCT`,
+        Authorization: `Bearer EAAzwZAcSvR1QBO6nLXOjIk5ukUyZAaKNMooUsMehcUfi7H8ZAi9ZBZBdpuaYtLV2Jgs5h7ScZC77anU95hWgQq4eaZByeVH3q40Goq3pRNi7TY8p0SmCpD9eOTH5B6DppUW5ZBWmiiJqIVxRey4fQFWmqAaZC08fl3CvanpLiN3ZBLk2YPboNgRk5055rJqfDEVyd0`,
         Accept: "application/json",
       },
     };
     const body = {
       messaging_product: "whatsapp",
-      to: `55${number}`,
+      to: `55${numero}`,
       type: "template",
       template: {
-        name: "welcome2",
+        name: "transferencia_quadra",
         language: {
-          code: "en_US",
+          code: "pt_BR",
         },
         components: [
           {
@@ -184,24 +135,29 @@ const useWhatsappApi = () => {
             parameters: [
               {
                 type: "text",
-                text: `${name}`,
+                text: `${codigo}`,
               },
             ],
           },
         ],
       },
     };
-
-    axios
+    const retorno = axios
       .post(
-        "https://graph.facebook.com/v17.0/119012777970637/messages",
+        "https://graph.facebook.com/v18.0/292580983930541/messages",
         body,
         header
       )
       .then((res) => {
         console.log("msg enviada", res);
+        return true;
       })
-      .catch((err) => console.log("ERRO", err));
+      .catch((err) => {
+        console.log("ERRO", err);
+        return false;
+      });
+
+    return retorno;
   };
 
   const sendAgendamento = (
@@ -216,7 +172,7 @@ const useWhatsappApi = () => {
   ) => {
     const header = {
       headers: {
-        Authorization: `Bearer EAAyOgO7GEEABOyQWVTNbfptFyafurRmEfvrsR8ZCtM5ercGnRdpOZBICIn3hEhR8ZBNqR87P5hRxe4C7FSSdiyI1IieB3Gb3X5s99BeT74v5ZA4n6zjT9jdWanx4akc1a8l4MROZCaQKWaGTJb1aZBE8VJDSrA8RuxoYEAjtvkUBLuZCt6EvO58dmxRbqGHyyCT`,
+        Authorization: `Bearer EAAzwZAcSvR1QBO6nLXOjIk5ukUyZAaKNMooUsMehcUfi7H8ZAi9ZBZBdpuaYtLV2Jgs5h7ScZC77anU95hWgQq4eaZByeVH3q40Goq3pRNi7TY8p0SmCpD9eOTH5B6DppUW5ZBWmiiJqIVxRey4fQFWmqAaZC08fl3CvanpLiN3ZBLk2YPboNgRk5055rJqfDEVyd0`,
         Accept: "application/json",
       },
     };
@@ -225,9 +181,9 @@ const useWhatsappApi = () => {
       to: `55${numero}`,
       type: "template",
       template: {
-        name: "agendamento",
+        name: "confirm_marcacao",
         language: {
-          code: "en_US",
+          code: "pt_BR",
         },
         components: [
           {
@@ -239,11 +195,7 @@ const useWhatsappApi = () => {
               },
               {
                 type: "text",
-                text: `${quadraNumero}`,
-              },
-              {
-                type: "text",
-                text: `${quadraNome}`,
+                text: `${quadraNome} (${quadraNumero})`,
               },
               {
                 type: "text",
@@ -269,14 +221,70 @@ const useWhatsappApi = () => {
 
     axios
       .post(
-        "https://graph.facebook.com/v17.0/119012777970637/messages",
+        "https://graph.facebook.com/v18.0/292580983930541/messages",
         body,
         header
       )
       .then((res) => console.log("msg enviada", res))
       .catch((err) => console.log("ERRO", err));
   };
-  return { sendWelcome, sendConfirm, sendAgendamento, sendConfirmPT };
+
+  const sendMessage = (number, name, code) => {
+    const codigo = code ? code : "123456";
+    console.log(number, name);
+    const header = {
+      headers: {
+        // Authorization: `Bearer EAAeb79Fkz6oBOyZAZBIieLQOJEMfMYT5vnvRvRtTEN8h2Epia7rzwmZA0VHBQp6tj8WFSkZBjDtXNsg5omeqM79ZBUXLzVHcM43n3BbmgNchmAUCpnOMAmgcB6QX35bewx1WnCL8PGsbF1flwjWZAPUXpPOwfB3tOjlTfAEQ3NLB8LXaxqXSJz4umZBt880JDZCp5vFsjykZBI4ZCJOBcIZACcZD`,
+        Authorization: `Bearer EAAzwZAcSvR1QBO6nLXOjIk5ukUyZAaKNMooUsMehcUfi7H8ZAi9ZBZBdpuaYtLV2Jgs5h7ScZC77anU95hWgQq4eaZByeVH3q40Goq3pRNi7TY8p0SmCpD9eOTH5B6DppUW5ZBWmiiJqIVxRey4fQFWmqAaZC08fl3CvanpLiN3ZBLk2YPboNgRk5055rJqfDEVyd0`,
+        Accept: "application/json",
+      },
+    };
+    const body = {
+      messaging_product: "whatsapp",
+      to: `55${number}`,
+      type: "template",
+      template: {
+        name: "bemvindo3",
+        language: {
+          code: "pt_BR",
+        },
+        components: [
+          {
+            type: "body",
+            parameters: [
+              {
+                type: "text",
+                text: `${name}`,
+              },
+              {
+                type: "text",
+                text: `${codigo}`,
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    axios
+      .post(
+        // "https://graph.facebook.com/v18.0/288641980991320/messages",
+        "https://graph.facebook.com/v18.0/292580983930541/messages",
+        body,
+        header
+      )
+      .then((res) => {
+        console.log("msg enviada", res);
+      })
+      .catch((err) => console.log("ERRO", err));
+  };
+  return {
+    sendTransferencia,
+    sendConfirm,
+    sendAgendamento,
+    sendConfirmPT,
+    sendMessage,
+  };
 };
 
 export default useWhatsappApi;

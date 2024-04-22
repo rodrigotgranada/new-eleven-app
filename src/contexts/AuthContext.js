@@ -45,8 +45,13 @@ export function AuthProvider({ children }) {
   const [urls, setUrls] = useState([]);
   const { logUser } = useLogs();
   const navigate = useNavigate();
-  const { sendWelcome, sendConfirm, sendAgendamento, sendConfirmPT } =
-    useWhatsappApi();
+  const {
+    sendWelcome,
+    sendConfirm,
+    sendAgendamento,
+    sendConfirmPT,
+    sendMessage,
+  } = useWhatsappApi();
 
   const { getDataId } = useAuthData();
 
@@ -160,7 +165,7 @@ export function AuthProvider({ children }) {
       await createUserWithEmailAndPassword(auth, meuEmail, meuPassword)
         .then(async (usuario) => {
           const user = usuario.user;
-          await sendEmailVerification(user);
+          // await sendEmailVerification(user);
           await updateProfile(user, {
             displayName: name,
           });
@@ -173,7 +178,7 @@ export function AuthProvider({ children }) {
             telefone: onlyNumbers(telefone),
             email,
             // photoURL: images,
-            rule: rule,
+            rule: false,
             status: true,
             checked: false,
             owner: false,
@@ -181,7 +186,8 @@ export function AuthProvider({ children }) {
           });
         })
         .then(async (user) => {
-          await sendConfirmPT(telefone, codAuth);
+          // await sendConfirmPT(telefone, codAuth);
+          await sendMessage(telefone, name, codAuth);
         })
         .then(async () => await signOut(auth))
         .catch((error) => console.log(error));
@@ -223,7 +229,10 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    const sair = signOut(auth);
+    const sair = await signOut(auth);
+    toast.success("Logged out", {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
 
     return sair;
   };
@@ -381,6 +390,19 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const atualizaStatus = async (usuario, status) => {
+    try {
+      const docRef = doc(db, "users", usuario);
+      const snap = await updateDoc(docRef, {
+        status: status,
+      });
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  };
+
   const atualizaAdmin = async (usuario, rule) => {
     try {
       const docRef = doc(db, "users", usuario);
@@ -408,9 +430,9 @@ export function AuthProvider({ children }) {
           if (atual != novo) {
             try {
               await logout();
-              toast.success("Logged out", {
-                position: toast.POSITION.BOTTOM_CENTER,
-              });
+              // toast.success("Logged out", {
+              //   position: toast.POSITION.BOTTOM_CENTER,
+              // });
               navigate("/");
             } catch (err) {
               toast.error(err.message, {
@@ -454,6 +476,7 @@ export function AuthProvider({ children }) {
     atualizaVerificado,
     atualizaDados,
     atualizaCheck,
+    atualizaStatus,
     atualizaAdmin,
   };
 

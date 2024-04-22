@@ -23,7 +23,7 @@ import useWhatsappApi from "./useWhatsappApi";
 const useTransferAgendamento = () => {
   const [data, setData] = useState({ data: null, error: null });
   const [loading, setLoading] = useState(true);
-  const { sendConfirmPT } = useWhatsappApi();
+  const { sendConfirmPT, sendTransferencia } = useWhatsappApi();
 
   const checkTransfer = async (transferID) => {
     try {
@@ -95,14 +95,14 @@ const useTransferAgendamento = () => {
     jogadores,
     marcacao
   ) => {
-    console.log(
-      codLocacao,
-      userOrigem,
-      userDestino,
-      agendaID,
-      jogadores,
-      marcacao
-    );
+    // console.log(
+    //   codLocacao,
+    //   userOrigem,
+    //   userDestino,
+    //   agendaID,
+    //   jogadores,
+    //   marcacao
+    // );
     try {
       const codAuth = Math.floor(Math.random() * 900000) + 100000;
       const docRef = collection(db, "codTemp_transferAgenda");
@@ -130,7 +130,11 @@ const useTransferAgendamento = () => {
           toast.success("Transferencia solicitada!", {
             position: toast.POSITION.BOTTOM_CENTER,
           });
-          const enviado = await sendConfirmPT(userDestino?.telefone, codAuth);
+          // const enviado = await sendConfirmPT(userDestino?.telefone, codAuth);
+          const enviado = await sendTransferencia(
+            userDestino?.telefone,
+            codAuth
+          );
           console.log("enviado", enviado);
 
           if (enviado) {

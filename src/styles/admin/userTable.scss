@@ -34,3 +34,15 @@
     fill: t("text");
   }
 }
+
+.details {
+  display: "flex";
+  justify-content: "flex-start";
+  align-items: "left";
+}
+
+.row-infoUser {
+  display: flex;
+  justify-content: start;
+  gap: 1rem;
+}

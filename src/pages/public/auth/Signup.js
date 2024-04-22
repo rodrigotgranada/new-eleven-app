@@ -67,11 +67,8 @@ export default function Signup() {
 
   const handleChange = async (e) => {
     const { id, value } = e.target;
-    console.log("id", id, "value", value);
 
     const verificacao = await getDataWhere("users", id, "==", value);
-    console.log("verificacao", verificacao);
-
     if (verificacao) {
       let verify = { ...error };
       verify[`${id}`] = `${capitalize(id)} já existe`;
@@ -83,9 +80,9 @@ export default function Signup() {
     }
   };
 
-  useEffect(() => {
-    console.log("error", error);
-  }, [error]);
+  // useEffect(() => {
+  //   console.log("error", error);
+  // }, [error]);
 
   const capitalize = (item) => {
     return item[0].toUpperCase() + item.slice(1);
@@ -125,7 +122,7 @@ export default function Signup() {
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Row>
-                  <Col lg="6">
+                  <Col lg="12">
                     <h2 className="text-center mb-4">Cadastro</h2>
                     <Row>
                       <Col lg="6">
