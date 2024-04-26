@@ -1,11 +1,11 @@
 .btn-save-players {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .list-players {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 0.5rem;
 
   // input {
@@ -21,6 +21,7 @@
 .form_jogaores_modal {
   // display: block;
   width: 100%;
+
   .form__group_modal {
     .rowPlayers {
       display: flex;
@@ -30,6 +31,7 @@
       display: flex;
       gap: 0.7rem;
     }
+
     // display: flex;
     // justify-content: start;
     // width: inherit;
@@ -56,9 +58,10 @@
     //   border-radius: 25%;
     // }
   }
+
   .btn-save-modal {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
   }
 }
 
@@ -67,5 +70,5 @@
   gap: 0.3rem;
   margin: 0 0.2rem 0 0 !important;
 }
-@media only screen and (max-width: 768px) {
-}
+
+@media only screen and (max-width: 768px) {}

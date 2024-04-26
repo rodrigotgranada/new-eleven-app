@@ -20,15 +20,18 @@
   max-width: 15rem;
   min-height: 10rem;
   max-height: 15rem;
+
   @include themed() {
     background: t("bg-card");
     box-shadow: t("box-shadow");
   }
+
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   transition: all 1s !important;
+
   &:hover {
     scale: 1.1;
   }
@@ -36,6 +39,7 @@
   .text-modalidade {
     padding: 1rem;
     border-radius: 1.3rem;
+
     @include themed() {
       color: t("text");
       background: t("bg-card-text");
@@ -55,7 +59,7 @@
     min-height: 10rem;
     max-height: 15rem;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: flex-end;
     padding-left: 1rem;
   }

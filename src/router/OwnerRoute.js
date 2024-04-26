@@ -5,11 +5,7 @@ const OwnerRoute = ({ currentUser }) => {
   return currentUser?.usuario?.rule &&
     currentUser?.usuario?.owner &&
     currentUser?.usuario?.checked ? (
-    currentUser.emailVerified ? (
-      <Outlet />
-    ) : (
-      <Navigate to="/meu-perfil" />
-    )
+    <Outlet />
   ) : (
     <Navigate to="/login" />
   );

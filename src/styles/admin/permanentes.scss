@@ -11,14 +11,15 @@
 .row-main-add-permanentes {
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: flex-start;
   width: 100%;
   gap: 0.5rem;
+
   .btns-permanentes-menu {
     // margin-top: 0.5rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
     width: 100%;
     display: flex;
     gap: 0.5rem;

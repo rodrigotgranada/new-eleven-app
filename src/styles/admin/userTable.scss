@@ -18,6 +18,7 @@
     fill: t("text");
   }
 }
+
 .MuiInputBase-input {
   @include themed() {
     color: t("text");
@@ -29,6 +30,7 @@
     border-bottom: 1px solid t("text");
   }
 }
+
 .MuiSvgIcon-root {
   @include themed() {
     fill: t("text");
@@ -43,6 +45,6 @@
 
 .row-infoUser {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 1rem;
 }
