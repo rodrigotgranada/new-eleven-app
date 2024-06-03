@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BasicTable from "../../../components/layout/BasicTable";
 import useGetData from "../../../hooks/useGetData";
 import { Container } from "reactstrap";
 
 const Usuarios = () => {
+  const [user, setUser] = useState([])
   const {
     getData: getUsuarios,
     data: usuarios,
@@ -16,7 +17,15 @@ const Usuarios = () => {
   }, []);
 
   useEffect(() => {
-    Object.keys(usuarios).length && console.log("usuarios", usuarios);
+    // Object.keys(usuarios).length && console.log("usuarios", usuarios);
+    const newUsers = usuarios.map(usuario => {
+      const tempName = `${usuario.displayName} ${usuario.sobrenome}`
+      const newName = tempName.trim().split(" ");
+      const fullName = `${newName[0]} ${newName[newName.length - 1]}`
+      usuario.displayName = fullName
+      return usuario
+    })
+    setUser(newUsers)
   }, [usuarios]);
 
   const columns = [
@@ -35,8 +44,8 @@ const Usuarios = () => {
   return (
     <Container>
       {carregaUsuarios && <p>Carregando...</p>}
-      {Object.keys(usuarios).length && (
-        <BasicTable data={usuarios} columns={columns} />
+      {Object.keys(user).length && (
+        <BasicTable data={user} columns={columns} />
       )}
     </Container>
   );

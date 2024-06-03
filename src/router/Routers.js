@@ -21,6 +21,8 @@ import MinhasTransferencias from "../pages/private/marcacao/MinhasTransferencias
 import Agenda from "../pages/admin/agenda/Agenda";
 import Churrasqueiras from "../pages/admin/churrasqueiras/Churrasqueiras";
 import Parceiros from "../pages/admin/parceiros/Parceiros";
+import ProximoJogos from "../pages/control/proximoJogo/ProximoJogos";
+import BookRoute from "./BookRoute";
 
 const Routers = () => {
   const { currentUser } = useAuth();
@@ -49,6 +51,10 @@ const Routers = () => {
         <Route path="admin/agenda" element={<Agenda />} />
         <Route path="admin/permanentes" element={<Permanentes />} />
         <Route path="admin/churrasqueiras" element={<Churrasqueiras />} />
+      </Route>
+      {/* Quadro Jogos */}
+      <Route path="/*" element={<BookRoute currentUser={currentUser} />}>
+        <Route path="proximos-jogos/" element={<ProximoJogos />} />
       </Route>
       <Route path="/*" element={<OwnerRoute currentUser={currentUser} />}>
         <Route path="admin/logs" element={<Logs />} />

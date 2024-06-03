@@ -8,7 +8,7 @@ function BotaoComTempoDeEspera({ mensagem, reenviarCodigo }) {
     if (podeClicar) {
       reenviarCodigo();
       setPodeClicar(false);
-      setTempoRestante(60);
+      setTempoRestante(120);
 
       const intervalId = setInterval(() => {
         setTempoRestante((prevTempoRestante) => {

@@ -98,7 +98,7 @@ const useVerifyCelNumber = () => {
       querySnapshot1.forEach((doc) => {
         resultado = { ...doc.data(), id: doc.id };
       });
-      console.log(resultado);
+      console.log('resultado', resultado);
       if (resultado) {
         let verify = { ...data };
         verify[`error`] = "Telefone já existe";
@@ -187,12 +187,66 @@ const useVerifyCelNumber = () => {
     }
   };
 
+  const checkCelFuncAdmin = async (number, userId) => {
+    const value = number.toString()
+    console.log(value.length, userId)
+    if (value.length < 11) {
+      return { message: 'Número incompleto', status: 1 }
+    } else {
+      try {
+        const colletionRef1 = collection(db, "users");
+        const q1 = query(colletionRef1, where("telefone", "==", value));
+        const querySnapshot1 = await getDocs(q1);
+        let resultado = null;
+        querySnapshot1.forEach((doc) => {
+          resultado = { ...doc.data(), id: doc.id };
+        });
+        console.log('resultado', resultado);
+        if (resultado) {
+          if (resultado.id === userId) {
+            toast.warning(`Telefone igual`, {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+            return { message: 'Telefone igual', status: 3 }
+          } else {
+            toast.error(`Telefone já em uso`, {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+            return { message: 'Telefone já em uso', status: 2 }
+          }
+        } else {
+          try {
+            const userRef = doc(db, "users", userId);
+            await updateDoc(userRef, {
+              telefone: value,
+            });
+            toast.success(`Telefone alterado`, {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+            return { message: 'Telefone alterado', status: 5 }
+          } catch (err) {
+            console.log(err);
+            toast.error(`Ocorreu um erro, tente novamente mais tarde.`, {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+            return { message: 'Ocorreu um erro, tente novamente mais tarde.', status: 4 }
+          }
+        }
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+  }
+
   return {
     verifyFunc,
     checkCelFunc,
     cancelChangeFunc,
     changeCelFunc,
     changeCelConcluidoFunc,
+    checkCelFuncAdmin,
   };
 };
 

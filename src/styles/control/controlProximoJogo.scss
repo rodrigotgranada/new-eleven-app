@@ -1,0 +1,51 @@
+.row-proximosJogos {
+    display: flex;
+    flex-direction: row;
+}
+
+.body-proximosjogos {
+    display: flex;
+    gap: 1.7rem;
+    flex-direction: row;
+}
+
+.item-hora-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: space-between;
+    border: 1px solid gray;
+
+    .fixed-title {
+        min-width: 100px;
+        max-width: 100px;
+        min-height: 40px;
+        max-height: 40px;
+    }
+
+    .fixed-name {
+        min-width: 100px;
+        max-width: 100px;
+        min-height: 40px;
+        max-height: 40px;
+        // display: flex;
+        // justify-content: center;
+        border: 1px solid green;
+        // flex-wrap: wrap;
+        display: inline-block;
+
+        p {
+            text-align: justify;
+            word-break: break-word !important;
+            white-space: pre-line;
+            overflow-wrap: break-word !important;
+            word-wrap: break-word;
+            -ms-word-break: break-word !important;
+            word-break: break-word !important;
+            -ms-hyphens: auto;
+            -moz-hyphens: auto;
+            -webkit-hyphens: auto;
+            hyphens: auto;
+        }
+    }
+}

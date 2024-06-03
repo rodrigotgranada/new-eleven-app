@@ -11,15 +11,16 @@ import { useAuth } from "../../contexts/AuthContext";
 import UsuarioAdmin from "./UsuarioAdmin";
 import BtnExcluirUser from "../admin/modal/BtnExcluirUser";
 import UsuarioBloq from "./UsuarioBloq";
+import UsuarioTelefone from "./UsuarioTelefone";
 
 const BasicTable = ({ data, columns }) => {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
   const [check, setCheck] = useState(true);
   const { currentUser, atualizaCheck } = useAuth();
-  console.log("currentUser", currentUser);
+  // console.log("currentUser", currentUser);
 
-  const handleUsuarioApto = async () => {};
+  const handleUsuarioApto = async () => { };
 
   return (
     <MaterialReactTable
@@ -41,12 +42,16 @@ const BasicTable = ({ data, columns }) => {
               Nome: {`${row.original.displayName} ${row?.original?.sobrenome}`}
             </p>
             <p>E-mail: {row?.original?.email}</p>
-            {row.original.telefone ? (
-              <p>Telefone: {row.original.telefone}</p>
-            ) : (
-              <></>
-            )}
-            {currentUser?.usuario?.owner && <p></p>}
+            {row.original.telefone ?
+              <>
+                {currentUser?.usuario?.owner && (
+                  <UsuarioTelefone usuario={row?.original} />
+                )}
+
+
+              </>
+              : <p>Telefone: {row.original.telefone}</p>}
+
             <div className={`row-infoUser`}>
               <p>Administrador: {row?.original?.rule ? "Sim" : "Não"}</p>
               {currentUser?.usuario?.owner && (

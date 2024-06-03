@@ -9,9 +9,11 @@ const MaskedInputCel = ({
   placeholder,
   reference,
   required,
+  // onChange,
   // onBlur,
   setError,
   error,
+  value
 }) => {
   const handleChange = (event, id) => {
     const valores = {
@@ -22,7 +24,7 @@ const MaskedInputCel = ({
         id: id,
       },
     };
-    // onBlur(valores);
+    //onChange(valores.target.value);
     return valores;
   };
 
@@ -46,8 +48,8 @@ const MaskedInputCel = ({
         type === "telefone"
           ? "(99)99999-9999"
           : type === "documento"
-          ? "999.999.999-99"
-          : ""
+            ? "999.999.999-99"
+            : ""
       }
       type={type}
       id={id}
@@ -56,6 +58,7 @@ const MaskedInputCel = ({
       onChange={(e) => handleChange(e, id)}
       required={required}
       onBlur={(e) => handleVerify(e, id)}
+      defaultValue={value}
     />
   );
 };

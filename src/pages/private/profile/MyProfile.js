@@ -47,7 +47,7 @@ export default function MyProfile() {
   };
 
   const handleMessageVerify = () => {
-    if(!currentUser?.usuario?.status) {
+    if (!currentUser?.usuario?.status) {
       return <h3>Usuário bloqueado, entre em contato com o administrador</h3>
     }
     if (currentUser?.usuario?.status && !currentUser?.usuario?.checked) {

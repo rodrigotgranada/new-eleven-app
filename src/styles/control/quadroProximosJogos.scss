@@ -1,0 +1,75 @@
+.sticky-header {
+    height: 1.5rem;
+}
+
+.rct-calendar-header>div {
+    min-height: 1.5rem;
+}
+
+.calendar-date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    min-height: 1.5rem;
+}
+
+#timeline-calendar {
+    background-color: #282828;
+}
+
+.item-menu-calendar {
+    background-color: red;
+}
+
+.item-menu-calendar-final {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background-color: orangered;
+}
+
+.item-permanente-calendar {
+    background-color: green;
+}
+
+.item-bloqueio-calendar {
+    background-color: red;
+}
+
+.painel_padel {
+    min-height: auto;
+    background-color: blue;
+    color: white;
+}
+
+.painel_areia {
+    background-color: #777903;
+    color: black;
+}
+
+.painel_pickleball {
+    background-color: #794203;
+    color: black;
+}
+
+.legenda {
+    padding: .5rem;
+    width: 100%;
+    height: auto;
+    color: #f17300;
+}
+
+.legenda_item {
+    display: flex;
+    gap: 1rem;
+
+    div {
+        width: 15px;
+        min-width: 15px;
+        min-height: 15px;
+    }
+}
