@@ -4,6 +4,18 @@
   margin-top: 1rem;
 }
 
+.btn-visible-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0.25rem 0.25rem 0;
+
+  @include themed() {
+    color: t("text");
+    // border-color: t("text");
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .card-edit {
     padding: 0 !important;

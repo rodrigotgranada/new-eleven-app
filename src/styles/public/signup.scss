@@ -12,6 +12,7 @@
 
 .form-group-input {
   display: grid;
+
   input {
     display: block;
     width: 100%;
@@ -26,11 +27,26 @@
 
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
+
     @include themed() {
       border-color: t("text");
     }
+
     // border-color: green;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  }
+}
+
+.btn-visible {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0.25rem 0.25rem 0;
+
+  @include themed() {
+    color: t("text");
+    border-color: t("text");
   }
 }
 

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../contexts/AuthContext";
 import "./../../../styles/public/login.scss";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
   const emailRef = useRef();
@@ -11,6 +12,7 @@ export default function Login() {
   const { login, currentUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [visibility, setVisibility] = useState(false)
 
   const navigate = useNavigate();
 
@@ -19,7 +21,7 @@ export default function Login() {
       navigate("/");
     }
 
-    return () => {};
+    return () => { };
   }, [currentUser]);
 
   async function handleSubmit(e) {
@@ -55,6 +57,10 @@ export default function Login() {
     setLoading(false);
   }
 
+  const changeVisibility = () => {
+
+  }
+
   return (
     <>
       <Container className="d-flex align-items-center justify-content-center card-edit">
@@ -68,10 +74,17 @@ export default function Login() {
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" ref={emailRef} required />
                 </Form.Group>
+
                 <Form.Group id="password">
                   <Form.Label>Senha</Form.Label>
-                  <Form.Control type="password" ref={passwordRef} required />
+                  <div class="input-group mb-3">
+                    <input className='form-control' type={visibility ? 'text' : 'password'} ref={passwordRef} required />
+                    <div class="input-group-append">
+                      <button type="button" className='btn-visible-login' onClick={() => setVisibility(!visibility)}> {visibility ? <FaEyeSlash /> : <FaEye />}</button>
+                    </div>
+                  </div>
                 </Form.Group>
+
                 <Button
                   disabled={loading}
                   className="w-100 btn-login"

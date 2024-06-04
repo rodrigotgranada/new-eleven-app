@@ -11,6 +11,7 @@ import MaskedInput from "../../../components/public/formComponents/MaskedInput";
 import MaskedInputSignup from "../../../components/public/formComponents/MaskedInputSignup";
 // import { permanenteTemplate } from "../utils/permanenteTemplateJson";
 import { fotoPadrao } from "../../../utils/photoPadrao.js";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Signup() {
   const emailRef = useRef();
@@ -31,6 +32,8 @@ export default function Signup() {
   const [rule, setRule] = useState(false);
   const [active, setActive] = useState(false);
   const [selectedImages, setSelectedImages] = useState(null);
+  const [visibility, setVisibility] = useState(false)
+  const [visibilityConfirm, setVisibilityConfirm] = useState(false)
   const navigate = useNavigate();
   const { loading: loadAuth, getDataWhere } = useAuthData();
 
@@ -211,13 +214,19 @@ export default function Signup() {
                       <Col lg="6">
                         <FormGroup className="form-group-input" id="password">
                           <Label>Senha</Label>
-                          <Input
+                          <div class="input-group mb-3">
+                            <input className='form-control' type={visibility ? 'text' : 'password'} placeholder="Senha" ref={passwordRef} onBlur={verificaSenhaTamanho} required />
+                            <div class="input-group-append">
+                              <button type="button" className='btn-visible' onClick={() => setVisibility(!visibility)}> {visibility ? <FaEyeSlash /> : <FaEye />}</button>
+                            </div>
+                          </div>
+                          {/* <Input
                             type="password"
                             placeholder="Senha"
                             innerRef={passwordRef}
                             required
                             onBlur={verificaSenhaTamanho}
-                          />
+                          /> */}
                         </FormGroup>
                       </Col>
                       <Col lg="6">
@@ -226,13 +235,19 @@ export default function Signup() {
                           id="password-confirm"
                         >
                           <Label>Confirmar Senha</Label>
-                          <Input
+                          <div class="input-group mb-3">
+                            <input className='form-control' type={visibilityConfirm ? 'text' : 'password'} placeholder="Confirmar Senha" ref={passwordConfirmRef} onBlur={verificaSenhas} required />
+                            <div class="input-group-append">
+                              <button type="button" className='btn-visible' onClick={() => setVisibilityConfirm(!visibilityConfirm)}> {visibilityConfirm ? <FaEyeSlash /> : <FaEye />}</button>
+                            </div>
+                          </div>
+                          {/* <Input
                             type="password"
                             placeholder="Confirmar Senha"
                             innerRef={passwordConfirmRef}
                             required
                             onBlur={verificaSenhas}
-                          />
+                          /> */}
                         </FormGroup>
                       </Col>
 
