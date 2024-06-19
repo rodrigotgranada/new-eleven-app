@@ -37,20 +37,16 @@ const ListHorarios = ({ dataClick, quadraClick, type }) => {
         {horarios &&
           horarios.map((horario, index) => {
             return (
-              <div key={index}>
+              // <div>
                 <ButtonHorarioAgenda
+                key={index}
                   horario={horario}
                   dataClick={dataClick}
                   quadraClick={quadraClick}
                   type={type}
                 />
-                {/* <ButtonHorarioAgenda2
-                  horario={horario}
-                  dataClick={dataClick}
-                  quadraClick={quadraClick}
-                  type={type}
-                /> */}
-              </div>
+               
+              // </div>
             );
           })}
       </div>

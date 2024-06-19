@@ -1,6 +1,7 @@
 @import "./../themes/theme";
 
 .agenda-main {
+  width: 100%;
   .agenda-filtro {
     .agenda-button {
       @include themed() {
@@ -16,13 +17,43 @@
   .section-types {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    // gap: 1rem;
+    .bloco-quadras{
+      // background-color: #1a670c;
+      width: 20%;
+      display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 1rem;
+    span:first-of-type {
+      width: 80%;
+      text-wrap: nowrap;
+      align-self: center;
+      overflow: hidden;
+    }
+
+    }
   }
 
   .bloco-horarios {
+    
     .btn-horarios {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: start;
       width: -webkit-fill-available;
       border: 1px solid rgb(133, 133, 133);
+      height: 3rem;
+      .btn-nome-hora {
+        width: 100%;
+        padding: 0 0.4rem;
+        font-size: 0.85rem;
+        div:first-of-type {
+
+          overflow: hidden;
+        }
+      }
     }
 
     .btn-bloq {
@@ -33,11 +64,25 @@
     .btn-marc {
       // border: 1px solid #ff5200;
       background-color: burlywood;
+
+
     }
 
     .btn-permanente {
       border: 1px solid #1a670c !important;
       background-color: forestgreen !important;
+    }
+  }
+}
+
+@media (max-width: 415px) {
+  .section-types {
+    display: flex;
+    flex-wrap: wrap;
+    // gap: 1rem;
+    .bloco-quadras{
+      // background-color: #1a670c;
+      width: 20%;
     }
   }
 }

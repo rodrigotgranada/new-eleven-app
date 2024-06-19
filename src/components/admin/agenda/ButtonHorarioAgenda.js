@@ -158,13 +158,46 @@ const ButtonHorarioAgenda = ({ horario, dataClick, quadraClick, type }) => {
         {data && bloqueio
           ? `Bloqueado`
           : nome
-          ? `${nome.displayName} ${nome.sobrenome}`
+          ? 
+          <div className="d-flex flex-column btn-nome-hora">
+          <div class="d-flex align-items-start flex-column">
+           {nome.displayName} 
+            
+          </div>
+
+          <div class="d-flex align-items-end flex-column">
+            {horario.value} 
+          </div>
+          </div>
+          
           : data?.singleMarc
-          ? data?.jogadores[0].name
-          : horario.value}
+          ? <div className="d-flex flex-column btn-nome-hora">
+          <div class="d-flex align-items-start flex-column">
+           {data?.jogadores[0].name} 
+            
+          </div>
+
+          <div class="d-flex align-items-end flex-column">
+            {horario.value} 
+          </div>
+          </div>
+          : <div className="d-flex flex-column btn-nome-hora">
+          <div class="d-flex align-items-start flex-column">
+           {""} 
+            
+          </div>
+
+          <div class="d-flex align-items-end flex-column">
+            {horario.value} 
+          </div>
+          </div>}
       </button>
     </>
   );
 };
+
+// {nome.displayName}
+// {horario.value}
+// data?.jogadores[0].name
 
 export default ButtonHorarioAgenda;

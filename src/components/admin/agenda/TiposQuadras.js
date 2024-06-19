@@ -45,7 +45,8 @@ const TiposQuadras = ({ dia, type }) => {
           return (
             <div className="bloco-quadras" key={index}>
               <span>
-                {quadra.numero} ({quadra.name}){" "}
+                {quadra.numero} 
+                ({quadra.name}){" "}
               </span>{" "}
               <ListHorarios dataClick={dia} quadraClick={quadra} type={type} />
             </div>
