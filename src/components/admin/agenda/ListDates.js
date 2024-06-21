@@ -185,7 +185,7 @@ const ListDates = () => {
             return (
               <div key={index}>
                 <h1>{tipoQuadra.display}</h1>
-                <section id={tipoQuadra.id} className="section-types">
+                <section id={tipoQuadra.id} className={`section-types ${tipoQuadra.display ? `section-${tipoQuadra.display}` : ""}`}>
                   <TiposQuadras dia={agendaDate} type={tipoQuadra} />
                 </section>
               </div>

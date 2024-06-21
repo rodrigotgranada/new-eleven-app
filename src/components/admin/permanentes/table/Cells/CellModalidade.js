@@ -11,7 +11,7 @@ const CellModalidade = ({ id }) => {
   useEffect(() => {
     getEsporte("modalidades", id);
     return () => {};
-  }, []);
+  }, [id]);
 
   if (loadingEsporte) return <Loading type={`spin`} width={"30px"} />;
   if (esporte) return <p> {`${esporte?.display}`} </p>;

@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddPermanente from "../modal/AddPermanente";
 import ConfirmExcluirPermanente from "../modal/ConfirmExcluirPermanente";
 import ConfirmRenovarPermanente from "../modal/ConfirmRenovarPermanente";
 
 const ButtonEditPermanente = ({ data }) => {
+  
   const [modalEditOpen, setModalEditOpen] = useState(false);
   const [modalExcluirOpen, setModalExcluirOpen] = useState(false);
+  
+  useEffect(() => {
+    
+    return () => { }
+  }, [data])
+  
+
   return (
     <>
       {modalEditOpen && (

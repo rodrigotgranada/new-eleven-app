@@ -7,4 +7,7 @@ export let permanenteTemplate = {
   esporte: "",
   hora: "",
   tipoQuadra: "",
+  nome_extenso: "",
+  telefone_extenso: "",
+  horario_extenso: "",
 };

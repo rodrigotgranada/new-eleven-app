@@ -32,7 +32,7 @@ const StartDate = () => {
 
   const handleStartDia = (dia) => {
     const editedDay = moment(dia).format("YYYY-MM-DD");
-    const lastDay = moment(editedDay).add(52, "w").format("YYYY-MM-DD");
+    const lastDay = moment(editedDay).add(156, "w").format("YYYY-MM-DD");
     let start = { ...permanente };
     start.dataInicio = editedDay;
     start.dataFim = lastDay;

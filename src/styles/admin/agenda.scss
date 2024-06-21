@@ -2,7 +2,28 @@
 
 .agenda-main {
   width: 100%;
+  .section-Areia {
+    background-color: burlywood;
+    .bloco-quadras{
+      // width: 20%;
+    }
+  }
+
+  .section-Padel {
+    background-color: rgba(0, 0, 255, 0.637);
+    .bloco-quadras{
+      // width: 25%;
+    }
+  }
+
+  .section-Pickeball {
+    background-color: pink;
+    .bloco-quadras{
+      // width: 50%;
+    }
+  }
   .agenda-filtro {
+    
     .agenda-button {
       @include themed() {
         background-color: t("text");
@@ -13,18 +34,19 @@
       display: flex;
       justify-content: center;
     }
+    
   }
   .section-types {
     display: flex;
     flex-wrap: wrap;
-    // gap: 1rem;
+    padding: 0;
     .bloco-quadras{
-      // background-color: #1a670c;
-      width: 20%;
+      flex: 1 1 calc(20% - 16px);
       display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 1rem;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 1rem;
+      border: 1px solid #000;
     span:first-of-type {
       width: 80%;
       text-wrap: nowrap;
@@ -76,6 +98,7 @@
 }
 
 @media (max-width: 415px) {
+
   .section-types {
     display: flex;
     flex-wrap: wrap;

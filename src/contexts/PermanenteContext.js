@@ -8,7 +8,7 @@ export function PermanenteProvider({ children }) {
   // const [permanenteDate, setPermanenteDate] = useState(new Date());
   const [permanente, setPermanente] = useState(permanenteTemplate);
   useEffect(() => {
-    console.log("permanente", permanente);
+    // console.log("permanente", permanente);
   }, [permanente]);
   return (
     <PermanenteContext.Provider value={{ permanente, setPermanente }}>

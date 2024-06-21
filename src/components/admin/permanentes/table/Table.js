@@ -6,8 +6,6 @@ const Table = ({ columns, data, isLoading, footer }) => {
   const columnData = useMemo(() => columns, [columns]);
   const rowData = useMemo(() => data, [data]);
 
-  // console.log("rowData", rowData);
-
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns: columnData,
@@ -39,18 +37,25 @@ const Table = ({ columns, data, isLoading, footer }) => {
         ) : (
           <>
             <tbody {...getTableBodyProps()}>
-              {rows.map((row, i) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => {
-                      return (
-                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
+              {rows.length > 0 ? (
+                rows.map((row, i) => {
+                  prepareRow(row);
+                  return (
+                    <tr {...row.getRowProps()}>
+                      {row.cells.map((cell) => {
+                        return (
+                          <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })
+              ) : (<tr>
+                <td colSpan={columns.length}>
+                  <p>Nenhum item encontrado</p>
+                </td>
+              </tr>)}
+              
             </tbody>
             {/* <tfoot>
               <tr>

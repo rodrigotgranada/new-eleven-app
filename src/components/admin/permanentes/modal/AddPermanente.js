@@ -96,6 +96,8 @@ const AddPermanente = ({ title, isOpen, setIsOpen }) => {
   const handleChange = async (e) => {
     let usuario = { ...permanente };
     usuario.user = e ? e.id : null;
+    usuario.telefone_extenso = e ? e.telefone : null;
+    usuario.nome_extenso = e ? `${e.displayName} ${e.sobrenome}` : null;
     if (!e) {
       setSelectedUser(null);
       return handleResetPermanente();

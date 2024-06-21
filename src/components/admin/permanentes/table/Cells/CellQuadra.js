@@ -11,7 +11,7 @@ const CellQuadra = ({ id }) => {
   useEffect(() => {
     getQuadra("quadras", id);
     return () => {};
-  }, []);
+  }, [id]);
 
   if (loadingQuadra) return <Loading type={`spin`} width={"30px"} />;
   if (quadra) return <p> {`${quadra?.name} (${quadra.numero})`} </p>;

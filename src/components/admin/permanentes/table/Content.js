@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Table from "./Table";
 import "./../../../../styles/admin/permanentesList.scss";
 import AddPermanente from "../modal/AddPermanente";
+import Select from "react-select";
 import ButtonEditPermanente from "./ButtonEditPermanente";
 import useGetData from "../../../../hooks/useGetData";
 import moment from "moment";
@@ -15,16 +16,47 @@ const Content = () => {
     rowData: [],
   });
   const [selected, setSelected] = useState("none");
+  // const [selectedNome, setSelectedNome] = useState(null);
+  const selectedNome = useRef("");
+  const selectedDia = useRef("");
+  const selectedHorario = useRef("");
+  const selectedQuadra = useRef("");
+  const selectedEsporte = useRef("");
+  
   const [filteredData, setFilteredData] = useState([]);
   const {
     getDataOrderByTeste: getPermanentes,
     data: permanentes,
     loading: loadingPermanentes,
   } = useGetData();
+  
+  const { getAllUsers: getUsers, data: users, loadingUsers } = useGetData();
+
+  const {
+    getDataOrderByTeste: getHorarios,
+    data: horarios,
+    loading: loadHorarios,
+  } = useGetData();
+
+  const {
+    getData: getQuadras,
+    data: quadras,
+    loading: loadQuadras,
+  } = useGetData();
+
+  const {
+    getData: getModalidades,
+    data: modalidades,
+    loading: loadMoadalidade,
+  } = useGetData();
 
   useEffect(() => {
     (async () => {
-      const values = await getPermanentes("permanentes", "dataFim", "asc");
+      const permanentes_value = await getPermanentes("permanentes", "dataFim", "asc");      
+      const users_value = await getUsers("users");
+      const horarios_value = await getHorarios("horarios", "value", "asc");
+      const quadras_value = await getQuadras("quadras");
+      const modalidades_value = await getModalidades("modalidades");
     })();
 
     return () => {};
@@ -32,39 +64,36 @@ const Content = () => {
 
   useEffect(() => {
     setFilteredData(permanentes);
-    // if (permanentes && permanentes.length > 0) {
-    // setConteudo({
-    //   rowData: formatRowData(permanentes),
-    // });
-    // } else {
-    //   setConteudo({
-    //     rowData: formatRowData(permanentes),
-    //   });
-    // }
   }, [permanentes]);
 
   useEffect(() => {
-    console.log("filteredData", filteredData);
+    // console.log("filteredData", filteredData);
     setConteudo({
       rowData: formatRowData(filteredData),
     });
   }, [filteredData]);
 
-  const hadleFilter = (e) => {
-    console.log("hadleFilter", e.target.value);
-    if (e.target.value === "none") {
-      setFilteredData(permanentes);
-      setSelected("none");
-    } else {
-      const result = permanentes.filter(
-        (item) => item.diaSemana === e.target.value
-      );
-      setFilteredData(result);
-      setSelected(e.target.value);
-    }
-    // console.log("result", result);
-  };
 
+const handleFilter2 = (e) => {
+  const result = permanentes.filter( (item) => {
+    return ( 
+      (item.user === selectedNome.current?.id || !selectedNome.current?.id)
+      && (item.diaSemana === selectedDia.current.value || !selectedDia.current.value)
+      && (item.hora === selectedHorario.current.value || !selectedHorario.current.value)
+      && (item.quadra === selectedQuadra.current.value || !selectedQuadra.current.value)
+      && (item.esporte === selectedEsporte.current.value || !selectedEsporte.current.value)
+    )
+  })
+  setFilteredData(result);
+}
+
+
+const selectPlayer = (usuario) => {
+  selectedNome.current = usuario
+  // console.log(selectedNome)
+  handleFilter2()
+  // setSelectedNome(usuario)
+}
   const diasSemana = [
     "Domingo",
     "Segunda",
@@ -90,9 +119,29 @@ const Content = () => {
               name="name"
               id="name"
               placeholder="Filtrar por nome"
-              // defaultValue={baseUrl.year}
-              onChange={handleSearch}
+              ref={selectedNome}
+               defaultValue={selectedNome.current.value}
+              onChange={handleFilter2}
             /> */}
+            <Select
+                className="basic-single"
+                classNamePrefix="select"
+                isClearable={true}
+                isSearchable={true}
+                name="color"
+                options={users}
+                getOptionLabel={(option) =>
+                  `${option.displayName} ${option.sobrenome} - (${option.telefone})`
+                }
+                value={selectedNome.current || ""}
+                innerRef={selectedNome}
+                getOptionValue={(option) => option.id}
+                onChange={(e) => {
+                  return selectPlayer(e)
+                }}
+                placeholder={"Selecione um usuário"}
+                noOptionsMessage={() => "Usuário não encontrado"}
+              />
           </>
         );
       },
@@ -111,13 +160,14 @@ const Content = () => {
           <>
             <h5 className="permanente-th">Dia</h5>
             <select
-              name={"winner"}
-              id={"winner"}
-              className="winner"
-              onChange={hadleFilter}
-              defaultValue={selected}
+              name={"dia"}
+              id={"dia"}
+              className="dia"
+              ref={selectedDia}
+              onChange={handleFilter2}
+              defaultValue={selectedDia.current.value}
             >
-              <option value={"none"}>Todos</option>
+              <option value={""}>Todos</option>
               {diasSemana.map((dia, index) => {
                 return (
                   <option key={index} value={dia}>
@@ -137,11 +187,29 @@ const Content = () => {
         return (
           <>
             <h5 className="permanente-th">Horário</h5>
+            <select
+              name={"horario"}
+              id={"horario"}
+              className="horario"
+              ref={selectedHorario}
+              onChange={handleFilter2}
+              defaultValue={selectedHorario.current.value}
+            >
+              <option value={""}>Todos</option>
+              {horarios.map((horario, index) => {
+                 return (
+                  <option key={index} value={horario?.id}>
+                    {horario?.value}
+                  </option>
+                );
+              })}
+            </select>
           </>
         );
       },
       //Header: "Horário",
       accessor: (d) => {
+        // console.log('d', d)
         return (
           <>
             <CellHorario id={d.horario} />
@@ -155,6 +223,23 @@ const Content = () => {
         return (
           <>
             <h5 className="permanente-th">Quadra</h5>
+            <select
+              name={"quadra"}
+              id={"quadra"}
+              className="quadra"
+              ref={selectedQuadra}
+              onChange={handleFilter2}
+              defaultValue={selectedQuadra.current.value}
+            >
+              <option value={""}>Todos</option>
+              {quadras.map((quadra, index) => {
+                return (
+                  <option key={index} value={quadra?.id}>
+                    {`${quadra?.name} (${quadra?.numero})`}
+                  </option>
+                );
+              })}
+            </select>
           </>
         );
       },
@@ -173,6 +258,23 @@ const Content = () => {
         return (
           <>
             <h5 className="permanente-th">Modalidade</h5>
+            <select
+              name={"modalidade"}
+              id={"modalidade"}
+              className="modalidade"
+              ref={selectedEsporte}
+              onChange={handleFilter2}
+              defaultValue={selectedEsporte.current.value}
+            >
+              <option value={""}>Todos</option>
+              {modalidades.map((modalidade, index) => {
+                return (
+                  <option key={index} value={modalidade.id}>
+                    {modalidade.display}
+                  </option>
+                );
+              })}
+            </select>
           </>
         );
       },

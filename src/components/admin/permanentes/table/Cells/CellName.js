@@ -7,7 +7,7 @@ const CellName = ({ id }) => {
   useEffect(() => {
     getName("users", id);
     return () => {};
-  }, []);
+  }, [id]);
 
   if (loadingName) return <Loading type={`spin`} width={"30px"} />;
   if (name)

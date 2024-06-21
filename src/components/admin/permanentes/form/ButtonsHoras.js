@@ -65,7 +65,8 @@ const ButtonsHoras = ({ horario, index }) => {
 
   const handleHora = (hora) => {
     let per = { ...permanente };
-    per.hora = hora;
+    per.hora = hora.id;
+    per.horario_extenso = `${hora.value}`
     per.quadra = "";
     per.esporte = "";
     per.dataInicio = "";
@@ -82,7 +83,7 @@ const ButtonsHoras = ({ horario, index }) => {
           className={`btn btn-secondary ${
             permanente.hora === horario.id ? "btn-active" : ""
           }`}
-          onClick={() => handleHora(horario.id)}
+          onClick={() => handleHora(horario)}
           disabled={lotado}
         >
           {lotado ? `Lotado` : `${horario.value}:00`}
